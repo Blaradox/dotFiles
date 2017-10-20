@@ -1,6 +1,3 @@
-# Needed to get rid of warning in tmux when using Powerline
-export TERM="xterm-256color"
-
 # If you come from bash you might have to change your $PATH.
 # PATH="/usr/local/share/python/:$PATH"
 
