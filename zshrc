@@ -1,3 +1,6 @@
+# To fix colors
+export TERM="xterm-256color"
+
 # If you come from bash you might have to change your $PATH.
 # PATH="/usr/local/share/python/:$PATH"
 
