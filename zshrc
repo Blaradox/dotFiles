@@ -1,4 +1,4 @@
-# To fix colors
+# To fix colors for tmux and powerline
 export TERM="xterm-256color"
 
 # If you come from bash you might have to change your $PATH.
