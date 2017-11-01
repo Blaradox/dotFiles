@@ -97,7 +97,7 @@ export DEFAULT_USER="sloaneat"
 fbr() {
   local branches branch
   branches=$(git branch -vv) &&
-  branch=$(echo "$branches" | fzf +m) &&
+  branch=$(echo "$branches" | fzf +m --height=10 --reverse) &&
   git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
 }
 
@@ -117,7 +117,7 @@ bro() {
       open "$url"; return
     fi
   fi
-  remote=$(git remote | fzf --height=10 --reverse --exit-0)
+  remote=$(git remote | fzf +m --height=10 --reverse --exit-0)
   url=$(git remote get-url "$remote")
   if [ $url ]; then
     open "$url"
