@@ -1,4 +1,4 @@
-# To fix colors for tmux and powerline
+# To fix colors for tmux  
 export TERM="xterm-256color"
 
 # If you come from bash you might have to change your $PATH.
@@ -10,7 +10,7 @@ export ZSH=$HOME/.oh-my-zsh
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH_THEME="agnoster"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -124,4 +124,3 @@ bro() {
   fi
 }
 
-.  /usr/local/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
