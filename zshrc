@@ -13,4 +13,4 @@ fi
 # Customize to your needs...
 
 source ~/.funcs.sh
-
+export DEFAULT_USER=sloaneat
