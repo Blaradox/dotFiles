@@ -23,7 +23,7 @@ filetype indent plugin on
 " Enable syntax highlighting
 syntax enable
 set background=dark
-colorscheme solarized
+" colorscheme solarized
  
 "------------------------------------------------------------
 " Must have options {{{1
