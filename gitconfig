@@ -33,5 +33,5 @@
   merge = refs/heads/master
 
 [user]
-	name = Austin Sloane
-	email = sloane.ats@gmail.com
+  name = Austin Sloane
+  email = sloane.ats@gmail.com

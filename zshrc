@@ -14,3 +14,4 @@ fi
 
 source ~/.funcs.sh
 export DEFAULT_USER=sloaneat
+export EDITOR=/usr/local/bin/vim
