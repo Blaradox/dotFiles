@@ -17,6 +17,10 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'airblade/vim-gitgutter'
+"Plugin 'nathanaelkane/vim-indent-guides'
+"Plugin 'pangloss/vim-javascript'
+Plugin 'jelera/vim-javascript-syntax'
+Plugin 'flazz/vim-colorschemes'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -203,13 +207,18 @@ let mapleader="\<SPACE>"
 
 " Set standard file encoding
 set encoding=utf8
+
+" Set no word wrappings, except for in Markdown files
 set nowrap
   autocmd FileType markdown setlocal wrap
 
-syntax enable
+" Enable solarized colorscheme
+syntax enable 
 set background=dark
 let g:solarized_termcolors=256
-colorscheme solarized
+colorscheme dracula 
 
 let g:airline_theme='solarized'
 let g:airline_solarized_bg='dark'
+
+"let g:indent_guides_enable_on_vim_startup=1
