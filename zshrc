@@ -12,6 +12,7 @@ fi
 
 # Customize to your needs...
 
+export TERM='xterm-256color'
 source ~/.funcs.sh
 export DEFAULT_USER=sloaneat
 export VISUAL=/usr/local/bin/vim

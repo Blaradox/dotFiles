@@ -1,3 +1,38 @@
+" Setup Vundle
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
+Plugin 'tpope/vim-surround'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'airblade/vim-gitgutter'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" " :PluginList       - lists configured plugins
+" " :PluginInstall    - installs plugins; append `!` to update or just
+" :PluginUpdate
+" " :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+" "
+" " see :h vundle for more details or wiki for FAQ
+" " Put your non-Plugin stuff after this line
 " URL: http://vim.wikia.com/wiki/Example_vimrc
 " Authors: http://vim.wikia.com/wiki/Vim_on_Freenode
 " Description: A minimal, but feature rich, example .vimrc. If you are a
@@ -13,17 +48,15 @@
  
 " Set 'nocompatible' to ward off unexpected things that your distro might
 " have made, as well as sanely reset options when re-sourcing .vimrc
-set nocompatible
+" set nocompatible
  
 " Attempt to determine the type of a file based on its name and possibly its
 " contents. Use this to allow intelligent auto-indenting for each filetype,
 " and for plugins that are filetype specific.
-filetype indent plugin on
+" filetype indent plugin on
  
 " Enable syntax highlighting
-syntax enable
-set background=dark
-" colorscheme solarized
+" syntax on
  
 "------------------------------------------------------------
 " Must have options {{{1
@@ -132,11 +165,11 @@ set pastetoggle=<F11>
 "
 " Indentation settings according to personal preference.
  
-" Indentation settings for using 2 spaces instead of tabs.
+" Indentation settings for using 4 spaces instead of tabs.
 " Do not change 'tabstop' from its default value of 8 with this setup.
-set shiftwidth=2
-set softtabstop=2
-set expandtab
+" set shiftwidth=4
+" set softtabstop=4
+" set expandtab
  
 " Indentation settings for using hard tabs for indent. Display tabs as
 " four characters wide.
@@ -157,9 +190,26 @@ map Y y$
 " next search
 nnoremap <C-L> :nohl<CR><C-L>
  
-"-----------------------------------------------------------
-" Powerline
-let g:Powerline_symbols = 'unicode'
-python from powerline.vim import setup as powerline_setup
-python powerline_setup()
-python del powerline_setup
+"------------------------------------------------------------
+" Personal mappings "Blaradox"
+"
+" Indentation settings to use 2 spaces instead of tabs.
+set shiftwidth=2
+set softtabstop=2
+set expandtab
+
+" The <Leader> key is pressed before any shortcut to trigger the command.
+let mapleader="\<SPACE>"
+
+" Set standard file encoding
+set encoding=utf8
+set nowrap
+  autocmd FileType markdown setlocal wrap
+
+syntax enable
+set background=dark
+let g:solarized_termcolors=256
+colorscheme solarized
+
+let g:airline_theme='solarized'
+let g:airline_solarized_bg='dark'
