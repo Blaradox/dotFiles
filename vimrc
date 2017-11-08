@@ -11,16 +11,17 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
+"Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-surround'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'airblade/vim-gitgutter'
-"Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'nathanaelkane/vim-indent-guides'
 "Plugin 'pangloss/vim-javascript'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'flazz/vim-colorschemes'
+Plugin 'w0rp/ale'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -212,13 +213,17 @@ set encoding=utf8
 set nowrap
   autocmd FileType markdown setlocal wrap
 
-" Enable solarized colorscheme
+" Enable dracula colorscheme
+set t_Co=256
 syntax enable 
-set background=dark
+let g:solarized_termtrans = 1
 let g:solarized_termcolors=256
-colorscheme dracula 
+let g:solarized_contrast="high"
+set background=dark
+colorscheme dracula
 
 let g:airline_theme='solarized'
 let g:airline_solarized_bg='dark'
+let g:airline#extensions#ale#enabled = 1
 
 "let g:indent_guides_enable_on_vim_startup=1
