@@ -1,5 +1,8 @@
+# PATH
+export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/fzf/bin
+
 # aliases
-ls="ls -GFh"
+alias ls="ls -GFh"
 alias ..="cd .."
 
 # use fzf C-t and C-r
