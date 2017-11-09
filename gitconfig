@@ -37,3 +37,5 @@
   email = sloane.ats@gmail.com
 [core]
   excludesfile = /Users/sloaneat/.gitignore
+[credential]
+  helper = osxkeychain
