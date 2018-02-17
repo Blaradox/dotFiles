@@ -203,13 +203,6 @@ nnoremap <C-L> :nohl<CR><C-L>
 " Use the system clipboard by default
 " set clipboard=unnamed
 
-" A function to remove whitespace, use `:call TrimeWhiteSpace`
-fun! TrimWhitespace()
-    let l:save = winsaveview()
-    %s/\s\+$//e
-    call winrestview(l:save)
-endfun
-
 " Indentation settings to use 2 spaces instead of tabs.
 set shiftwidth=2
 set softtabstop=2
@@ -233,6 +226,18 @@ syntax on
 " let g:solarized_contrast="high"
 " set background=dark
 colorscheme dracula
+
+" A function to remove whitespace, use `:call TrimeWhiteSpace`
+fun! TrimWhitespace()
+    let l:save = winsaveview()
+    %s/\s\+$//e
+    call winrestview(l:save)
+endfun
+
+" Change cursor shape in different modes
+let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
+let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 
 " Plugin Settings
 let g:airline_theme='dracula'
