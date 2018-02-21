@@ -1,14 +1,18 @@
 # PATH
 export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/fzf/bin
 
-# aliases
+# Aliases
 alias ls="ls -GFh"
-alias ..="cd .."
 
-# use fzf C-t and C-r
+# Variables
+export VISUAL=/usr/local/bin/vim
+export EDITOR=$VISUAL
+export DEFAULT_USER=sloaneat
+
+# FZF C-r and C-t
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# useful functions
+# Functions
 fbr() {
   local branches branch
   branches=$(git branch -vv) &&
@@ -18,7 +22,7 @@ fbr() {
 
 tm() {
   [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
-  if [ $1 ]; then 
+  if [ $1 ]; then
     tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s $1 && tmux $change -t "$1"); return
   fi
   session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --height=10 --reverse --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."

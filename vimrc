@@ -13,8 +13,6 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 " Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-surround'
-Plugin 'dracula/vim'
-Plugin 'altercation/vim-colors-solarized'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'airblade/vim-gitgutter'
@@ -41,6 +39,10 @@ filetype plugin indent on    " required
 " "
 " " see :h vundle for more details or wiki for FAQ
 " " Put your non-Plugin stuff after this line
+"
+"================================================================================
+"================================================================================
+"
 " URL: http://vim.wikia.com/wiki/Example_vimrc
 " Authors: http://vim.wikia.com/wiki/Vim_on_Freenode
 " Description: A minimal, but feature rich, example .vimrc. If you are a
@@ -63,7 +65,7 @@ filetype plugin indent on    " required
 " filetype indent plugin on
 
 " Enable syntax highlighting
-" syntax on
+syntax on
 
 "------------------------------------------------------------
 " Must have options {{{1
@@ -197,7 +199,10 @@ map Y y$
 " next search
 nnoremap <C-L> :nohl<CR><C-L>
 
-"------------------------------------------------------------
+"
+"================================================================================
+"================================================================================
+"
 " Personal mappings "Blaradox"
 "
 " Use the system clipboard by default
@@ -218,15 +223,6 @@ set encoding=utf8
 set nowrap
   autocmd FileType markdown setlocal wrap
 
-" Enable dracula colorscheme
-" set t_Co=256
-syntax on
-" let g:solarized_termtrans = 1
-" let g:solarized_termcolors=256
-" let g:solarized_contrast="high"
-" set background=dark
-colorscheme dracula
-
 " A function to remove whitespace, use `:call TrimeWhiteSpace`
 fun! TrimWhitespace()
     let l:save = winsaveview()
@@ -240,8 +236,7 @@ let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
 let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 
 " Plugin Settings
-let g:airline_theme='dracula'
-let g:airline_solarized_bg='dark'
+let g:airline_theme='bubblegum'
 let g:airline#extensions#ale#enabled = 1
 
 let g:indentLine_char = '⎸'
