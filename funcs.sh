@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+
 # PATH
 export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/fzf/bin
 
