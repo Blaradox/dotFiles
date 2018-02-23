@@ -225,8 +225,7 @@ nnoremap <C-L> :nohl<CR><C-L>
 "
 " Personal mappings "Blaradox"
 "
-" Use the system clipboard by default
-" set clipboard=unnamed
+set cmdheight=1
 
 " Indentation settings to use 2 spaces instead of tabs.
 set shiftwidth=2
