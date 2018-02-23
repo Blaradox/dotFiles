@@ -23,7 +23,9 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-surround'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'edkolev/tmuxline.vim'
 Plugin 'airblade/vim-gitgutter'
+Plugin 'tpope/vim-fugitive'
 " Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'yggdroot/indentline'
 " Plugin 'pangloss/vim-javascript'
@@ -255,7 +257,9 @@ let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 
 " Plugin Settings
 let g:airline_theme='bubblegum'
+let g:airline_powerline_fonts = 0
+let g:tmuxline_powerline_separators = 0
+let g:airline#extensions#tmuxline#enabled = 0
 let g:airline#extensions#ale#enabled = 1
-
 let g:indentLine_char = '⎸'
 
