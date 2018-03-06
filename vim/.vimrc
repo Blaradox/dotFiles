@@ -97,7 +97,7 @@ set softtabstop=2
 set expandtab
 
 " The <Leader> key is pressed before any shortcut to trigger the command.
-let mapleader="\<SPACE>"
+" let mapleader="\<SPACE>"
 
 " Set standard file encoding
 set encoding=utf8
@@ -123,9 +123,9 @@ let g:onedark_termcolors = 16
 colorscheme onedark
 let g:airline_theme='onedark'
 let g:airline_powerline_fonts = 0
-let g:tmuxline_powerline_separators = 0
 let g:airline#extensions#tmuxline#enabled = 0
 let g:airline#extensions#ale#enabled = 1
-let g:airline_section_z = '%3p%% %{g:airline_symbols.linenr}%3l:%-1v'
+let g:airline_section_z = '%3p%% %{g:airline_symbols.linenr}%3l:%-2v'
+let g:tmuxline_powerline_separators = 0
 let g:indentLine_char = '|'
 

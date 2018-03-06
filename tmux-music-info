@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Returns the current track through Spotify or mpd
+
+if [[ -z $(tmux-spotify-info) ]]; then
+  echo "$(ncmpcpp --current-song "{♫ %a - %20t}|{%20f}")"
+else
+  echo "$(tmux-spotify-info)"
+fi
+
