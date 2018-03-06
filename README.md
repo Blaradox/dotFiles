@@ -1,5 +1,7 @@
 # ~/dotFiles
 
+![alt text](screenshot.png)
+
 ## How to
 
 To configure everything but Zsh use the `install.sh` script. Make sure to make it executable with:
