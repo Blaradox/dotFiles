@@ -1,5 +1,5 @@
 #!/usr/bin/env osascript
-# Modified slightly from: 
+# Modified slightly from:
 # https://github.com/jdxcode/tmux-spotify-info/blob/master/tmux-spotify-info
 
 tell application "Spotify"

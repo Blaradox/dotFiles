@@ -1,1 +1,32 @@
+now_playing_prefix = ">> "
+progressbar_look = "->"
+
+## Needed for tag editor and file operations to work.
+mpd_music_dir = "~/Music"
+
+## Available values: spectrum, wave, wave_filled, ellipse.
+#visualizer_type = spectrum
+
+## Defines how long messages are supposed to be visible.
+message_delay_time = 1
+
+## Note: Possible display modes: classic, columns.
+browser_display_mode = columns
+
 media_library_primary_tag = album_artist
+media_library_albums_split_by_date = no
+ignore_leading_the = yes
+
+## Screens available for use: help, playlist, browser, search_engine,
+## media_library, playlist_editor, tag_editor, outputs, visualizer, clock,
+## lyrics, last_fm.
+startup_screen = media_library
+
+external_editor = vim
+use_console_editor = yes
+
+# visualizer_type = "spectrum"
+# visualizer_sync_interval = "30"
+
+execute_on_song_change = osascript -e 'display notification (do shell script "ncmpcpp --current-song=%t") with title (do shell script "ncmpcpp --current-song=%a")'
+
