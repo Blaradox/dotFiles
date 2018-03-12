@@ -11,9 +11,9 @@ for file in ~/dotFiles/*; do
   fi
 done
 
-scripts=(tmux-spotify-info tmux-music-info)
+scripts=(tmux-spotify-info tmux-music-info tmux-battery-info)
 for file in ${scripts[@]}; do
-  ln -s ~/dotFiles/$file /usr/local/bin
+  ln -sf ~/dotFiles/$file /usr/local/bin
   echo "$file symlink created."
 done
 

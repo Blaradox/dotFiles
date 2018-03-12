@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# https://hackernoon.com/customizing-tmux-b3d2a5050207
+
+percent=$(pmset -g batt | grep '[0-9][0-9]%' | awk 'NR==1{print$3}' | cut -c 1-3)
+echo "♥ $percent"
+
