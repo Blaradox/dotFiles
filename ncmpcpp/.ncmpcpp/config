@@ -25,8 +25,8 @@ startup_screen = media_library
 external_editor = vim
 use_console_editor = yes
 
-# visualizer_type = "spectrum"
-# visualizer_sync_interval = "30"
+visualizer_type = "spectrum"
+visualizer_sync_interval = "30"
 
 execute_on_song_change = osascript -e 'display notification (do shell script "ncmpcpp --current-song=%t") with title (do shell script "ncmpcpp --current-song=%a")'
 
