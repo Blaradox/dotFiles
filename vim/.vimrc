@@ -97,6 +97,9 @@ set shiftwidth=2
 set softtabstop=2
 set expandtab
 
+" Display a coloured column to indicate lines of 80+ characters
+set colorcolumn=80
+
 " Set no word wrappings, except for in Markdown files
 set nowrap
   autocmd FileType markdown setlocal wrap
