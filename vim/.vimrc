@@ -62,7 +62,6 @@ filetype plugin indent on    " required
 "              on this file is still a good idea.
 syntax on
 set hidden
-set wildmenu
 set showcmd
 set hlsearch
 set ignorecase
@@ -91,21 +90,49 @@ nnoremap <C-L> :nohl<CR><C-L>
 "
 " Personal mappings "Blaradox"
 
+" Set standard file encoding
+set encoding=utf8
+
 " Indentation settings to use 2 spaces instead of tabs.
 set shiftwidth=2
 set softtabstop=2
 set expandtab
 
-" The <Leader> key is pressed before any shortcut to trigger the command.
-" let mapleader="\<SPACE>"
-
-" Set standard file encoding
-set encoding=utf8
-
 " Set no word wrappings, except for in Markdown files
 set nowrap
   autocmd FileType markdown setlocal wrap
 
+" The <Leader> key is pressed before any shortcut to trigger the command.
+let mapleader="\<SPACE>"
+
+" Dealing with the system clipboard
+nmap <leader>y "*y
+vmap <leader>y "*y
+nmap <leader>p "*p
+vmap <leader>p "*p
+nmap <leader>P "*P
+
+" https://stackoverflow.com/questions/16082991/vim-switching-between-files-rapidly-using-vanilla-vim-no-plugins
+" Customizing the wildmenu 
+set wildmenu
+set wildmode=list:full
+set wildignorecase
+set wildignore=*.swp,*.bak
+set wildignore+=*/.git/**/*,*/node_modules/**/*
+
+" Juggling with Files
+set path=.,**
+nnoremap <leader>f :find *
+nnoremap <leader>s :sfind *
+nnoremap <leader>v :vert sfind *
+nnoremap <leader>t :tabfind *
+
+" Juggling with Buffers
+set wildcharm=<C-z>
+nnoremap <leader>b :buffer <C-z><S-Tab>
+nnoremap <leader>B :sbuffer <C-z><S-Tab>
+
+" http://vim.wikia.com/wiki/Remove_unwanted_spaces
 " A function to remove whitespace, use `:call TrimeWhiteSpace`
 fun! TrimWhitespace()
     let l:save = winsaveview()

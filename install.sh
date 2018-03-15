@@ -11,6 +11,9 @@ for file in ~/dotFiles/*; do
   fi
 done
 
+# stow by default ignores .gitignore files
+ln -sf ~/dotfiles/git/.gitignore ~/.gitignore
+
 scripts=(tmux-spotify-info tmux-music-info tmux-battery-info)
 for file in ${scripts[@]}; do
   ln -sf ~/dotFiles/$file /usr/local/bin
