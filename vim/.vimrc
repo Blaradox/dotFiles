@@ -93,6 +93,9 @@ nnoremap <C-L> :nohl<CR><C-L>
 
 " Set vim to use bash for compatability
 set shell=bash\ -i
+if &diff
+  set shell=bash
+endif
 
 " Set standard file encoding
 set encoding=utf8
