@@ -39,3 +39,5 @@
   excludesfile = ~/.gitignore
 [credential]
   helper = osxkeychain
+[diff]
+  tool = vimdiff

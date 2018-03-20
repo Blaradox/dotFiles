@@ -28,6 +28,8 @@ Plugin 'joshdick/onedark.vim'
 Plugin 'w0rp/ale'
 Plugin 'tpope/vim-commentary'
 Plugin 'dylanaraps/wal.vim'
+Plugin 'godlygeek/tabular'
+Plugin 'tpope/vim-repeat'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -89,6 +91,9 @@ nnoremap <C-L> :nohl<CR><C-L>
 "
 " Personal mappings "Blaradox"
 
+" Set vim to use bash for compatability
+set shell=bash\ -i
+
 " Set standard file encoding
 set encoding=utf8
 
@@ -99,6 +104,7 @@ set expandtab
 
 " Display a coloured column to indicate lines of 80+ characters
 set colorcolumn=80
+  autocmd FileType markdown set colorcolumn=
 
 " Set no word wrappings, except for in Markdown files
 set nowrap
@@ -115,7 +121,7 @@ vmap <leader>p "*p
 nmap <leader>P "*P
 
 " https://stackoverflow.com/questions/16082991/vim-switching-between-files-rapidly-using-vanilla-vim-no-plugins
-" Customizing the wildmenu 
+" Customizing the wildmenu
 set wildmenu
 set wildmode=list:full
 set wildignorecase
