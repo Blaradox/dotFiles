@@ -30,6 +30,8 @@ Plugin 'tpope/vim-commentary'
 Plugin 'dylanaraps/wal.vim'
 Plugin 'godlygeek/tabular'
 Plugin 'tpope/vim-repeat'
+Plugin 'kana/vim-textobj-user'
+Plugin 'julian/vim-textobj-variable-segment'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -98,12 +100,15 @@ if &diff
 endif
 
 " Set standard file encoding
-set encoding=utf8
+set encoding=utf-8
 
-" Indentation settings to use 2 spaces instead of tabs.
+" Indentation settings to use 2 spaces instead of tabs
 set shiftwidth=2
 set softtabstop=2
 set expandtab
+
+" Automatically delete trailing whitespace on save
+autocmd BufWritePre * %s/\s\+$//e
 
 " Display a coloured column to indicate lines of 80+ characters
 set colorcolumn=80
@@ -113,7 +118,7 @@ set colorcolumn=80
 set nowrap
   autocmd FileType markdown setlocal wrap
 
-" The <Leader> key is pressed before any shortcut to trigger the command.
+" The <Leader> key is pressed before any shortcut to trigger the command
 let mapleader="\<SPACE>"
 
 " Dealing with the system clipboard
@@ -142,14 +147,6 @@ nnoremap <leader>t :tabfind *
 set wildcharm=<C-z>
 nnoremap <leader>b :buffer <C-z><S-Tab>
 nnoremap <leader>B :sbuffer <C-z><S-Tab>
-
-" http://vim.wikia.com/wiki/Remove_unwanted_spaces
-" A function to remove whitespace, use `:call TrimeWhiteSpace`
-fun! TrimWhitespace()
-    let l:save = winsaveview()
-    %s/\s\+$//e
-    call winrestview(l:save)
-endfun
 
 " Change cursor shape in different modes
 let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
