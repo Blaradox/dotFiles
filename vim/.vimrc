@@ -17,22 +17,27 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'tpope/vim-surround'
+" Cosmetic
 Plugin 'vim-airline/vim-airline'
 Plugin 'edkolev/tmuxline.vim'
+Plugin 'joshdick/onedark.vim'
+Plugin 'dylanaraps/wal.vim'
+Plugin 'yggdroot/indentline'
+" Syntax
+Plugin 'jelera/vim-javascript-syntax'
+" Git
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-fugitive'
-Plugin 'yggdroot/indentline'
-Plugin 'jelera/vim-javascript-syntax'
-Plugin 'joshdick/onedark.vim'
-Plugin 'w0rp/ale'
-Plugin 'tpope/vim-commentary'
-Plugin 'dylanaraps/wal.vim'
-Plugin 'godlygeek/tabular'
+" Useful
 Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-commentary'
+Plugin 'godlygeek/tabular'
 Plugin 'kana/vim-textobj-user'
 Plugin 'julian/vim-textobj-variable-segment'
 Plugin 'christoomey/vim-tmux-navigator'
+" Linting
+Plugin 'w0rp/ale'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -131,6 +136,10 @@ nmap <leader>p "*p
 vmap <leader>p "*p
 nmap <leader>P "*P
 
+" Splits open at the bottom and right
+set splitbelow
+set splitright
+
 " https://stackoverflow.com/questions/16082991/vim-switching-between-files-rapidly-using-vanilla-vim-no-plugins
 " Customizing the wildmenu
 set wildmenu
@@ -145,6 +154,12 @@ nnoremap <leader>f :find *
 nnoremap <leader>s :sfind *
 nnoremap <leader>v :vert sfind *
 nnoremap <leader>t :tabfind *
+
+" Only search under directory of current file
+nnoremap <leader>F :find <C-R>=expand('%:h').'/*'<CR>
+nnoremap <leader>S :sfind <C-R>=expand('%:h').'/*'<CR>
+nnoremap <leader>V :vert sfind <C-R>=expand('%:h').'/*'<CR>
+nnoremap <leader>T :tabfind <C-R>=expand('%:h').'/*'<CR>
 
 " Juggling with Buffers
 set wildcharm=<C-z>
