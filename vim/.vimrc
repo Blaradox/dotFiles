@@ -146,6 +146,7 @@ set wildmenu
 set wildmode=list:full
 set wildignorecase
 set wildignore=*.swp,*.bak
+set wildignore+=*.pyc,*.cache,*.min.*
 set wildignore+=*/.git/**/*,*/node_modules/**/*
 
 " Juggling with Files
@@ -165,6 +166,16 @@ nnoremap <leader>T :tabfind <C-R>=expand('%:h').'/*'<CR>
 set wildcharm=<C-z>
 nnoremap <leader>b :buffer <C-z><S-Tab>
 nnoremap <leader>B :sbuffer <C-z><S-Tab>
+
+" Jump between WebDev files
+augroup WEBDEV
+  autocmd!
+
+  autocmd BufLeave *.css  normal! mC
+  autocmd BufLeave *.html normal! mH
+  autocmd BufLeave *.js   normal! mJ
+  autocmd BufLeave *.php  normal! mP
+augroup END
 
 " Change cursor shape in different modes
 let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
