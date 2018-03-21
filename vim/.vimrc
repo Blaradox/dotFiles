@@ -32,6 +32,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'tpope/vim-repeat'
 Plugin 'kana/vim-textobj-user'
 Plugin 'julian/vim-textobj-variable-segment'
+Plugin 'christoomey/vim-tmux-navigator'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -82,7 +83,6 @@ set number
 set notimeout ttimeout ttimeoutlen=200
 set pastetoggle=<F11>
 map Y y$
-nnoremap <C-L> :nohl<CR><C-L>
 
 "===============================================================================
 "  ___                               _
@@ -120,6 +120,9 @@ set nowrap
 
 " The <Leader> key is pressed before any shortcut to trigger the command
 let mapleader="\<SPACE>"
+
+" clear highlight and redraw screen
+map <leader>l :nohl<CR>:redraw!<CR>
 
 " Dealing with the system clipboard
 nmap <leader>y "*y
