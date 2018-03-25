@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # PATH
 export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/fzf/bin
@@ -19,6 +19,10 @@ export FZF_DEFAULT_OPTS='
 
 # FZF C-r and C-t
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# tmuxp Completions not working yet in zsh...
+# https://github.com/tmux-python/tmuxp/issues/190
+# eval "$(_TMUXP_COMPLETE=source tmuxp)"
 
 # Functions
 fe() {
