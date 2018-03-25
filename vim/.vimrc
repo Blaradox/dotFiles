@@ -24,7 +24,7 @@ Plugin 'joshdick/onedark.vim'
 Plugin 'dylanaraps/wal.vim'
 Plugin 'yggdroot/indentline'
 " Syntax
-Plugin 'jelera/vim-javascript-syntax'
+Plugin 'pangloss-vim-javascript'
 " Git
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-fugitive'
@@ -112,6 +112,10 @@ set shiftwidth=2
 set softtabstop=2
 set expandtab
 
+" Splits open at the bottom and right
+set splitbelow
+set splitright
+
 " Automatically delete trailing whitespace on save
 autocmd BufWritePre * %s/\s\+$//e
 
@@ -135,10 +139,6 @@ vmap <leader>y "*y
 nmap <leader>p "*p
 vmap <leader>p "*p
 nmap <leader>P "*P
-
-" Splits open at the bottom and right
-set splitbelow
-set splitright
 
 " https://stackoverflow.com/questions/16082991/vim-switching-between-files-rapidly-using-vanilla-vim-no-plugins
 " Customizing the wildmenu
@@ -184,10 +184,11 @@ let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 
 " https://shapeshed.com/vim-netrw/
 " Replace NERDtree with default netrw
-let g:netrw_banner = 0
-let g:netrw_liststyle = 3
-let g:netrw_altv = 1
-let g:netrw_winsize = 25
+let g:netrw_banner = 0       " disable banner
+let g:netrw_liststyle = 3    " tree view
+let g:netrw_altv = 1         " open splits to the right
+let g:netrw_browse_split = 4 " open in prior window
+let g:netrw_winsize = 25     " make netrw take up 25% of the window
 
 " Plugin Settings
 let g:onedark_termcolors = 16
@@ -199,4 +200,7 @@ let g:airline#extensions#ale#enabled = 1
 let g:airline_section_z = '%3p%% %{g:airline_symbols.linenr}%3l:%-2v'
 let g:tmuxline_powerline_separators = 0
 let g:indentLine_char = '|'
+let g:javascript_plugin_jsdoc = 1
+
+nnoremap <leader>g :exe ':silent !open -a /Applications/Google\ Chrome.app %'<CR>
 
