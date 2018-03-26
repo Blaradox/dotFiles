@@ -3,6 +3,7 @@
 " | | | _ _ ._ _  _| || | ___
 " | ' || | || ' |/ . || |/ ._>
 " |__/ `___||_|_|\___||_|\___.
+"
 "===============================================================================
 "
 filetype off                  " required
@@ -40,7 +41,7 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 
 "===============================================================================
- " ___                  ___       ___           _    _
+"  ___                  ___       ___           _    _
 " / __> ___ ._ _  ___  | . \ ___ | | '___  _ _ | | _| |_ ___
 " \__ \<_> || ' |/ ._> | | |/ ._>| |-<_> || | || |  | | <_-<
 " <___/<___||_|_|\___. |___/\___.|_| <___|`___||_|  |_| /__/
@@ -67,7 +68,7 @@ set mouse=a                            " Enable mouse everywhere
 set number                             " Display line numbers
 set notimeout ttimeout ttimeoutlen=200
 set pastetoggle=<F11>
-map Y y$
+nnoremap Y y$
 set encoding=utf-8                     " Set standard file encoding
 set colorcolumn=80                     " Coloured column for long lines
 set nowrap                             " No word wrapping
@@ -82,11 +83,11 @@ set splitright                         " Splits open to the right
 "        <___'
 "===============================================================================
 "
-
-" Indentation settings to use 2 spaces instead of tabs
-set shiftwidth=2
+" https://www.reddit.com/r/vim/wiki/tabstop
+set tabstop=8
 set softtabstop=2
-set expandtab
+set shiftwidth=2
+set expandtab " use spaces instead of tabs
 
 " Set vim to use bash for compatability
 set shell=bash\ -i
@@ -103,14 +104,14 @@ let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 let mapleader="\<SPACE>"
 
 " Clear highlight and redraw screen
-map <leader>l :nohl<CR>:redraw!<CR>
+nnoremap <leader>l :nohl<CR>:redraw!<CR>
 
 " Dealing with the system clipboard
-nmap <leader>y "*y
-vmap <leader>y "*y
-nmap <leader>p "*p
-vmap <leader>p "*p
-nmap <leader>P "*P
+nnoremap <leader>y "*y
+vnoremap <leader>y "*y
+nnoremap <leader>p "*p
+vnoremap <leader>p "*p
+nnoremap <leader>P "*P
 
 " Customizing the wildmenu
 " https://stackoverflow.com/questions/16082991/vim-switching-between-files-rapidly-using-vanilla-vim-no-plugins
@@ -138,9 +139,13 @@ set wildcharm=<C-z>
 nnoremap <leader>b :buffer <C-z><S-Tab>
 nnoremap <leader>B :sbuffer <C-z><S-Tab>
 
-" +-+-+-+-+ +-+-+-+-+-+-+-+-+
-" |A|u|t|o| |C|o|m|m|a|n|d|s|
-" +-+-+-+-+ +-+-+-+-+-+-+-+-+
+"===============================================================================
+"  ___        _         ___                                 _
+" | . | _ _ _| |_ ___  |  _> ___ ._ _ _ ._ _ _  ___ ._ _  _| | ___
+" |   || | | | | / . \ | <__/ . \| ' ' || ' ' |<_> || ' |/ . |<_-<
+" |_|_|`___| |_| \___/ `___/\___/|_|_|_||_|_|_|<___||_|_|\___|/__/
+"
+"===============================================================================
 
 " Jump between WebDev files
 augroup WEBDEV
@@ -169,10 +174,14 @@ augroup Markdown
   autocmd FileType markdown setlocal wrap
 augroup END
 
-" +-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+
-" |P|l|u|g|i|n| |S|e|t|t|i|n|g|s|
-" +-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+
-"
+"===============================================================================
+"  ___  _            _        ___        _   _   _
+" | . \| | _ _  ___ <_>._ _  / __> ___ _| |_| |_<_>._ _  ___  ___
+" |  _/| || | |/ . || || ' | \__ \/ ._> | | | | | || ' |/ . |<_-<
+" |_|  |_|`___|\_. ||_||_|_| <___/\___. |_| |_| |_||_|_|\_. |/__/
+"              <___'                                    <___'
+"===============================================================================
+
 " https://shapeshed.com/vim-netrw/
 " Replace NERDtree with default netrw
 nnoremap <leader><Tab> :Lexplore<CR>
@@ -180,8 +189,8 @@ let g:netrw_banner = 0       " disable banner
 let g:netrw_liststyle = 3    " tree view
 let g:netrw_altv = 1         " open splits to the right
 let g:netrw_preview = 1      " open previews vertically
-" let g:netrw_browse_split = 4 " open in prior window
-let g:netrw_winsize = 25     " make netrw take up 25% of the window
+let g:netrw_winsize = 20     " make netrw take up 20% of the window
+let g:netrw_list_hide = '.*\.swp,.git/'
 
 let g:onedark_termcolors = 16
 colorscheme onedark
