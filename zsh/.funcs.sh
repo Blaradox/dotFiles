@@ -20,6 +20,9 @@ export FZF_DEFAULT_OPTS='
 # FZF C-r and C-t
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# Shortcut Sync
+source ~/.bash_shortcuts
+
 # tmuxp Completions not working yet in zsh...
 # https://github.com/tmux-python/tmuxp/issues/190
 # eval "$(_TMUXP_COMPLETE=source tmuxp)"

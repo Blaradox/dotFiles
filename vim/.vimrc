@@ -174,6 +174,13 @@ augroup Markdown
   autocmd FileType markdown setlocal wrap
 augroup END
 
+" Automatically generate shortcuts after editing file
+augroup ShortcutSync
+  autocmd!
+
+  autocmd BufWritePost ~/.scripts/folders,~/.scripts/configs !bash ~/.scripts/shortcuts.sh
+augroup END
+
 "===============================================================================
 "  ___  _            _        ___        _   _   _
 " | . \| | _ _  ___ <_>._ _  / __> ___ _| |_| |_<_>._ _  ___  ___
