@@ -54,11 +54,11 @@ set hidden                             " Can switch between unsaved buffers
 set wildmenu                           " Better command-line completion
 set showcmd                            " Show partial commands
 set hlsearch                           " Highlight searches
+set incsearch                          " Show searches as you type
 set ignorecase                         " Case insensitive search
 set smartcase                          " Except when using capital letters
 set backspace=indent,eol,start         " Allow backspace over anything
 set autoindent                         " Always auto indent
-set nostartofline
 set ruler                              " Display cursor position
 set laststatus=2                       " Always display status line
 set confirm                            " Confirm commands instead of failing
