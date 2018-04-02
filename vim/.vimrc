@@ -89,6 +89,9 @@ set softtabstop=2
 set shiftwidth=2
 set expandtab " use spaces instead of tabs
 
+"use Mac OS X dictionary
+set dictionary=/usr/share/dict/words
+
 " Set vim to use bash for compatability
 set shell=bash\ -i
 if &diff
@@ -139,6 +142,15 @@ set wildcharm=<C-z>
 nnoremap <leader>b :buffer <C-z><S-Tab>
 nnoremap <leader>B :sbuffer <C-z><S-Tab>
 
+" http://vim.wikia.com/wiki/Remove_unwanted_spaces
+function! StripTrailingWhitespace()
+  let l:winview = winsaveview()
+  silent! %s/\s\+$//
+  call winrestview(l:winview)
+endfunction
+
+nnoremap <leader>ww :call StripTrailingWhitespace()<CR>
+
 "===============================================================================
 "  ___        _         ___                                 _
 " | . | _ _ _| |_ ___  |  _> ___ ._ _ _ ._ _ _  ___ ._ _  _| | ___
@@ -157,13 +169,6 @@ augroup WEBDEV
   autocmd BufLeave *.php  normal! mP
   autocmd FileType JavaScript inoremap ;; <END>;
   autocmd FileType JavaScript inoremap ,, <END>,
-augroup END
-
-" Automatically delete trailing whitespace on save
-augroup DeleteTrailingWhiteSpace
-  autocmd!
-
-  autocmd BufWritePre * %s/\s\+$//e
 augroup END
 
 " Markdown setting changes
