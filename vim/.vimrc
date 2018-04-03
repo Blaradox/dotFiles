@@ -53,6 +53,7 @@ syntax on                              " Enable syntax highligting
 set hidden                             " Can switch between unsaved buffers
 set wildmenu                           " Better command-line completion
 set showcmd                            " Show partial commands
+set lazyredraw                         " Redraw screen less often
 set hlsearch                           " Highlight searches
 set incsearch                          " Show searches as you type
 set ignorecase                         " Case insensitive search
@@ -85,8 +86,8 @@ set splitright                         " Splits open to the right
 "
 " https://www.reddit.com/r/vim/wiki/tabstop
 set tabstop=8
-set softtabstop=2
-set shiftwidth=2
+set softtabstop=4
+set shiftwidth=4
 set expandtab " use spaces instead of tabs
 
 "use Mac OS X dictionary
@@ -108,6 +109,8 @@ let mapleader="\<SPACE>"
 
 " Clear highlight and redraw screen
 nnoremap <leader>l :nohl<CR>:redraw!<CR>
+" Toggle spell checking
+nnoremap <leader>ss :setlocal spell!<CR>
 
 " Dealing with the system clipboard
 nnoremap <leader>y "*y
@@ -125,7 +128,7 @@ set wildignore+=*.pyc,*.cache,*.min.*
 set wildignore+=*/.git/**/*,*/node_modules/**/*
 
 " Juggling with Files
-set path=.,**
+set path+=**
 nnoremap <leader>f :find *
 nnoremap <leader>s :sfind *
 nnoremap <leader>v :vert sfind *
@@ -169,6 +172,8 @@ augroup WEBDEV
   autocmd BufLeave *.php  normal! mP
   autocmd FileType JavaScript inoremap ;; <END>;
   autocmd FileType JavaScript inoremap ,, <END>,
+  autocmd FileType JavaScript setlocal ts=2 sts=2 sw=2 expandtab
+  autocmd FileType HTML setlocal ts=2 sts=2 sw=2 expandtab
 augroup END
 
 " Markdown setting changes
