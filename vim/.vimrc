@@ -84,12 +84,6 @@ set splitright                         " Splits open to the right
 "        <___'
 "===============================================================================
 "
-" https://www.reddit.com/r/vim/wiki/tabstop
-set tabstop=8
-set softtabstop=2
-set shiftwidth=2
-set expandtab " use spaces instead of tabs
-
 "use Mac OS X dictionary
 set dictionary=/usr/share/dict/words
 
@@ -98,6 +92,20 @@ set shell=bash\ -i
 if &diff
   set shell=bash
 endif
+
+" https://www.reddit.com/r/vim/wiki/tabstop
+set tabstop=8
+set softtabstop=2
+set shiftwidth=2
+set expandtab " use spaces instead of tabs
+
+" Use vim "very magic" regex search
+nnoremap / /\v
+nnoremap ? ?\v
+" cnoremap %s/ %smagic/
+" Don't want \v with //, as you're repeating last search
+noremap // //
+noremap ?? ??
 
 " Change cursor shape in different modes
 let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
