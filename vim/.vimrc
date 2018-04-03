@@ -86,8 +86,8 @@ set splitright                         " Splits open to the right
 "
 " https://www.reddit.com/r/vim/wiki/tabstop
 set tabstop=8
-set softtabstop=4
-set shiftwidth=4
+set softtabstop=2
+set shiftwidth=2
 set expandtab " use spaces instead of tabs
 
 "use Mac OS X dictionary
@@ -172,8 +172,6 @@ augroup WEBDEV
   autocmd BufLeave *.php  normal! mP
   autocmd FileType JavaScript inoremap ;; <END>;
   autocmd FileType JavaScript inoremap ,, <END>,
-  autocmd FileType JavaScript setlocal ts=2 sts=2 sw=2 expandtab
-  autocmd FileType HTML setlocal ts=2 sts=2 sw=2 expandtab
 augroup END
 
 " Markdown setting changes
