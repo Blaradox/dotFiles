@@ -58,6 +58,7 @@ set hlsearch                           " Highlight searches
 set incsearch                          " Show searches as you type
 set ignorecase                         " Case insensitive search
 set smartcase                          " Except when using capital letters
+set gdefault                           " Global flag is now implied on regex
 set backspace=indent,eol,start         " Allow backspace over anything
 set autoindent                         " Always auto indent
 set ruler                              " Display cursor position
@@ -69,12 +70,17 @@ set mouse=a                            " Enable mouse everywhere
 set number                             " Display line numbers
 set notimeout ttimeout ttimeoutlen=200
 set pastetoggle=<F11>
-nnoremap Y y$
 set encoding=utf-8                     " Set standard file encoding
 set colorcolumn=80                     " Coloured column for long lines
 set nowrap                             " No word wrapping
 set splitbelow                         " Splits open below
 set splitright                         " Splits open to the right
+
+" Have Y act like C and D
+nnoremap Y y$
+" Allow word under cursor refactoring
+nnoremap c* *Ncgn
+nnoremap c# #NcgN
 
 "===============================================================================
 "  __ __        ___       ___           _    _
