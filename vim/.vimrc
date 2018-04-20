@@ -105,14 +105,6 @@ set softtabstop=2
 set shiftwidth=2
 set expandtab " use spaces instead of tabs
 
-" Use vim "very magic" regex search
-nnoremap / /\v
-nnoremap ? ?\v
-" cnoremap %s/ %smagic/
-" Don't want \v with //, as you're repeating last search
-noremap // //
-noremap ?? ??
-
 " Change cursor shape in different modes
 let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
 let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
