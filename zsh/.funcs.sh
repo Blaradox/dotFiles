@@ -18,7 +18,7 @@ export DEFAULT_USER=sloaneat
 # FZF C-r and C-t
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow \
-  --glob "!{.git,node_modules,Library}/*" \
+  --glob "!{.git,node_modules}/*" \
   2>/dev/null'
 export FZF_DEFAULT_OPTS='--color=16'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -35,6 +35,11 @@ fe() {
   local files
   IFS=$'\n' files=($(fzf --query="$1" --multi --select-1 --exit-0))
   [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+}
+
+fd() {
+  local dir
+  dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
 }
 
 fbr() {

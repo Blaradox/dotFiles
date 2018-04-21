@@ -8,6 +8,7 @@
 "
 filetype off                  " required
 " set the runtime path to include Vundle and initialize
+set rtp+=/usr/local/opt/fzf
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 " let Vundle manage Vundle, required
@@ -35,6 +36,8 @@ Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'jiangmiao/auto-pairs'
 " Linting
 Plugin 'w0rp/ale'
+" Fuzzy
+Plugin 'junegunn/fzf.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -114,7 +117,7 @@ let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 let mapleader="\<SPACE>"
 
 " Clear highlight and redraw screen
-nnoremap <leader>l :nohlsearch<CR>:redraw!<CR>
+nnoremap <leader>hh :nohlsearch<CR>:redraw!<CR>
 " Toggle spell checking
 nnoremap <leader>ss :setlocal spell!<CR>
 
@@ -132,10 +135,13 @@ set wildignorecase
 set wildignore=*.swp,*.bak
 set wildignore+=*.pyc,*.cache,*.min.*
 set wildignore+=*/.git/**/*,*/node_modules/**/*
+set wildcharm=<C-z>
 
-" Juggling with Files
+" Juggling with Files and Buffers
 set path+=**
-nnoremap <leader>f :find *
+nnoremap <leader>l :Lines<CR>
+nnoremap <leader>f :Files<CR>
+nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>s :sfind *
 nnoremap <leader>v :vert sfind *
 nnoremap <leader>t :tabfind *
@@ -145,10 +151,6 @@ nnoremap <leader>F :find <C-R>=expand('%:h').'/*'<CR>
 nnoremap <leader>S :sfind <C-R>=expand('%:h').'/*'<CR>
 nnoremap <leader>V :vert sfind <C-R>=expand('%:h').'/*'<CR>
 nnoremap <leader>T :tabfind <C-R>=expand('%:h').'/*'<CR>
-
-" Juggling with Buffers
-set wildcharm=<C-z>
-nnoremap <leader>b :buffer <C-z><S-Tab>
 nnoremap <leader>B :sbuffer <C-z><S-Tab>
 
 " http://vim.wikia.com/wiki/Remove_unwanted_spaces
@@ -224,4 +226,6 @@ let g:tmuxline_powerline_separators = 0
 let g:indentLine_char = '|'
 let g:javascript_plugin_jsdoc = 1
 let g:indentLine_color_term = 15
+let g:fzf_buffers_jump = 1
+set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
 

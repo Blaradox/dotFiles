@@ -42,6 +42,7 @@ Here is a list of the terminal applications I use the most often:
 ranger                # For the best file browser
 tmux                  # Terminal multiplexer
 fzf                   # Fuzzy finder, for files, etc.
+ripgrep               # Very fast regex file search
 mpd mpc ncmpcpp mpv   # For playing music, videos
 git vim python        # Mac versions are old....
 coreutils             # GNU versions of less, etc.
