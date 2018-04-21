@@ -11,14 +11,14 @@ alias egrep="egrep --color=auto"
 export VISUAL=/usr/local/bin/vim
 export EDITOR=$VISUAL
 export DEFAULT_USER=sloaneat
-export FZF_DEFAULT_OPTS='
-  --color=16
-  --height=10
-  --reverse
-'
 
 # FZF C-r and C-t
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow \
+  --glob "!{.git,node_modules,Library}/*" \
+  2>/dev/null'
+export FZF_DEFAULT_OPTS='--color=16'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # Shortcut Sync
 source ~/.bash_shortcuts
