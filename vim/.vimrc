@@ -114,7 +114,7 @@ let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 let mapleader="\<SPACE>"
 
 " Clear highlight and redraw screen
-nnoremap <leader>l :nohl<CR>:redraw!<CR>
+nnoremap <leader>l :nohlsearch<CR>:redraw!<CR>
 " Toggle spell checking
 nnoremap <leader>ss :setlocal spell!<CR>
 
