@@ -94,7 +94,9 @@ nnoremap c# #NcgN
 "===============================================================================
 "
 "use Mac OS X dictionary
-set dictionary=/usr/share/dict/words
+if has ("macunix")
+  set dictionary=/usr/share/dict/words
+endif
 
 " Set vim to use bash for compatability
 set shell=bash\ -i
@@ -194,7 +196,9 @@ augroup END
 augroup ShortcutSync
   autocmd!
 
-  autocmd BufWritePost ~/.scripts/folders,~/.scripts/configs !bash ~/.scripts/shortcuts.sh
+  if isdirectory("~/.scripts")
+    autocmd BufWritePost ~/.scripts/folders,~/.scripts/configs !bash ~/.scripts/shortcuts.sh
+  endif
 augroup END
 
 "===============================================================================
