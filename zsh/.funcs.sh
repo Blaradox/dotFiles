@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
 # PATH
-export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/fzf/bin
+export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin
+export PATH=$PATH:/usr/local/opt/fzf/bin
+export PATH=$PATH:~/.local/bin
+export PATH=$PATH:/usr/sbin:/sbin
 
 # Aliases
 alias ls="ls -GFh"
