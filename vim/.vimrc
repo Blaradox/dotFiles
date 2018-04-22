@@ -94,7 +94,7 @@ nnoremap c# #NcgN
 "===============================================================================
 "
 "use Mac OS X dictionary
-if has("macunix")
+if has('macunix')
   set dictionary=/usr/share/dict/words
 endif
 
@@ -111,21 +111,25 @@ set shiftwidth=2
 set expandtab " use spaces instead of tabs
 
 " Change cursor shape in different modes
-if !empty($TMUX)
-  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-  let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
-  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-else
-  if has("macunix")
-    " if you're using iTerm2
-    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-    let &t_SR = "\<Esc>]50;CursorShape=2\x7"
-    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-  elseif has("unix")
-    " if you're using urxvt, st, or xterm
-    let &t_SI = "\<Esc>[6 q"
-    let &t_SR = "\<Esc>[4 q"
-    let &t_EI = "\<Esc>[2 q"
+if has('macunix')
+  " if you're using iTerm2
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+  let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+  if !empty($TMUX)
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+  endif
+elseif has('unix') && !has('win32unix')
+  " if you're using urxvt, st, or xterm
+  let &t_SI = "\<Esc>[6 q"
+  let &t_SR = "\<Esc>[4 q"
+  let &t_EI = "\<Esc>[2 q"
+  if !empty($TMUX)
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>[6 q\<Esc>\\"
+    let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>[4 q\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>[2 q\<Esc>\\"
   endif
 endif
 
