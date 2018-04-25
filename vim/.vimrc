@@ -77,12 +77,28 @@ set colorcolumn=80                     " Coloured column for long lines
 set nowrap                             " No word wrapping
 set splitbelow                         " Splits open below
 set splitright                         " Splits open to the right
+set nobackup                           " No backup files
 
 " Have Y act like C and D
 nnoremap Y y$
 " Allow word under cursor refactoring
 nnoremap c* *Ncgn
 nnoremap c# #NcgN
+
+
+" Deal with swap files
+if !isdirectory($HOME . '/.vim/swap') && has('unix')
+  :silent !mkdir -p ~/.vim/swap >/dev/null 2>&1
+endif
+set directory=.swp/,~/.vim/swp//,/tmp//,.
+
+" Deal with undo files
+if exists('+undofile')
+  if !isdirectory($HOME . '/.vim/undo') && has('unix')
+    :silent !mkdir -p ~/.vim/undo > /dev/null 2>&1
+  endif
+  set undodir=.undo/,~/.vim/undo//,/tmp//,.
+endif
 
 "===============================================================================
 "  __ __        ___       ___           _    _
