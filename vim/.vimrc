@@ -20,20 +20,19 @@ Plugin 'joshdick/onedark.vim'
 Plugin 'dylanaraps/wal.vim'
 Plugin 'yggdroot/indentline'
 Plugin 'ap/vim-css-color'
+Plugin 'airblade/vim-gitgutter'
 " Syntax
 Plugin 'pangloss/vim-javascript'
-" Git
-Plugin 'airblade/vim-gitgutter'
+" tpope
 Plugin 'tpope/vim-fugitive'
-" Useful
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-commentary'
+" Useful
 Plugin 'godlygeek/tabular'
-Plugin 'kana/vim-textobj-user'
-Plugin 'julian/vim-textobj-variable-segment'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'jiangmiao/auto-pairs'
+Plugin 'markonm/traces.vim'
 " Linting
 Plugin 'w0rp/ale'
 " Fuzzy
@@ -141,7 +140,7 @@ nnoremap <leader>hh :nohlsearch<CR>:redraw!<CR>
 " Toggle spell checking
 nnoremap <leader>ss :setlocal spell!<CR>
 
-" Dealing with the system clipboard
+" Deal with the system clipboard
 nnoremap <leader>y "*y
 vnoremap <leader>y "*y
 nnoremap <leader>p "*p
@@ -183,12 +182,25 @@ endfunction
 nnoremap <leader>ww :call StripTrailingWhitespace()<CR>
 
 "===============================================================================
-"  ___        _         ___                                 _
-" | . | _ _ _| |_ ___  |  _> ___ ._ _ _ ._ _ _  ___ ._ _  _| | ___
-" |   || | | | | / . \ | <__/ . \| ' ' || ' ' |<_> || ' |/ . |<_-<
-" |_|_|`___| |_| \___/ `___/\___/|_|_|_||_|_|_|<___||_|_|\___|/__/
+"  ___                                 _
+" |  _> ___ ._ _ _ ._ _ _  ___ ._ _  _| | ___
+" | <__/ . \| ' ' || ' ' |<_> || ' |/ . |<_-<
+" `___/\___/|_|_|_||_|_|_|<___||_|_|\___|/__/
 "
 "===============================================================================
+
+" Use ripgrep as default grep program
+if executable('rg')
+  set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+endif
+
+" Grep through directory with fzf and rg
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \ <bang>0)
 
 " Jump between WebDev files
 augroup WEBDEV
@@ -249,5 +261,4 @@ let g:indentLine_char = '|'
 let g:javascript_plugin_jsdoc = 1
 let g:indentLine_color_term = 15
 let g:fzf_buffers_jump = 1
-set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
 
