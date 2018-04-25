@@ -1,46 +1,38 @@
 "===============================================================================
-"  _ _              _  _
-" | | | _ _ ._ _  _| || | ___
-" | ' || | || ' |/ . || |/ ._>
-" |__/ `___||_|_|\___||_|\___.
-"
+"  ___  _            _
+" | . \| | _ _  ___ <_>._ _  ___
+" |  _/| || | |/ . || || ' |<_-<
+" |_|  |_|`___|\_. ||_||_|_|/__/
+"              <___'
 "===============================================================================
-"
-filetype off                  " required
-" set the runtime path to include Vundle and initialize
-set rtp+=/usr/local/opt/fzf
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-" Cosmetic
-Plugin 'vim-airline/vim-airline'
-Plugin 'edkolev/tmuxline.vim'
-Plugin 'joshdick/onedark.vim'
-Plugin 'dylanaraps/wal.vim'
-Plugin 'yggdroot/indentline'
-Plugin 'ap/vim-css-color'
-Plugin 'airblade/vim-gitgutter'
-" Syntax
-Plugin 'pangloss/vim-javascript'
-" tpope
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-commentary'
-" Useful
-Plugin 'godlygeek/tabular'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'markonm/traces.vim'
-" Linting
-Plugin 'w0rp/ale'
-" Fuzzy
-Plugin 'junegunn/fzf.vim'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+call plug#begin()
+" Cosmetic
+Plug 'vim-airline/vim-airline'
+Plug 'edkolev/tmuxline.vim'
+Plug 'joshdick/onedark.vim'
+Plug 'dylanaraps/wal.vim'
+Plug 'yggdroot/indentline'
+Plug 'ap/vim-css-color'
+Plug 'airblade/vim-gitgutter'
+" Syntax
+Plug 'pangloss/vim-javascript'
+" tpope
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+" Useful
+Plug 'godlygeek/tabular'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'jiangmiao/auto-pairs'
+Plug 'markonm/traces.vim'
+" Linting
+Plug 'w0rp/ale'
+" Fuzzy
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+call plug#end()
 
 "===============================================================================
 "  ___                  ___       ___           _    _
@@ -107,7 +99,7 @@ endif
 " |_|_|_|`_. | |___/\___.|_| <___|`___||_|  |_| /__/
 "        <___'
 "===============================================================================
-"
+
 "use Mac OS X dictionary
 if has('macunix')
   set dictionary=/usr/share/dict/words
@@ -124,29 +116,6 @@ set tabstop=8
 set softtabstop=2
 set shiftwidth=2
 set expandtab " use spaces instead of tabs
-
-" Change cursor shape in different modes
-if has('macunix')
-  " if you're using iTerm2
-  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-  let &t_SR = "\<Esc>]50;CursorShape=2\x7"
-  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-  if !empty($TMUX)
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-    let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-  endif
-elseif has('unix') && !has('win32unix')
-  " if you're using urxvt, st, or xterm
-  let &t_SI = "\<Esc>[6 q"
-  let &t_SR = "\<Esc>[4 q"
-  let &t_EI = "\<Esc>[2 q"
-  if !empty($TMUX)
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>[6 q\<Esc>\\"
-    let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>[4 q\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>[2 q\<Esc>\\"
-  endif
-endif
 
 " The <Leader> key is pressed before any shortcut to trigger the command
 let mapleader="\<SPACE>"
@@ -197,6 +166,29 @@ endfunction
 
 nnoremap <leader>ww :call StripTrailingWhitespace()<CR>
 
+" Change cursor shape in different modes
+if has('macunix')
+  " if you're using iTerm2
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+  let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+  if !empty($TMUX)
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+  endif
+elseif has('unix') && !has('win32unix')
+  " if you're using urxvt, st, or xterm
+  let &t_SI = "\<Esc>[6 q"
+  let &t_SR = "\<Esc>[4 q"
+  let &t_EI = "\<Esc>[2 q"
+  if !empty($TMUX)
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>[6 q\<Esc>\\"
+    let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>[4 q\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>[2 q\<Esc>\\"
+  endif
+endif
+
 "===============================================================================
 "  ___                                 _
 " |  _> ___ ._ _ _ ._ _ _  ___ ._ _  _| | ___
@@ -221,7 +213,6 @@ command! -bang -nargs=* Rg
 " Jump between WebDev files
 augroup WEBDEV
   autocmd!
-
   autocmd BufLeave *.css  normal! mC
   autocmd BufLeave *.html normal! mH
   autocmd BufLeave *.js   normal! mJ
@@ -233,7 +224,6 @@ augroup END
 " Markdown setting changes
 augroup Markdown
   autocmd!
-
   autocmd FileType markdown set colorcolumn=
   autocmd FileType markdown setlocal wrap
 augroup END
@@ -241,7 +231,6 @@ augroup END
 " Automatically generate shortcuts after editing file
 augroup ShortcutSync
   autocmd!
-
   if isdirectory("~/.scripts")
     autocmd BufWritePost ~/.scripts/folders,~/.scripts/configs !bash ~/.scripts/shortcuts.sh
   endif
