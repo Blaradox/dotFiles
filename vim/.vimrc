@@ -158,7 +158,7 @@ nnoremap <leader>T :tabfind <C-R>=expand('%:h').'/*'<CR>
 nnoremap <leader>B :sbuffer <C-z><S-Tab>
 
 " http://vim.wikia.com/wiki/Remove_unwanted_spaces
-function! StripTrailingWhitespace()
+function! StripTrailingWhitespace() abort
   let l:winview = winsaveview()
   silent! %s/\s\+$//
   call winrestview(l:winview)
