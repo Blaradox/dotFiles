@@ -89,6 +89,7 @@ if exists('+undofile')
   if !isdirectory($HOME . '/.vim/undo') && has('unix')
     :silent !mkdir -p ~/.vim/undo > /dev/null 2>&1
   endif
+  set undofile
   set undodir=.undo/,~/.vim/undo//,/tmp//,.
 endif
 
@@ -159,9 +160,11 @@ nnoremap <leader>B :sbuffer <C-z><S-Tab>
 
 " http://vim.wikia.com/wiki/Remove_unwanted_spaces
 function! StripTrailingWhitespace() abort
-  let l:winview = winsaveview()
-  silent! %s/\s\+$//
-  call winrestview(l:winview)
+  if !&binary && &filetype != 'diff'
+    let l:winview = winsaveview()
+    silent! %s/\s\+$//e
+    call winrestview(l:winview)
+  endif
 endfunction
 
 nnoremap <leader>ww :call StripTrailingWhitespace()<CR>
