@@ -225,13 +225,6 @@ augroup WEBDEV
   autocmd FileType JavaScript inoremap ,, <END>,
 augroup END
 
-" Markdown setting changes
-augroup Markdown
-  autocmd!
-  autocmd FileType markdown set colorcolumn=
-  autocmd FileType markdown setlocal wrap
-augroup END
-
 " Automatically generate shortcuts after editing file
 augroup ShortcutSync
   autocmd!

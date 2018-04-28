@@ -1,0 +1,2 @@
+setlocal colorcolumn=
+setlocal wrap
