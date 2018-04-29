@@ -30,9 +30,10 @@ to the end of my `.zshrc`.
 
 ## Vim
 
-For my vim setup I use the [Vundle](https://github.com/VundleVim/Vundle.vim) package manager which can be setup using:
+For my vim setup I use the [vim-plug](https://github.com/junegunn/vim-plug) package manager which can be setup using:
 ```
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```
 
 ## Favorite terminal programs
