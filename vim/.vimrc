@@ -159,6 +159,12 @@ nnoremap <leader>V :vert sfind <C-R>=expand('%:h').'/*'<CR>
 nnoremap <leader>T :tabfind <C-R>=expand('%:h').'/*'<CR>
 nnoremap <leader>B :sbuffer <C-z><S-Tab>
 
+" Make arrow keys resize viewports
+nnoremap <Left> :vertical resize -2<CR>
+nnoremap <Right> :vertical resize +2<CR>
+nnoremap <Up> :resize -2<CR>
+nnoremap <Down> :resize +2<CR>
+
 " http://vim.wikia.com/wiki/Remove_unwanted_spaces
 function! StripTrailingWhitespace() abort
   if !&binary && &filetype != 'diff'
