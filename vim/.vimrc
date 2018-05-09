@@ -71,6 +71,7 @@ set nowrap                             " No word wrapping
 set splitbelow                         " Splits open below
 set splitright                         " Splits open to the right
 set nobackup                           " No backup files
+set autoread                           " Re-read files changed outside of vim
 
 " Have Y act like C and D
 nnoremap Y y$
@@ -265,7 +266,7 @@ let g:airline#extensions#tmuxline#enabled = 0
 let g:airline#extensions#ale#enabled = 1
 let g:airline_section_z = '%3p%% %{g:airline_symbols.linenr}%3l:%-2v'
 let g:tmuxline_powerline_separators = 0
-let g:indentLine_char = '|'
+let g:indentLine_char = '│'
 let g:javascript_plugin_jsdoc = 1
 let g:indentLine_color_term = 15
 let g:fzf_buffers_jump = 1
