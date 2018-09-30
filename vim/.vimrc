@@ -88,6 +88,9 @@ nnoremap Y y$
 nnoremap c* *Ncgn
 nnoremap c# #NcgN
 
+" Allow saving if not opened as root
+command W w !sudo tee "%" > /dev/null
+
 " Show tabs and trailing whitespace
 set list listchars=tab:>>,trail:~
 if has('multi_byte') && $DISPLAY !=? ''
