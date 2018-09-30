@@ -33,6 +33,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-characterize'
 " Useful
 Plug 'godlygeek/tabular'
 Plug 'christoomey/vim-tmux-navigator'
@@ -89,7 +90,7 @@ nnoremap c* *Ncgn
 nnoremap c# #NcgN
 
 " Allow saving if not opened as root
-command W w !sudo tee "%" > /dev/null
+command! W w !sudo tee "%" > /dev/null
 
 " Show tabs and trailing whitespace
 set list listchars=tab:>>,trail:~
@@ -323,21 +324,21 @@ function! LinterStatus() abort
     \)
 endfunction
 
-set statusline=                            " Reset status line
-set statusline+=%1*                        " Highlight User 1
-set statusline+=\ %{g:currentmode[mode()]} " Show mode
-set statusline+=%2*                        " Highlight User 2
-set statusline+=%(\ %{fugitive#head()}\ %) " Show git branch
-set statusline+=%3*                        " Highlight User 3
-set statusline+=%<                         " Start truncating here
-set statusline+=\ %t                       " Show tail of filename
-set statusline+=\ %([%R%H%M%W]%)           " Show flags
-set statusline+=%=                         " Start right align
-set statusline+=%2*                        " Highlight User 2
-set statusline+=\ %3l,                     " Line number
-set statusline+=\ %-2c                     " Column number
-set statusline+=\ %1*                      " Highlight User 1
-set statusline+=\ %Y\ %*                   " File type
+set statusline=                               " Reset status line
+set statusline+=%1*                           " Highlight User 1
+set statusline+=\ %{g:currentmode[mode()]}    " Show mode
+set statusline+=%<                            " Start truncating here
+set statusline+=%2*                           " Highlight User 2
+set statusline+=%(\ ᚠ\ %{fugitive#head()}\ %) " Show git branch
+set statusline+=%3*                           " Highlight User 3
+set statusline+=\ %t                          " Show tail of filename
+set statusline+=\ %([%R%H%M%W]%)              " Show flags
+set statusline+=%=                            " Start right align
+set statusline+=%2*                           " Highlight User 2
+set statusline+=\ %3l,                        " Line number
+set statusline+=\ %-2c                        " Column number
+set statusline+=\ %1*                         " Highlight User 1
+set statusline+=\ %Y\ %*                      " File type
 
 "===============================================================================
 "  ___  _            _        ___        _   _   _
@@ -362,7 +363,11 @@ try
   set background=dark
   let g:palenight_terminal_italics = 1
   colorscheme palenight
-  set termguicolors
+  if exists('+termguicolors')
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+    set termguicolors
+  endif
 catch /^Vim\%((\a\+)\)\=:E185/
   colorscheme default
 endtry
