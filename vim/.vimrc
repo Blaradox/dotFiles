@@ -15,15 +15,18 @@ endif
 
 call plug#begin()
 " Cosmetic
-Plug 'vim-airline/vim-airline'
 Plug 'edkolev/tmuxline.vim'
 Plug 'joshdick/onedark.vim'
+Plug 'crusoexia/vim-monokai'
+Plug 'jacoborus/tender.vim'
+Plug 'drewtempelmeyer/palenight.vim'
 Plug 'dylanaraps/wal.vim'
 Plug 'yggdroot/indentline'
 Plug 'ap/vim-css-color'
 Plug 'airblade/vim-gitgutter'
 " Syntax
 Plug 'pangloss/vim-javascript'
+Plug 'crusoexia/vim-javascript-lib'
 " tpope
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
@@ -33,7 +36,6 @@ Plug 'tpope/vim-abolish'
 " Useful
 Plug 'godlygeek/tabular'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'jiangmiao/auto-pairs'
 Plug 'markonm/traces.vim'
 " Linting
 Plug 'w0rp/ale'
@@ -246,14 +248,93 @@ augroup WEBDEV
 augroup END
 
 " Highlight trailing whitespace
-augroup HighlightWhitespace
+augroup MatchWhitespace
   autocmd!
-  autocmd Colorscheme * highlight ExtraWhitespace ctermbg=red guibg=red
   autocmd BufWinEnter * match ExtraWhitespace /\s\+$\| \+\ze\t/
   autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
   autocmd InsertLeave * match ExtraWhitespace /\s\+$/
   autocmd BufWinLeave * call clearmatches()
 augroup END
+
+" Activate and deactivate `cursorline`
+augroup Cursorline
+  autocmd!
+  autocmd WinEnter,BufEnter * set cursorline
+  autocmd WinLeave,BufLeave * set nocursorline
+augroup END
+
+" Setup colors
+function! MyHighlights() abort
+  highlight ExtraWhitespace cterm=NONE ctermbg=red guibg=red
+  highlight User1           cterm=NONE ctermfg=00 ctermbg=02
+  highlight User2           cterm=NONE ctermfg=07 ctermbg=08
+  highlight User3           cterm=NONE ctermfg=07 ctermbg=NONE
+endfunction
+
+" Execute color changes
+augroup MyColors
+  autocmd!
+  autocmd Colorscheme * call MyHighlights()
+augroup END
+
+" statusline
+set noshowmode
+let g:currentmode={
+      \ 'n'  : 'NORMAL ',
+      \ 'no' : 'N·OPERATOR PENDING ',
+      \ 'v'  : 'VISUAL ',
+      \ 'V'  : 'V·LINE ',
+      \ '' : 'V·BLOCK ',
+      \ 's'  : 'SELECT ',
+      \ 'S'  : 'S·LINE ',
+      \ '' : 'S·BLOCK ',
+      \ 'i'  : 'INSERT ',
+      \ 'R'  : 'REPLACE ',
+      \ 'Rv' : 'V·REPLACE ',
+      \ 'c'  : 'COMMAND ',
+      \ 'cv' : 'VIM EX ',
+      \ 'ce' : 'EX ',
+      \ 'r'  : 'PROMPT ',
+      \ 'rm' : 'MORE ',
+      \ 'r?' : 'CONFIRM ',
+      \ '!'  : 'SHELL ',
+      \ 't'  : 'TERMINAL '}
+
+function! GitBranch() abort
+  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+endfunction
+
+function! StatuslineGit() abort
+  let l:branchname = GitBranch()
+  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+endfunction
+
+function! LinterStatus() abort
+  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:all_errors = l:counts.error + l:counts.style_error
+  let l:all_non_errors = l:counts.total - l:all_errors
+  return l:counts.total == 0 ? '' : printf(
+    \ 'W:%d E:%d',
+    \ l:all_non_errors,
+    \ l:all_errors
+    \)
+endfunction
+
+set statusline=                            " Reset status line
+set statusline+=%1*                        " Highlight User 1
+set statusline+=\ %{g:currentmode[mode()]} " Show mode
+set statusline+=%2*                        " Highlight User 2
+set statusline+=%(\ %{fugitive#head()}\ %) " Show git branch
+set statusline+=%3*                        " Highlight User 3
+set statusline+=%<                         " Start truncating here
+set statusline+=\ %t                       " Show tail of filename
+set statusline+=\ %([%R%H%M%W]%)           " Show flags
+set statusline+=%=                         " Start right align
+set statusline+=%2*                        " Highlight User 2
+set statusline+=\ %3l,                     " Line number
+set statusline+=\ %-2c                     " Column number
+set statusline+=\ %1*                      " Highlight User 1
+set statusline+=\ %Y\ %*                   " File type
 
 "===============================================================================
 "  ___  _            _        ___        _   _   _
@@ -273,17 +354,16 @@ let g:netrw_preview = 1      " open previews vertically
 let g:netrw_winsize = 20     " make netrw take up 20% of the window
 let g:netrw_list_hide = '.*\.swp,.git/'
 
-let g:onedark_termcolors = 16
+" set colorscheme
 try
-  colorscheme wal
+  set background=dark
+  let g:palenight_terminal_italics = 1
+  colorscheme palenight
+  set termguicolors
 catch /^Vim\%((\a\+)\)\=:E185/
   colorscheme default
 endtry
-let g:airline_theme='onedark'
-let g:airline_powerline_fonts = 0
-let g:airline#extensions#tmuxline#enabled = 0
-let g:airline#extensions#ale#enabled = 1
-let g:airline_section_z = '%3p%% %{g:airline_symbols.linenr}%3l:%-2v'
+
 let g:tmuxline_powerline_separators = 0
 let g:indentLine_char = '│'
 let g:indentLine_color_term = 15
