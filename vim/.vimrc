@@ -6,6 +6,13 @@
 "              <___'
 "===============================================================================
 
+" Install vim-plug if not found
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 call plug#begin()
 " Cosmetic
 Plug 'vim-airline/vim-airline'
@@ -259,7 +266,11 @@ let g:netrw_winsize = 20     " make netrw take up 20% of the window
 let g:netrw_list_hide = '.*\.swp,.git/'
 
 let g:onedark_termcolors = 16
-colorscheme onedark
+try
+  colorscheme onedark
+catch /^Vim\%((\a\+)\)\=:E185/
+  colorscheme default
+endtry
 let g:airline_theme='onedark'
 let g:airline_powerline_fonts = 0
 let g:airline#extensions#tmuxline#enabled = 0
@@ -267,7 +278,7 @@ let g:airline#extensions#ale#enabled = 1
 let g:airline_section_z = '%3p%% %{g:airline_symbols.linenr}%3l:%-2v'
 let g:tmuxline_powerline_separators = 0
 let g:indentLine_char = '│'
-let g:javascript_plugin_jsdoc = 1
 let g:indentLine_color_term = 15
+let g:javascript_plugin_jsdoc = 1
 let g:fzf_buffers_jump = 1
 
