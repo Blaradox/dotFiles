@@ -86,6 +86,12 @@ nnoremap Y y$
 nnoremap c* *Ncgn
 nnoremap c# #NcgN
 
+" Show tabs and trailing whitespace
+set list listchars=tab:>>,trail:~
+if has('multi_byte') && $DISPLAY !=? ''
+    set listchars=tab:»»,trail:•
+    set fillchars=vert:┃ showbreak=↪
+endif
 
 " Deal with swap files
 if !isdirectory($HOME . '/.vim/swap') && has('unix')
@@ -136,11 +142,11 @@ nnoremap <leader>hh :nohlsearch<CR>:redraw!<CR>
 nnoremap <leader>ss :setlocal spell!<CR>
 
 " Deal with the system clipboard
-nnoremap <leader>y "*y
-vnoremap <leader>y "*y
-nnoremap <leader>p "*p
-vnoremap <leader>p "*p
-nnoremap <leader>P "*P
+nnoremap <leader>y "+y
+vnoremap <leader>y "+y
+nnoremap <leader>p "+p
+vnoremap <leader>p "+p
+nnoremap <leader>P "+P
 
 " Customizing the wildmenu
 " https://stackoverflow.com/questions/16082991/vim-switching-between-files-rapidly-using-vanilla-vim-no-plugins
@@ -239,12 +245,14 @@ augroup WEBDEV
   autocmd FileType JavaScript inoremap ,, <END>,
 augroup END
 
-" Automatically generate shortcuts after editing file
-augroup ShortcutSync
+" Highlight trailing whitespace
+augroup HighlightWhitespace
   autocmd!
-  if isdirectory("~/.scripts")
-    autocmd BufWritePost ~/.scripts/folders,~/.scripts/configs !bash ~/.scripts/shortcuts.sh
-  endif
+  autocmd Colorscheme * highlight ExtraWhitespace ctermbg=red guibg=red
+  autocmd BufWinEnter * match ExtraWhitespace /\s\+$\| \+\ze\t/
+  autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+  autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+  autocmd BufWinLeave * call clearmatches()
 augroup END
 
 "===============================================================================
@@ -267,7 +275,7 @@ let g:netrw_list_hide = '.*\.swp,.git/'
 
 let g:onedark_termcolors = 16
 try
-  colorscheme onedark
+  colorscheme wal
 catch /^Vim\%((\a\+)\)\=:E185/
   colorscheme default
 endtry
