@@ -1,32 +1,67 @@
-now_playing_prefix = ">> "
-progressbar_look = "->"
+# Directories
+ncmpcpp_directory = "~/.ncmpcpp"
+lyrics_directory = "~/.lyrics"
 
-## Needed for tag editor and file operations to work.
+# MPD settings
 mpd_music_dir = "~/Music"
+mpd_crossfade_time = 2
+mpd_port = 6600
+mpd_host = localhost
 
-## Available values: spectrum, wave, wave_filled, ellipse.
-#visualizer_type = spectrum
+# Display
+current_item_prefix = "$(white)$r"
+current_item_suffix = "$/r$(end)"
+song_list_format = "{{%a · %t}|{%f}}{$R%l}"
+#song_columns_list_format = (20)[]{a} (6f)[green]{NE} (50)[white]{t|f:Title} (20)[red]{b} (7f)[magenta]{l}
+song_status_format = "{{%a{ ● %b{, %y}} ● }{%t$/b}}|{$b%f$/b}"
+song_library_format = "{{%a - %t} (%b)}|{%f}"
+window_border_color = "yellow"
+#active_window_border = "magenta"
+playlist_display_mode = "classic" # classic/columns
+current_item_inactive_column_prefix = "$(blue)$r"
+current_item_inactive_column_suffix = "$/r$(end)"
 
-## Defines how long messages are supposed to be visible.
-message_delay_time = 1
+# Now Playing
+now_playing_prefix = "$b$5"
+now_playing_suffix = "$/b$9"
+jump_to_now_playing_song_at_start = yes
 
-## Note: Possible display modes: classic, columns.
-browser_display_mode = columns
+# Progress Bar
+progressbar_look = "─○─" # ━━─,─╼─
+progressbar_color = 9
+progressbar_elapsed_color = "green"
 
-media_library_primary_tag = album_artist
-media_library_albums_split_by_date = no
-ignore_leading_the = yes
+# Colors
+colors_enabled = yes
+empty_tag_color = "red"
+volume_color = "yellow"
+statusbar_color = "default"
+state_line_color = "red"
+state_flags_color = "yellow"
+main_window_color = "default"
+header_window_color = "yellow"
+#color1 = "red"
+#color2 = "red"
 
-## Screens available for use: help, playlist, browser, search_engine,
-## media_library, playlist_editor, tag_editor, outputs, visualizer, clock,
-## lyrics, last_fm.
-startup_screen = media_library
-
-external_editor = vim
-use_console_editor = yes
-
-visualizer_type = "spectrum"
+# Visualizer
+visualizer_in_stereo = yes
 visualizer_sync_interval = "30"
+# visualizer_output_name = "Visualizer feed"
+visualizer_fifo_path = "/tmp/mpd.fifo"
+visualizer_type = "wave" # spectrum/wave
+visualizer_color = cyan, green, yellow, magenta, red
+visualizer_look = "●┃"
 
-execute_on_song_change = osascript -e 'display notification (do shell script "ncmpcpp --current-song=%t") with title (do shell script "ncmpcpp --current-song=%a")'
+# Misc
+display_bitrate = yes
+autocenter_mode = yes
+centered_cursor = yes
+titles_visibility = no
+statusbar_visibility = yes
+empty_tag_marker = "<empty>"
+header_visibility = no
+ask_before_clearing_playlists = no
+external_editor = "vim"
 
+# Notifications
+#execute_on_song_change = notify-send "Now Playing ♫" "$(mpc current)"
