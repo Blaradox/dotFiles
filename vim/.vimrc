@@ -114,6 +114,15 @@ if exists('+undofile')
   set undodir=.undo/,~/.vim/undo//,/tmp//,.
 endif
 
+" Determine operating system
+if !exists('g:os')
+  if has('win64') || has('win32') || has('win16')
+    let g:os = "Windows"
+  else
+    let g:os = substitute(system('uname'), '\n', '', '')
+  endif
+endif
+
 "===============================================================================
 "  __ __        ___       ___           _    _
 " |  \  \ _ _  | . \ ___ | | '___  _ _ | | _| |_ ___
@@ -122,15 +131,20 @@ endif
 "        <___'
 "===============================================================================
 
-"use Mac OS X dictionary
-if has('macunix')
-  set dictionary=/usr/share/dict/words
-endif
-
 " Set vim to use bash for compatability
 set shell=bash\ -i
 if &diff
   set shell=bash
+endif
+
+" Use Mac OS X dictionary
+if g:os == "Darwin"
+  set dictionary=/usr/share/dict/words
+endif
+
+" Allow mouse scroll in simple terminal
+if g:os == "Linux"
+  set ttymouse=sgr
 endif
 
 " https://www.reddit.com/r/vim/wiki/tabstop
@@ -197,7 +211,7 @@ endfunction
 nnoremap <leader>ww :call StripTrailingWhitespace()<CR>
 
 " Change cursor shape in different modes
-if has('macunix')
+if g:os == "Darwin"
   " if you're using iTerm2
   let &t_SI = "\<Esc>]50;CursorShape=1\x7"
   let &t_SR = "\<Esc>]50;CursorShape=2\x7"
@@ -207,7 +221,7 @@ if has('macunix')
     let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
   endif
-elseif has('unix') && !has('win32unix')
+elseif g:os == "Linux"
   " if you're using urxvt, st, or xterm
   let &t_SI = "\<Esc>[6 q"
   let &t_SR = "\<Esc>[4 q"
@@ -251,7 +265,7 @@ augroup WEBDEV
   autocmd FileType JavaScript inoremap ,, <END>,
 augroup END
 
-" Highlight trailing whitespace
+" Match trailing whitespace
 augroup MatchWhitespace
   autocmd!
   autocmd BufWinEnter * match ExtraWhitespace /\s\+$\| \+\ze\t/
@@ -304,15 +318,6 @@ let g:currentmode={
       \ '!'  : 'SHELL ',
       \ 't'  : 'TERMINAL '}
 
-function! GitBranch() abort
-  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
-endfunction
-
-function! StatuslineGit() abort
-  let l:branchname = GitBranch()
-  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
-endfunction
-
 function! LinterStatus() abort
   let l:counts = ale#statusline#Count(bufnr(''))
   let l:all_errors = l:counts.error + l:counts.style_error
@@ -339,6 +344,7 @@ set statusline+=\ %3l,                        " Line number
 set statusline+=\ %-2c                        " Column number
 set statusline+=\ %1*                         " Highlight User 1
 set statusline+=\ %Y\ %*                      " File type
+set statusline+=%(\ %{LinterStatus()}\ %)
 
 "===============================================================================
 "  ___  _            _        ___        _   _   _
