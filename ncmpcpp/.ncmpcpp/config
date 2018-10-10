@@ -1,3 +1,5 @@
+# Example configuration found in:
+# /usr/share/doc/ncmpcpp/config
 # Directories
 ncmpcpp_directory = "~/.ncmpcpp"
 lyrics_directory = "~/.lyrics"
@@ -48,7 +50,7 @@ visualizer_in_stereo = yes
 visualizer_sync_interval = "30"
 # visualizer_output_name = "Visualizer feed"
 visualizer_fifo_path = "/tmp/mpd.fifo"
-visualizer_type = "wave" # spectrum/wave
+visualizer_type = "spectrum" # spectrum/wave
 visualizer_color = cyan, green, yellow, magenta, red
 visualizer_look = "●┃"
 
