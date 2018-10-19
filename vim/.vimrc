@@ -329,6 +329,13 @@ function! LinterStatus() abort
     \)
 endfunction
 
+function! PrintFileType() abort
+  if strlen(&filetype) == 0
+    return "NO FT"
+  else
+    return toupper(&filetype)
+endfunction
+
 set statusline=                               " Reset status line
 set statusline+=%1*                           " Highlight User 1
 set statusline+=\ %{g:currentmode[mode()]}    " Show mode
@@ -343,7 +350,7 @@ set statusline+=%2*                           " Highlight User 2
 set statusline+=\ %3l,                        " Line number
 set statusline+=\ %-2c                        " Column number
 set statusline+=\ %1*                         " Highlight User 1
-set statusline+=\ %Y\ %*                      " File type
+set statusline+=\ %{PrintFileType()}\ %*      " File type
 set statusline+=%(\ %{LinterStatus()}\ %)
 
 "===============================================================================
