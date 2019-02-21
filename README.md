@@ -18,11 +18,7 @@ I like to use zsh as my shell, and [Prezto](https://github.com/sorin-ionescu/pre
 ```
 zstyle ':prezto:module:prompt' theme 'pure'
 ```
-and of course I change the key mapping style to `vi`:
-```
-zstyle ':prezto:module:editor' key-bindings 'vi'
-```
-finally I add:
+and I add:
 ```
 source ~/.funcs.sh
 ```
@@ -40,14 +36,21 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 
 Here is a list of the terminal applications I use the most often:
 ```
-ranger                # For the best file browser
-tmux                  # Terminal multiplexer
-fzf                   # Fuzzy finder, for files, etc.
-ripgrep               # Very fast regex file search
-mpd mpc ncmpcpp mpv   # For playing music, videos
-git vim python        # Mac versions are old....
-coreutils             # GNU versions of less, etc.
-neofetch              # For displaying sys info
+tmux                # Terminal multiplexer
+fzf                 # Fuzzy finder, for files, etc.
+ranger              # For the best file browser
+ripgrep             # Very fast regex file search
+mpd mpc ncmpcpp mpv # For playing music, videos
+git vim python      # Mac versions are old....
+coreutils           # GNU versions of less, etc.
+neofetch            # For displaying sys info
+bat                 # `cat` w/ syntax highlighting
+prettyping          # `ping` w/ a TUI
+htop                # A better version of `top`
+diff-so-fancy       # `diff` w/ syntax highlighting
+ncdu                # `du` w/ a TUI and more features
+tldr                # An alternative to `man`
+jq                  # A commandline JSON processor
 ```
 
 ## Colors
