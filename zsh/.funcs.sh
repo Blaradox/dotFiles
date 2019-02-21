@@ -9,6 +9,8 @@ export PATH=$PATH:/usr/sbin:/sbin
 # Aliases
 alias ls="ls -GFh"
 alias egrep="egrep --color=auto"
+alias weather="curl wttr.in"
+alias cheat="curl cheat.sh"
 
 # Variables
 export VISUAL=/usr/local/bin/vim
@@ -64,7 +66,7 @@ tm() {
   fi
   session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | \
     fzf --height=10 --reverse --exit-0) \
-    &&  tmux $change -t "$session" || echo "No sessions found."
+    &&  tmux $change -t "$session" || tmux new-session
 }
 
 bro() {
