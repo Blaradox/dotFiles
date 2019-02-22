@@ -38,18 +38,20 @@ Here is a list of the terminal applications I use the most often:
 ```
 tmux                # Terminal multiplexer
 fzf                 # Fuzzy finder, for files, etc.
+ddgr                # DuckDuckGo from the terminal
 ranger              # For the best file browser
 ripgrep             # Very fast regex file search
 mpd mpc ncmpcpp mpv # For playing music, videos
+ffmpeg              # Video and audio tools
+neofetch            # For displaying sys info
 git vim python      # Mac versions are old....
 coreutils           # GNU versions of less, etc.
-neofetch            # For displaying sys info
 bat                 # `cat` w/ syntax highlighting
 prettyping          # `ping` w/ a TUI
 htop                # A better version of `top`
 diff-so-fancy       # `diff` w/ syntax highlighting
 ncdu                # `du` w/ a TUI and more features
-tldr                # An alternative to `man`
+tldr                # When `man` is too long
 jq                  # A commandline JSON processor
 ```
 
