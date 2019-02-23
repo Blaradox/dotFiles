@@ -59,6 +59,7 @@ fbr() {
 }
 
 tm() {
+  local change session
   [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
   if [ $1 ]; then
     tmux $change -t "$1" 2>/dev/null || \
@@ -70,6 +71,7 @@ tm() {
 }
 
 bro() {
+  local remote url
   if [ $1 ]; then
     remote=$(git remote | fzf --height=10 --reverse --exit-0 --query="$1" --select-1)
     url=$(git remote get-url "$remote")
@@ -93,7 +95,7 @@ fmpc() {
 }
 
 weather() {
-  # Require `curl` for this
+  local format
   if ! command -v curl &>/dev/null; then
     printf "%s\n" "[ERROR] weather: This command requires 'curl', please install it."
     return 1
@@ -104,6 +106,7 @@ weather() {
 }
 
 cheat() {
+  local topic
   if ! command -v curl &>/dev/null; then
     printf "%s\n" "[ERROR] cheat: This command requires 'curl', please install it."
     return 1
