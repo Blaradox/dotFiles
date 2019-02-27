@@ -1,10 +1,4 @@
-"===============================================================================
-"  ___  _            _
-" | . \| | _ _  ___ <_>._ _  ___
-" |  _/| || | |/ . || || ' |<_-<
-" |_|  |_|`___|\_. ||_||_|_|/__/
-"              <___'
-"===============================================================================
+"" Plugins {{{1
 
 " Install vim-plug if not found
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -46,14 +40,10 @@ Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 call plug#end()
 
-"===============================================================================
-"  ___                  ___       ___           _    _
-" / __> ___ ._ _  ___  | . \ ___ | | '___  _ _ | | _| |_ ___
-" \__ \<_> || ' |/ ._> | | |/ ._>| |-<_> || | || |  | | <_-<
-" <___/<___||_|_|\___. |___/\___.|_| <___|`___||_|  |_| /__/
-"
-"===============================================================================
+"" Sane Defaults {{{1
+
 " Good start URL: http://vim.wikia.com/wiki/Example_vimrc
+" Or https://github.com/tpope/vim-sensible
 
 syntax on                              " Enable syntax highligting
 set hidden                             " Can switch between unsaved buffers
@@ -108,50 +98,14 @@ if exists('+undofile')
   set undodir=.undo/,~/.vim/undo//,/tmp//,.
 endif
 
-" Determine operating system
-if !exists('g:os')
-  if has('win64') || has('win32') || has('win16')
-    let g:os = "Windows"
-  else
-    let g:os = substitute(system('uname'), '\n', '', '')
-  endif
-endif
-
 " Show tabs and trailing whitespace
 set list listchars=tab:>>,trail:~
-if has('multi_byte') && ($DISPLAY !=? '' || g:os == 'Darwin')
+if has('multi_byte')
     set listchars=tab:»»,trail:•
     set fillchars=vert:┃ showbreak=↪
 endif
 
-"===============================================================================
-"  __ __        ___       ___           _    _
-" |  \  \ _ _  | . \ ___ | | '___  _ _ | | _| |_ ___
-" |     || | | | | |/ ._>| |-<_> || | || |  | | <_-<
-" |_|_|_|`_. | |___/\___.|_| <___|`___||_|  |_| /__/
-"        <___'
-"===============================================================================
-
-" Set vim to use bash for compatability
-set shell=bash\ -i
-if &diff
-  set shell=bash
-endif
-
-" Use Mac OS X dictionary
-if g:os == "Darwin"
-  set dictionary=/usr/share/dict/words
-endif
-
-" Allow mouse scroll in simple terminal
-if g:os == "Linux"
-  set ttymouse=sgr
-endif
-
-" kitty does not support background color erase
-if $TERMINFO =~ "kitty"
-  let &t_ut=''
-endif
+"" Opinionated Defaults {{{1
 
 " https://www.reddit.com/r/vim/wiki/tabstop
 set tabstop=8
@@ -216,8 +170,55 @@ endfunction
 
 nnoremap <leader>ww :call StripTrailingWhitespace()<CR>
 
+"" Compatibility {{{2
+
+"" Setup variables {{{
+
+" Determine operating system
+if !exists('g:os')
+  if has('win64') || has('win32') || has('win16')
+    let g:os = "Windows"
+  else
+    let g:os = substitute(system('uname'), '\n', '', '')
+  endif
+endif
+
+" Determine whether using kitty terminal
+if !exists('g:kitty')
+  if $TERMINFO =~ 'kitty'
+    let g:kitty = 1
+  else
+    let g:kitty = 0
+  endif
+endif
+
+"" }}}
+
+" Set vim to use bash for compatability
+set shell=bash\ -i
+if &diff
+  set shell=bash
+endif
+
+" Use Mac OS X dictionary
+if g:os == "Darwin"
+  set dictionary=/usr/share/dict/words
+endif
+
+" Allow mouse scroll in simple terminal
+if g:os == "Linux"
+  set ttymouse=sgr
+endif
+
+" kitty does not support background color erase
+if g:kitty == 1
+  let &t_ut=''
+endif
+
+"" }}}2
+
 " Change cursor shape in different modes
-if g:os == "Darwin" && $TERMINFO =~ "^(?!.*kitty)"
+if g:os == "Darwin" && g:kitty == 0
   " if you're using iTerm2
   let &t_SI = "\<Esc>]50;CursorShape=1\x7"
   let &t_SR = "\<Esc>]50;CursorShape=2\x7"
@@ -227,8 +228,8 @@ if g:os == "Darwin" && $TERMINFO =~ "^(?!.*kitty)"
     let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
   endif
-elseif g:os == "Linux" || $TERMINFO =~ "kitty"
-  " if you're using urxvt, st, or xterm
+elseif g:os == "Linux" || g:kitty == 1
+  " if you're using kitty, urxvt, st, or xterm
   let &t_SI = "\<Esc>[6 q"
   let &t_SR = "\<Esc>[4 q"
   let &t_EI = "\<Esc>[2 q"
@@ -239,13 +240,7 @@ elseif g:os == "Linux" || $TERMINFO =~ "kitty"
   endif
 endif
 
-"===============================================================================
-"  ___                                 _
-" |  _> ___ ._ _ _ ._ _ _  ___ ._ _  _| | ___
-" | <__/ . \| ' ' || ' ' |<_> || ' |/ . |<_-<
-" `___/\___/|_|_|_||_|_|_|<___||_|_|\___|/__/
-"
-"===============================================================================
+"" External Programs {{{1
 
 " Use ripgrep as default grep program
 if executable('rg')
@@ -260,6 +255,8 @@ command! -bang -nargs=* Rg
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \ <bang>0)
 
+"" Auto Commands {{{1
+
 " Jump between WebDev files
 augroup WEBDEV
   autocmd!
@@ -271,6 +268,13 @@ augroup WEBDEV
   autocmd FileType JavaScript inoremap ,, <END>,
 augroup END
 
+" Activate and deactivate `cursorline`
+augroup Cursorline
+  autocmd!
+  autocmd WinEnter,BufEnter * set cursorline
+  autocmd WinLeave,BufLeave * set nocursorline
+augroup END
+
 " Match trailing whitespace
 augroup MatchWhitespace
   autocmd!
@@ -278,13 +282,6 @@ augroup MatchWhitespace
   autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
   autocmd InsertLeave * match ExtraWhitespace /\s\+$/
   autocmd BufWinLeave * call clearmatches()
-augroup END
-
-" Activate and deactivate `cursorline`
-augroup Cursorline
-  autocmd!
-  autocmd WinEnter,BufEnter * set cursorline
-  autocmd WinLeave,BufLeave * set nocursorline
 augroup END
 
 " Setup colors
@@ -301,7 +298,13 @@ augroup MyColors
   autocmd Colorscheme * call MyHighlights()
 augroup END
 
-" statusline
+augroup FoldMarkers
+  autocmd!
+  autocmd BufEnter,WinEnter .vimrc setlocal foldmethod=marker
+augroup END
+
+"" Statusline {{{1
+
 set noshowmode
 let g:currentmode={
       \ 'n'  : 'NORMAL ',
@@ -359,13 +362,7 @@ set statusline+=\ %1*                         " Highlight User 1
 set statusline+=\ %{PrintFileType()}\ %*      " File type
 set statusline+=%(\ %{LinterStatus()}\ %)
 
-"===============================================================================
-"  ___  _            _        ___        _   _   _
-" | . \| | _ _  ___ <_>._ _  / __> ___ _| |_| |_<_>._ _  ___  ___
-" |  _/| || | |/ . || || ' | \__ \/ ._> | | | | | || ' |/ . |<_-<
-" |_|  |_|`___|\_. ||_||_|_| <___/\___. |_| |_| |_||_|_|\_. |/__/
-"              <___'                                    <___'
-"===============================================================================
+"" Plugin Settings {{{1
 
 " https://shapeshed.com/vim-netrw/
 " Replace NERDtree with default netrw
