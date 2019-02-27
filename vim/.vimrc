@@ -35,6 +35,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-characterize'
 " Useful
+Plug 'wellle/targets.vim'
 Plug 'godlygeek/tabular'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'markonm/traces.vim'
