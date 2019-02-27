@@ -93,13 +93,6 @@ nnoremap c# #NcgN
 " Allow saving if not opened as root
 command! W w !sudo tee "%" > /dev/null
 
-" Show tabs and trailing whitespace
-set list listchars=tab:>>,trail:~
-if has('multi_byte') && $DISPLAY !=? ''
-    set listchars=tab:»»,trail:•
-    set fillchars=vert:┃ showbreak=↪
-endif
-
 " Deal with swap files
 if !isdirectory($HOME . '/.vim/swap') && has('unix')
   :silent !mkdir -p ~/.vim/swap >/dev/null 2>&1
@@ -122,6 +115,13 @@ if !exists('g:os')
   else
     let g:os = substitute(system('uname'), '\n', '', '')
   endif
+endif
+
+" Show tabs and trailing whitespace
+set list listchars=tab:>>,trail:~
+if has('multi_byte') && ($DISPLAY !=? '' || g:os == 'Darwin')
+    set listchars=tab:»»,trail:•
+    set fillchars=vert:┃ showbreak=↪
 endif
 
 "===============================================================================
