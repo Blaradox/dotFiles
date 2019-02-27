@@ -148,6 +148,11 @@ if g:os == "Linux"
   set ttymouse=sgr
 endif
 
+" kitty does not support background color erase
+if $TERMINFO =~ "kitty"
+  let &t_ut=''
+endif
+
 " https://www.reddit.com/r/vim/wiki/tabstop
 set tabstop=8
 set softtabstop=2
@@ -212,7 +217,7 @@ endfunction
 nnoremap <leader>ww :call StripTrailingWhitespace()<CR>
 
 " Change cursor shape in different modes
-if g:os == "Darwin"
+if g:os == "Darwin" && $TERMINFO =~ "^(?!.*kitty)"
   " if you're using iTerm2
   let &t_SI = "\<Esc>]50;CursorShape=1\x7"
   let &t_SR = "\<Esc>]50;CursorShape=2\x7"
@@ -222,7 +227,7 @@ if g:os == "Darwin"
     let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
   endif
-elseif g:os == "Linux"
+elseif g:os == "Linux" || $TERMINFO =~ "kitty"
   " if you're using urxvt, st, or xterm
   let &t_SI = "\<Esc>[6 q"
   let &t_SR = "\<Esc>[4 q"
