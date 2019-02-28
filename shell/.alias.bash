@@ -30,9 +30,12 @@ alias gfm="git pull"
 alias gfr="git pull --rebase"
 # Index (i)
 alias gia="git add"
+alias giA="git add --patch"
+alias giu="git add --update"
 alias gid="git diff --no-ext-diff --cached"
+alias giD="git diff --no-ext-diff --cached --word-diff"
 alias gis="git status --short --branch --ignored"
-alias gisl="git status --long --verbose --ignored"
+alias giS="git status --verbose --ignored"
 alias gix="git rm -r --cached"
 alias giX="git rm -rf --cached"
 # Log (l)
@@ -66,3 +69,14 @@ alias gsx="git stash drop"
 alias gsX="git-stash-clear-interactive"
 alias gsl="git stash list"
 alias gsL="git-stash-dropped"
+# Working Copy (w)
+alias gws='git status --ignore-submodules=${_git_status_ignore_submodules} --short'
+alias gwS='git status --ignore-submodules=${_git_status_ignore_submodules}'
+alias gwd='git diff --no-ext-diff'
+alias gwD='git diff --no-ext-diff --word-diff'
+alias gwr='git reset --soft'
+alias gwR='git reset --hard'
+alias gwc='git clean -n'
+alias gwC='git clean -f'
+alias gwx='git rm -r'
+alias gwX='git rm -rf'
