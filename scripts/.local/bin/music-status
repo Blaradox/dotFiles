@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Returns the current track through Spotify or mpd
+
+function music-status {
+  if [[ $(mpc) =~ "play" ]]; then
+    mpd-status
+  else
+    case "$OSTYPE" in
+      (darwin*)
+        apple-spotify-status
+        ;;
+      (linux*)
+        # linux-spotify-status
+        ;;
+      (*)
+        printf ""
+        ;;
+    esac
+  fi
+}
+
+function mpd-status {
+  printf "$(ncmpcpp --current-song "{♫ %10a - %10t}|{%20f}" --quiet)"
+}
+
+music-status "$@"

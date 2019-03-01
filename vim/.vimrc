@@ -300,7 +300,7 @@ augroup END
 
 augroup FoldMarkers
   autocmd!
-  autocmd BufEnter,WinEnter .vimrc setlocal foldmethod=marker
+  autocmd BufEnter,WinEnter .vimrc setlocal foldmethod=marker foldlevel=1
 augroup END
 
 "" Statusline {{{1
