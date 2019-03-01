@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
 # Use colors always
+alias tree="tree -C --dirsfirst -I '.git'"
 alias egrep="egrep --color=auto"
-if [[ $OS == 'Mac' ]]; then
+if [[ "$OSTYPE" == darwin* ]]; then
   alias ls="/usr/local/bin/gls --color --classify --group-directories-first --human-readable"
-elif [[ $OS == 'Linux' ]]; then
+elif [[ "$OSTYPE" == linux* ]]; then
   alias ls="ls --color --classify --group-directories-first --human-readable"
 fi
 

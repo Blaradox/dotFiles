@@ -11,13 +11,6 @@ export DEFAULT_USER=sloaneat
 export VISUAL=/usr/local/bin/vim
 export EDITOR=$VISUAL
 
-# Determine OS
-if [[ $(uname) == 'Darwin' ]]; then
-  export OS='Mac'
-elif [[ $(uname) == 'Linux' ]]; then
-  export OS='Linux'
-fi
-
 # FZF
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow \
   --glob "!{.git,node_modules}/*" \

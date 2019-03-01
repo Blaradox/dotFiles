@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [[ -s $HOME/dotfiles ]]; then
+if [[ -s "$HOME/dotfiles" ]]; then
 
   echo "Stowing Dotfiles..."
 
@@ -9,7 +9,7 @@ if [[ -s $HOME/dotfiles ]]; then
   configs=(fonts git mpd ncmpcpp ranger scripts shell tmux vim)
   for file in ${configs[@]}; do
     # Only run stow on directories
-    if [[ -d $file ]]; then
+    if [[ -d "$file" ]]; then
       stow -R "$(basename $file)"
       echo "$(basename $file) stowed."
     fi
