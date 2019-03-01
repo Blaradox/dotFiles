@@ -20,7 +20,32 @@ function music-status {
 }
 
 function mpd-status {
-  printf "$(ncmpcpp --current-song "{♫ %10a - %10t}|{%20f}" --quiet)"
+  local artist
+  local song
+  artist=$(
+    ncmpcpp --current-song "%a" --quiet |
+    awk -F 'f[ea]*t' '{ print $1 }'
+  )
+  song=$(
+    ncmpcpp --current-song "%t" --quiet |
+    awk -F '.Explicit' '{ print $1 }'
+  )
+  artist=$(shorten-string "$artist")
+  song=$(shorten-string "$song")
+  printf "♫ %s - %s" "$artist" "$song"
+}
+
+function shorten-string {
+  local length
+  local string
+  length=15
+  printf "$1" |
+    awk -v len=$length '{
+      if (length($0) > len)
+        print substr($0, 1, len-3) "..."
+      else
+        print;
+      }'
 }
 
 music-status "$@"
