@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 
 # Use colors always
-alias ls="ls -GFh"
 alias egrep="egrep --color=auto"
+if [[ $OS == 'Mac' ]]; then
+  alias ls="/usr/local/bin/gls --color --classify --group-directories-first --human-readable"
+elif [[ $OS == 'Linux' ]]; then
+  alias ls="ls --color --classify --group-directories-first --human-readable"
+fi
 
 # Program alternatives
 alias ping="prettyping --nolegend"
