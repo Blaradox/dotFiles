@@ -22,6 +22,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'pangloss/vim-javascript'
 Plug 'crusoexia/vim-javascript-lib'
 " tpope
+Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
@@ -81,7 +82,8 @@ nnoremap c* *Ncgn
 nnoremap c# #NcgN
 
 " Allow saving if not opened as root
-command! W w !sudo tee "%" > /dev/null
+" command! W w !sudo tee "%" > /dev/null
+command! W SudoWrite
 
 " Deal with swap files
 if !isdirectory($HOME . '/.vim/swap') && has('unix')
