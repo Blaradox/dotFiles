@@ -13,12 +13,13 @@ fd() {
 # CTRL-O to open with `open` command,
 # Enter key to open with the $EDITOR
 fe() {
-  local out file key
-  IFS=$'\n' out=($(fzf --preview="bat --color 'always' {}" --query="$1" --exit-0 --expect=ctrl-o))
+  local preview out files key
+  preview="bat --color 'always' {}"
+  out=$(fzf --preview="$preview" --query="$1" --multi --exit-0 --expect=ctrl-o)
   key=$(head -1 <<< "$out")
-  file=$(head -2 <<< "$out" | tail -1)
-  if [ -n "$file" ]; then
-    [ "$key" = ctrl-o ] && open "$file" || ${EDITOR:-vim} "$file"
+  IFS=$'\n' files=($(tail -n +2 <<< "$out"))
+  if [ -n "$files" ]; then
+    [ "$key" = ctrl-o ] && open "${files[@]}" || ${EDITOR:-vim} "${files[@]}"
   fi
 }
 
