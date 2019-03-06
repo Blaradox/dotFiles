@@ -1,3 +1,6 @@
+# Mac
+Library
+
 # Folder view configuration files
 .DS_Store
 Desktop.ini
@@ -19,7 +22,8 @@ Thumbs.db
 # Application specific files
 venv
 node_modules
+.npm
 .sass-cache
 .*.sw*
 *.swp
-
+.git

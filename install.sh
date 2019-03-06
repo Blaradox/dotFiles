@@ -16,7 +16,7 @@ if [[ -s "$HOME/dotfiles" ]]; then
   done
 
   # stow by default ignores .gitignore files
-  ln -sf "$HOME/dotfiles/git/.gitignore" "$HOME/.gitignore"
+  ln -sf "$HOME/dotfiles/.ignore" "$HOME/.ignore"
 
   echo "Done Stowing!"
 else

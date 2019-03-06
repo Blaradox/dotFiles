@@ -37,7 +37,7 @@
     name = Austin Sloane
     email = sloane.ats@gmail.com
 [core]
-    excludesfile = ~/.gitignore
+    excludesfile = ~/.ignore
 [credential]
     helper = osxkeychain
 [diff]
