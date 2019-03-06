@@ -23,6 +23,15 @@ fe() {
   fi
 }
 
+# Kill processes
+fkill() {
+  local pid
+  pid=$(ps -ef | sed 1d | fzf --header='[kill:process]' --multi | awk '{print $2}')
+  if [ -n "$pid" ]; then
+    echo $pid | xargs kill -${1:-9}
+  fi
+}
+
 # Change git branch
 fbr() {
   local branches branch
@@ -64,9 +73,39 @@ bro() {
 fmpc() {
   local song_position
   song_position=$(mpc -f "%position%) %artist% - %title%" playlist | \
-    fzf-tmux --query="$1" --reverse --select-1 --exit-0 | \
+    fzf --query="$1" --reverse --select-1 --exit-0 | \
     sed -n "s/^\([0-9]*\)).*/\1/p") || return 1
   [ -n "$song_position" ] && mpc -q play $song_position
+}
+
+# [B]rew [I]nstall [P]lugin
+bip() {
+  local search=($(brew search | fzf --header '[brew:install]' --multi))
+  if [ -n "$search" ];then
+    for item in ${search[@]}; do
+      brew install "$item"
+    done
+  fi
+}
+
+# [B]rew [U]pdate [P]lugin
+bup() {
+  local leaves=($(brew outdated | fzf --header '[brew:update]' --multi))
+  if [ -n "$leaves" ];then
+    for leaf in ${leaves[@]}; do
+      brew upgrade "$leaf"
+    done
+  fi
+}
+
+# [B]rew [C]lean [P]lugin
+bcp() {
+  local leaves=($(brew leaves | fzf --header '[brew:update]' --multi))
+  if [ -n "$leaves" ];then
+    for leaf in ${leaves[@]}; do
+      brew uninstall "$leaf"
+    done
+  fi
 }
 
 ## Command line services by "@igor_chubin"
