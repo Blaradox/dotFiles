@@ -107,6 +107,21 @@ if has('multi_byte')
     set fillchars=vert:┃ showbreak=↪
 endif
 
+"" External Programs {{{1
+
+" Use ripgrep as default grep program
+if executable('rg')
+  set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+endif
+
+" Grep through directory with fzf and rg
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --hidden --smart-case --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
 "" Opinionated Defaults {{{1
 
 " https://www.reddit.com/r/vim/wiki/tabstop
@@ -143,6 +158,7 @@ set wildcharm=<C-z>
 set path+=**
 nnoremap <leader>l :Lines<CR>
 nnoremap <leader>f :Files<CR>
+nnoremap <leader>r :Rg<CR>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>s :sfind *
 nnoremap <leader>v :vert sfind *
@@ -241,21 +257,6 @@ elseif g:os == "Linux" || g:kitty == 1
     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>[2 q\<Esc>\\"
   endif
 endif
-
-"" External Programs {{{1
-
-" Use ripgrep as default grep program
-if executable('rg')
-  set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
-endif
-
-" Grep through directory with fzf and rg
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --hidden --smart-case --no-heading --color=always '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
 
 "" Auto Commands {{{1
 
