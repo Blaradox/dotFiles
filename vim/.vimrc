@@ -80,6 +80,9 @@ nnoremap Y y$
 " Allow word under cursor refactoring
 nnoremap c* *Ncgn
 nnoremap c# #NcgN
+" Target contents of fold
+onoremap iz :<c-u>normal! [zV]z<cr>
+xnoremap iz [zo]z
 
 " Allow saving if not opened as root
 " command! W w !sudo tee "%" > /dev/null
