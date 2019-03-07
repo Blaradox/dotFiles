@@ -3,7 +3,7 @@
 # PATH
 export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin
 export PATH=$PATH:/usr/local/opt/fzf/bin
-export PATH=$PATH:~/.local/bin
+export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:/usr/sbin:/sbin
 
 # Necessities

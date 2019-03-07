@@ -85,6 +85,7 @@ bip() {
     for item in ${search[@]}; do
       brew install "$item"
     done
+    notify "Your installation is done!" "Brew Install"
   fi
 }
 
@@ -95,6 +96,7 @@ bup() {
     for leaf in ${leaves[@]}; do
       brew upgrade "$leaf"
     done
+    notify "Your updates are done!" "Brew Update"
   fi
 }
 
@@ -105,6 +107,7 @@ bcp() {
     for leaf in ${leaves[@]}; do
       brew uninstall "$leaf"
     done
+    notify "Your package(s) have been removed" "Brew Clean"
   fi
 }
 
