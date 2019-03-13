@@ -20,3 +20,5 @@ fi
 # FZF C-r and C-t
 [[ -s "$HOME/.fzf.zsh" ]] && source "$HOME/.fzf.zsh"
 
+# Follow Bash Readline
+bindkey \^U backward-kill-line
