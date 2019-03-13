@@ -12,8 +12,7 @@ fi
 # Program alternatives
 alias ping="prettyping --nolegend"
 alias preview="fzf --preview 'bat --line-range :100 --color always {}'"
-alias du="ncdu --color 'dark' -rr -x --exclude '.git' --exclude 'node_modules'"
-alias ncdu="ncdu --color 'dark' -x"
+alias ncdu="ncdu --color 'dark' -rr -x"
 
 # Version control (taken from Prezto git module)
 # https://github.com/sorin-ionescu/prezto/blob/master/modules/git/alias.zsh
