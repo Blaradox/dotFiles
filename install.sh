@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [[ -s "$HOME/dotfiles" ]]; then
+if [[ -s "$HOME/dotFiles" ]]; then
 
   echo "Stowing Dotfiles..."
 
@@ -16,7 +16,7 @@ if [[ -s "$HOME/dotfiles" ]]; then
   done
 
   # stow by default ignores .gitignore files
-  ln -sf "$HOME/dotfiles/.ignore" "$HOME/.ignore"
+  ln -sf "$HOME/dotFiles/.ignore" "$HOME/.ignore"
 
   echo "Done Stowing!"
 else
