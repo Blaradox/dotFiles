@@ -31,8 +31,8 @@ function battery-charge {
       )
       ac=$(
         acpi -a |
-        awk '/Adapter 0:/ { print $3 }'
-        awk '{ print sub ('/AC/',true) }'
+        awk '/Adapter 0:/ { print $3 }' |
+        awk '{ print sub ('/on/',true) }'
       )
       ;;
     (*)
