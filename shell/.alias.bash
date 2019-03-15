@@ -3,9 +3,9 @@
 # Use colors always
 alias tree="tree -C --dirsfirst -I '.git'"
 alias egrep="egrep --color=auto"
-if [[ "$OSTYPE" == darwin* ]]; then
+if [[ $OSTYPE == darwin* ]]; then
   alias ls="/usr/local/bin/gls --color --classify --group-directories-first --human-readable"
-elif [[ "$OSTYPE" == linux* ]]; then
+elif [[ $OSTYPE == linux* ]]; then
   alias ls="ls --color --classify --group-directories-first --human-readable"
 fi
 

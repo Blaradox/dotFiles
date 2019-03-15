@@ -10,9 +10,9 @@ export PATH=$PATH:/usr/sbin:/sbin
 
 # Necessities
 export DEFAULT_USER=sloaneat
-if [[ $OSTYPE = darwin* ]]; then
+if [[ $OSTYPE == darwin* ]]; then
   export VISUAL=/usr/local/bin/vim
-elif [[ $OSTYPE = linux* ]]; then
+elif [[ $OSTYPE == linux* ]]; then
   export VISUAL=/usr/bin/vim
 fi
 export EDITOR=$VISUAL
