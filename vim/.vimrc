@@ -17,7 +17,6 @@ Plug 'drewtempelmeyer/palenight.vim'
 Plug 'dylanaraps/wal.vim'
 Plug 'yggdroot/indentline'
 Plug 'ap/vim-css-color'
-Plug 'airblade/vim-gitgutter'
 " Syntax
 Plug 'pangloss/vim-javascript'
 Plug 'crusoexia/vim-javascript-lib'
@@ -31,7 +30,7 @@ Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-characterize'
 " Useful
 Plug 'wellle/targets.vim'
-Plug 'godlygeek/tabular'
+Plug 'godlygeek/tabular', { 'on': 'Tabularize' }
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'markonm/traces.vim'
 " Linting
