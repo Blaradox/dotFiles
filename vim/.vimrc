@@ -361,7 +361,7 @@ set statusline+=\ %t                          " Show tail of filename
 set statusline+=\ %([%R%H%M%W]%)              " Show flags
 set statusline+=%=                            " Start right align
 set statusline+=%2*                           " Highlight User 2
-set statusline+=\ %3l,                        " Line number
+set statusline+=\ %2l,                        " Line number
 set statusline+=\ %-2c                        " Column number
 set statusline+=\ %1*                         " Highlight User 1
 set statusline+=\ %{PrintFileType()}\ %*      " File type
