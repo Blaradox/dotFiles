@@ -14,7 +14,7 @@ fd() {
 # Enter key to open with the $EDITOR
 fe() {
   local preview out files key
-  preview="bat --color 'always' {}"
+  preview="bat --line-range :100 --color 'always' {}"
   out=$(fzf --preview="$preview" --query="$1" --multi --exit-0 --expect=ctrl-o)
   key=$(head -1 <<< "$out")
   IFS=$'\n' files=($(tail -n +2 <<< "$out"))
@@ -102,7 +102,7 @@ bup() {
 
 # [B]rew [C]lean [P]lugin
 bcp() {
-  local leaves=($(brew leaves | fzf --header '[brew:update]' --multi))
+  local leaves=($(brew leaves | fzf --header '[brew:clean]' --multi))
   if [ -n "$leaves" ];then
     for leaf in ${leaves[@]}; do
       brew uninstall "$leaf"

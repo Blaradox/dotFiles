@@ -11,8 +11,13 @@ fi
 
 # Program alternatives
 alias ping="prettyping --nolegend"
-alias preview="fzf --preview 'bat --line-range :100 --color always {}'"
 alias ncdu="ncdu --color 'dark' -rr -x"
+
+# Vim and git
+# ACMR = Added || Copied || Modified || Renamed
+alias v="vim"
+alias vid="vim \$(git diff --staged --name-only --diff-filter=ACMR)"
+alias vwd="vim \$(git diff HEAD --name-only --diff-filter=ACMR)"
 
 # Version control (taken from Prezto git module)
 # https://github.com/sorin-ionescu/prezto/blob/master/modules/git/alias.zsh
