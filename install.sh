@@ -6,7 +6,7 @@ if [[ -s "$HOME/dotFiles" ]]; then
 
   cd "$HOME/dotFiles"
   # Only choose desired configurations
-  configs=(fonts git mpd ncmpcpp ranger scripts shell tmux vim)
+  configs=(fonts git karabiner kitty mpd ncmpcpp scripts shell tmux vim)
   for file in ${configs[@]}; do
     # Only run stow on directories
     if [[ -d "$file" ]]; then
