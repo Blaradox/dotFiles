@@ -2,8 +2,8 @@
 # Returns the current track through Spotify or mpd
 
 function music-status {
-  if [[ $(mpc) =~ "play" ]]; then
-    mpd-status
+  if [[ $(mpc) =~ (play|paused) ]]; then
+    mpd-current
   else
     case "$OSTYPE" in
       (darwin*)
@@ -13,26 +13,30 @@ function music-status {
         # linux-spotify-status
         ;;
       (*)
-        printf ""
+        printf "$0: operating system not supported: $OSTYPE" >&2
         ;;
     esac
   fi
 }
 
-function mpd-status {
+function mpd-current {
   local artist
   local song
-  artist=$(
-    ncmpcpp --current-song "%a" --quiet |
-    awk -F 'f[ea]*t' '{ print $1 }'
-  )
-  song=$(
-    ncmpcpp --current-song "%t" --quiet |
-    awk -F '.Explicit' '{ print $1 }'
-  )
-  artist=$(shorten-string "$artist")
-  song=$(shorten-string "$song")
-  printf "♫ %s - %s" "$artist" "$song"
+  if [[ $(mpc) =~ play ]]; then
+    artist=$(
+      ncmpcpp --current-song "%a" --quiet |
+      awk -F 'f[ea]*t' '{ print $1 }'
+    )
+    song=$(
+      ncmpcpp --current-song "%t" --quiet |
+      awk -F '.Explicit' '{ print $1 }'
+    )
+    artist=$(shorten-string "$artist")
+    song=$(shorten-string "$song")
+    printf "♫ %s - %s" "$artist" "$song"
+  else
+    printf "❚❚ Paused"
+  fi
 }
 
 function shorten-string {
