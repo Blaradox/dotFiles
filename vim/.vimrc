@@ -9,7 +9,6 @@ endif
 
 call plug#begin()
 " Cosmetic
-Plug 'edkolev/tmuxline.vim'
 Plug 'joshdick/onedark.vim'
 Plug 'crusoexia/vim-monokai'
 Plug 'jacoborus/tender.vim'
@@ -84,8 +83,11 @@ onoremap iz :<c-u>normal! [zV]z<cr>
 xnoremap iz [zo]z
 
 " Allow saving if not opened as root
-" command! W w !sudo tee "%" > /dev/null
-command! W SudoWrite
+try
+  command! W SudoWrite
+catch
+  command! W w !sudo tee "%" > /dev/null
+endtry
 
 " Deal with swap files
 if !isdirectory($HOME . '/.vim/swap') && has('unix')
@@ -333,9 +335,13 @@ let g:currentmode={
       \ 't'  : 'TERMINAL '}
 
 function! LinterStatus() abort
-  let l:counts = ale#statusline#Count(bufnr(''))
-  let l:all_errors = l:counts.error + l:counts.style_error
-  let l:all_non_errors = l:counts.total - l:all_errors
+  try
+    let l:counts = ale#statusline#Count(bufnr(''))
+    let l:all_errors = l:counts.error + l:counts.style_error
+    let l:all_non_errors = l:counts.total - l:all_errors
+  catch
+    let l:counts = {'total': 0}
+  endtry
   return l:counts.total == 0 ? '' : printf(
     \ 'W:%d E:%d',
     \ l:all_non_errors,
@@ -348,6 +354,20 @@ function! PrintFileType() abort
     return "NO FT"
   else
     return toupper(&filetype)
+  endif
+endfunction
+
+function! PrintGitBranch() abort
+  try
+    let l:branch = fugitive#head()
+  catch
+    let l:branch = ''
+  endtry
+  if strlen(l:branch) == 0
+    return ''
+  else
+    return 'ᚠ '.l:branch
+  endif
 endfunction
 
 set statusline=                               " Reset status line
@@ -355,7 +375,7 @@ set statusline+=%1*                           " Highlight User 1
 set statusline+=\ %{g:currentmode[mode()]}    " Show mode
 set statusline+=%<                            " Start truncating here
 set statusline+=%2*                           " Highlight User 2
-set statusline+=%(\ ᚠ\ %{fugitive#head()}\ %) " Show git branch
+set statusline+=%(\ %{PrintGitBranch()}\ %)   " Show git branch
 set statusline+=%3*                           " Highlight User 3
 set statusline+=\ %t                          " Show tail of filename
 set statusline+=\ %([%R%H%M%W]%)              " Show flags
@@ -393,9 +413,11 @@ catch /^Vim\%((\a\+)\)\=:E185/
   colorscheme default
 endtry
 
-let g:tmuxline_powerline_separators = 0
-let g:indentLine_char = '│'
-let g:indentLine_color_term = 15
-let g:javascript_plugin_jsdoc = 1
-let g:fzf_buffers_jump = 1
-
+" miscellaneous settings
+try
+  let g:tmuxline_powerline_separators = 0
+  let g:indentLine_char = '│'
+  let g:indentLine_color_term = 15
+  let g:javascript_plugin_jsdoc = 1
+  let g:fzf_buffers_jump = 1
+endtry
