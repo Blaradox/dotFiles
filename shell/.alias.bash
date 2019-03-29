@@ -9,6 +9,9 @@ elif [[ $OSTYPE == linux* ]]; then
   alias ls="ls --color --classify --group-directories-first --human-readable"
 fi
 
+# Program defaults
+alias rg="rg --smart-case"
+
 # Program alternatives
 alias ping="prettyping --nolegend"
 alias ncdu="ncdu --color 'dark' -rr -x"
