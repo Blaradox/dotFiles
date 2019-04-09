@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+#
+# Play given video or youtube link, if mpv isn't running,
+# and append to playlist if mpv instance found.
+# Will look in clipboard if no video file/link provided.
+
+MPVFIFO="/tmp/mpv_pipe"
+
+if [[ -n "$*" ]]; then
+  TARGETVIDEO=$(realpath "$*")
+else
+  case "$OSTYPE" in
+    (darwin*)
+      TARGETVIDEO="$(pbpaste)"
+      ;;
+    (linux*)
+      TARGETVIDEO="$(xclip)"
+      ;;
+    (*)
+      printf '%s must explicitly state clipboard utility in script' "$0" >&2
+      ;;
+  esac
+fi
+
+
+if [[ -z $(pgrep mpv) ]]; then
+  [[ -e $MPVFIFO ]] || mkfifo "$MPVFIFO"
+  mpv --geometry=40%-5-5 --ontop --input-file="$MPVFIFO" --really-quiet \
+      --ytdl-format="bestvideo[height<=?1080]+bestaudio/best" \
+      "$TARGETVIDEO" &
+else
+  printf 'loadfile "%s" append-play\n' "$TARGETVIDEO" > $MPVFIFO
+fi
