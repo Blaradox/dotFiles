@@ -8,9 +8,9 @@ function stow-dots {
     configs=(fonts git kitty mpd ncmpcpp scripts shell tmux vim)
   fi
 
-  mkdir -p "$HOME/.local/share/fonts"
+  mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"
+  mkdir -p "${XDG_DATA_HOME:=$HOME/.local/share}/fonts"
   mkdir -p "$HOME/.local/bin"
-  mkdir -p "$HOME/.config"
 
   printf "Stowing Dotfiles...\n"
   cd "$HOME/dotFiles"
