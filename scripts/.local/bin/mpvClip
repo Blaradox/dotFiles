@@ -14,7 +14,7 @@ else
       TARGETVIDEO="$(pbpaste)"
       ;;
     (linux*)
-      TARGETVIDEO="$(xclip)"
+      TARGETVIDEO="$(xclip -selection clipboard -out)"
       ;;
     (*)
       printf '%s must explicitly state clipboard utility in script' "$0" >&2
