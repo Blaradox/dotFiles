@@ -1,33 +1,70 @@
 #!/usr/bin/env bash
 #
-# Play given video or youtube link, if mpv isn't running,
-# and append to playlist if mpv instance found.
+# Play given video or youtube link, in bottom right corner.
+# If mpv isn't running, opens a new isntance of mpv, if not
+# appends to playlist of running mpv instance.
 # Will look in clipboard if no video file/link provided.
 
-MPVFIFO="/tmp/mpv_pipe"
+MPVFIFO="/tmp/mpv.fifo"
+CLIPBOARD_MANAGER=""
+target_video=""
 
-if [[ -n "$*" ]]; then
-  TARGETVIDEO=$(realpath "$*")
-else
-  case "$OSTYPE" in
-    (darwin*)
-      TARGETVIDEO="$(pbpaste)"
-      ;;
-    (linux*)
-      TARGETVIDEO="$(xclip -selection clipboard -out)"
-      ;;
-    (*)
-      printf '%s must explicitly state clipboard utility in script' "$0" >&2
-      ;;
-  esac
-fi
+function def_usage() {
+  cat << _EOF_
+Usage:    mpvClip [url|path/|filename]
+_EOF_
+}
 
+function get_clipboard_contents() {
+  if [[ -z "$CLIPBOARD_MANAGER" ]]; then
+    case "$OSTYPE" in
+      (darwin*)
+        target_video="$(pbpaste)"
+        ;;
+      (linux*)
+        target_video="$(xclip -selection clipboard -out)"
+        ;;
+      (*)
+        printf '%s: must explicitly state clipboard utility in script\n' "$(basename "$0")" >&2
+        ;;
+    esac
+  else
+    target_video="$(CLIPBOARD_MANAGER)"
+  fi
+}
 
-if [[ -z $(pgrep mpv) ]]; then
-  [[ -e $MPVFIFO ]] || mkfifo "$MPVFIFO"
-  mpv --geometry=40%-5-5 --ontop --input-file="$MPVFIFO" --really-quiet \
-      --ytdl-format="bestvideo[height<=?1080]+bestaudio/best" \
-      "$TARGETVIDEO" &
-else
-  printf 'loadfile "%s" append-play\n' "$TARGETVIDEO" > $MPVFIFO
-fi
+function get_video() {
+  if [[ -n "$*" ]]; then
+    if [[ $* =~ https?://* ]]; then
+      target_video="$*"
+    else
+      target_video=$(realpath "$*")
+    fi
+  else
+    printf '%s: using clipboard to find video\n' "$(basename "$0")"
+    get_clipboard_contents
+  fi
+}
+
+function main() {
+
+  get_video "$@"
+
+  if [[ -z "$target_video" ]]; then
+    printf '%s: could not find any video\n' "$(basename "$0")"
+    exit
+  else
+    printf 'Playing: %s\n' "$target_video"
+  fi
+
+  if [[ -z $(pgrep mpv) ]]; then
+    [[ -e $MPVFIFO ]] || mkfifo "$MPVFIFO"
+    mpv --geometry=40%-5-5 --ontop --input-file="$MPVFIFO" --really-quiet \
+        --ytdl-format="bestvideo[height<=?1080]+bestaudio/best" \
+        "$target_video" &
+  else
+    printf 'loadfile "%s" append-play\n' "$target_video" > $MPVFIFO
+  fi
+}
+
+main "$@"
