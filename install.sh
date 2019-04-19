@@ -3,9 +3,9 @@
 function stow-dots {
   local configs=()
   if [[ $OSTYPE == darwin* ]]; then
-    configs=(fonts git karabiner kitty mpd ncmpcpp scripts shell tmux vim)
+    configs=(fonts git karabiner kitty mpd mpv ncmpcpp scripts shell tmux vim)
   elif [[ $OSTYPE == linux* ]]; then
-    configs=(fonts git kitty mpd ncmpcpp scripts shell tmux vim)
+    configs=(fonts git kitty mpd mpv ncmpcpp scripts shell tmux vim)
   fi
 
   mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"
@@ -14,7 +14,7 @@ function stow-dots {
 
   printf "Stowing Dotfiles...\n"
   cd "$HOME/dotFiles"
-  for file in ${configs[@]}; do
+  for file in "${configs[@]}"; do
     # Only run stow on directories
     if [[ -d "$file" ]]; then
       stow -R "$(basename $file)"
