@@ -53,16 +53,16 @@ function main() {
   if [[ -z "$target_video" ]]; then
     printf '%s: could not find any video\n' "$(basename "$0")"
     exit
-  else
-    printf 'Playing: %s\n' "$target_video"
   fi
 
-  if [[ -z $(pgrep mpv) ]]; then
+  if [[ -z "$(pgrep mpv)" ]]; then
     [[ -e $MPVFIFO ]] || mkfifo "$MPVFIFO"
+    printf 'Playing: %s\n' "$target_video"
     mpv --geometry=40%-5-5 --ontop --input-file="$MPVFIFO" --really-quiet \
         --ytdl-format="bestvideo[height<=?1080]+bestaudio/best" \
         "$target_video" &
   else
+    printf 'Adding to Queue: %s\n' "$target_video"
     printf 'loadfile "%s" append-play\n' "$target_video" > $MPVFIFO
   fi
 }

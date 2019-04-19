@@ -17,6 +17,9 @@ if [[ -s "$HOME/.funcs.bash" ]]; then
   source "$HOME/.funcs.bash"
 fi
 
+# Create mpv fifo file
+[[ -e "/tmp/mpv.fifo" ]] || mkfifo "/tmp/mpv.fifo"
+
 # FZF C-r and C-t
 [[ -s "$HOME/.fzf.zsh" ]] && source "$HOME/.fzf.zsh"
 
