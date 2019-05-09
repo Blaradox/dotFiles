@@ -1,36 +1,57 @@
+"" Plugins {{{1
+
+call plug#begin()
+" Cosmetic
+Plug 'joshdick/onedark.vim'
+Plug 'crusoexia/vim-monokai'
+Plug 'jacoborus/tender.vim'
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'yggdroot/indentline'
+Plug 'ap/vim-css-color'
+" Syntax
+Plug 'pangloss/vim-javascript'
+Plug 'crusoexia/vim-javascript-lib'
+" tpope
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-characterize'
+" Useful
+Plug 'wellle/targets.vim'
+Plug 'godlygeek/tabular', { 'on': 'Tabularize' }
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'markonm/traces.vim'
+" Linting
+Plug 'w0rp/ale'
+" Fuzzy
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+call plug#end()
+
 "" Sane Defaults {{{1
 
 " Good start URL: http://vim.wikia.com/wiki/Example_vimrc
 " Or https://github.com/tpope/vim-sensible
 
-syntax on                              " Enable syntax highligting
+set colorcolumn=80                     " Coloured column for long lines
+set confirm                            " Confirm commands instead of failing
+set gdefault                           " Global flag is now implied on regex
 set hidden                             " Can switch between unsaved buffers
-set wildmenu                           " Better command-line completion
-set showcmd                            " Show partial commands
 set lazyredraw                         " Redraw screen less often
-set hlsearch                           " Highlight searches
-set incsearch                          " Show searches as you type
+set mouse=a                            " Enable mouse everywhere
+set nobackup                           " No backup files
+set notimeout ttimeout ttimeoutlen=200
+set nowrap                             " No word wrapping
+set number                             " Display line numbers
+set pastetoggle=<F11>
 set ignorecase                         " Case insensitive search
 set smartcase                          " Except when using capital letters
-set gdefault                           " Global flag is now implied on regex
-set backspace=indent,eol,start         " Allow backspace over anything
-set autoindent                         " Always auto indent
-set ruler                              " Display cursor position
-set laststatus=2                       " Always display status line
-set confirm                            " Confirm commands instead of failing
-set visualbell                         " Visual bell instead of beeping
-set t_vb=                              " No flashing
-set mouse=a                            " Enable mouse everywhere
-set number                             " Display line numbers
-set notimeout ttimeout ttimeoutlen=200
-set pastetoggle=<F11>
-set encoding=utf-8                     " Set standard file encoding
-set colorcolumn=80                     " Coloured column for long lines
-set nowrap                             " No word wrapping
 set splitbelow                         " Splits open below
 set splitright                         " Splits open to the right
-set nobackup                           " No backup files
-set autoread                           " Re-read files changed outside of vim
+set visualbell                         " Visual bell instead of beeping
 
 " Have Y act like C and D
 nnoremap Y y$
@@ -42,22 +63,16 @@ onoremap iz :<c-u>normal! [zV]z<cr>
 xnoremap iz [zo]z
 
 " Allow saving if not opened as root
-command! W w !sudo tee "%" > /dev/null
+try
+  command! W SudoWrite
+catch
+  command! W w !sudo tee "%" > /dev/null
+endtry
 
 " Deal with swap files
-if !isdirectory($HOME . '/.vim/swap') && has('unix')
-  :silent !mkdir -p ~/.vim/swap >/dev/null 2>&1
-endif
-set directory=.swp/,~/.vim/swp//,/tmp//,.
-
-" Deal with undo files
-if exists('+undofile')
-  if !isdirectory($HOME . '/.vim/undo') && has('unix')
-    :silent !mkdir -p ~/.vim/undo > /dev/null 2>&1
-  endif
-  set undofile
-  set undodir=.undo/,~/.vim/undo//,/tmp//,.
-endif
+set directory=/tmp//,.
+set undofile
+set undodir=/tmp//,.
 
 " Show tabs and trailing whitespace
 set list listchars=tab:>>,trail:~
@@ -72,6 +87,14 @@ endif
 if executable('rg')
   set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
 endif
+
+" Grep through directory with fzf and rg
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --hidden --smart-case --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
 
 "" Opinionated Defaults {{{1
 
@@ -107,8 +130,10 @@ set wildcharm=<C-z>
 
 " Juggling with Files and Buffers
 set path+=**
-nnoremap <leader>f :find *
-nnoremap <leader>b :buffer <C-z><S-Tab>
+nnoremap <leader>l :Lines<CR>
+nnoremap <leader>f :Files<CR>
+nnoremap <leader>r :Rg<CR>
+nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>s :sfind *
 nnoremap <leader>v :vert sfind *
 nnoremap <leader>t :tabfind *
@@ -150,15 +175,6 @@ if !exists('g:os')
   endif
 endif
 
-" Determine whether using kitty terminal
-if !exists('g:kitty')
-  if $TERMINFO =~ 'kitty'
-    let g:kitty = 1
-  else
-    let g:kitty = 0
-  endif
-endif
-
 "" }}}
 
 " Set vim to use bash for compatability
@@ -170,41 +186,6 @@ endif
 " Use Mac OS X dictionary
 if g:os == "Darwin"
   set dictionary=/usr/share/dict/words
-endif
-
-" Allow mouse scroll in simple terminal
-if g:os == "Linux"
-  set ttymouse=sgr
-endif
-
-" kitty does not support background color erase
-if g:kitty == 1
-  let &t_ut=''
-endif
-
-"" }}}2
-
-" Change cursor shape in different modes
-if g:os == "Darwin" && g:kitty == 0
-  " if you're using iTerm2
-  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-  let &t_SR = "\<Esc>]50;CursorShape=2\x7"
-  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-  if !empty($TMUX)
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-    let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-  endif
-elseif g:os == "Linux" || g:kitty == 1
-  " if you're using kitty, urxvt, st, or xterm
-  let &t_SI = "\<Esc>[6 q"
-  let &t_SR = "\<Esc>[4 q"
-  let &t_EI = "\<Esc>[2 q"
-  if !empty($TMUX)
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>[6 q\<Esc>\\"
-    let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>[4 q\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>[2 q\<Esc>\\"
-  endif
 endif
 
 "" Auto Commands {{{1
@@ -238,10 +219,16 @@ augroup END
 
 " Setup colors
 function! MyHighlights() abort
-  highlight ExtraWhitespace cterm=NONE ctermbg=red guibg=red
-  highlight User1           cterm=NONE ctermfg=00 ctermbg=02
-  highlight User2           cterm=NONE ctermfg=07 ctermbg=08
-  highlight User3           cterm=NONE ctermfg=07 ctermbg=NONE
+  let l:blk = '#292d3e'
+  let l:red = '#ff5370'
+  let l:grn = '#c3e88d'
+  let l:wht = '#bfc7d5'
+  let l:gry = '#3e4452'
+  execute 'highlight ExtraWhitespace guibg=' . l:red
+  execute 'highlight User1           guifg=' . l:blk . ' guibg=' . l:grn
+  execute 'highlight User2           guifg=' . l:wht . ' guibg=' . l:gry
+  execute 'highlight User3           guifg=' . l:wht . ' guibg=' . l:blk
+  execute 'highlight User4           guifg=' . l:blk . ' guibg=' . l:red
 endfunction
 
 " Execute color changes
@@ -252,7 +239,7 @@ augroup END
 
 augroup FoldMarkers
   autocmd!
-  autocmd BufEnter,WinEnter .vimrc setlocal foldmethod=marker foldlevel=1
+  autocmd BufEnter,WinEnter init.vim setlocal foldmethod=marker foldlevel=1
 augroup END
 
 "" Statusline {{{1
@@ -320,7 +307,7 @@ set statusline+=%1*                           " Highlight User 1
 set statusline+=\ %{g:currentmode[mode()]}    " Show mode
 set statusline+=%<                            " Start truncating here
 set statusline+=%2*                           " Highlight User 2
-" set statusline+=%(\ %{PrintGitBranch()}\ %)   " Show git branch
+set statusline+=%(\ %{PrintGitBranch()}\ %)   " Show git branch
 set statusline+=%3*                           " Highlight User 3
 set statusline+=\ %t                          " Show tail of filename
 set statusline+=\ %([%R%H%M%W]%)              " Show flags
@@ -330,7 +317,8 @@ set statusline+=\ %2l,                        " Line number
 set statusline+=\ %-2c                        " Column number
 set statusline+=\ %1*                         " Highlight User 1
 set statusline+=\ %{PrintFileType()}\ %*      " File type
-" set statusline+=%(\ %{LinterStatus()}\ %)
+set statusline+=%4*                           " Highlight Errors
+set statusline+=%(\ %{LinterStatus()}\ %)%*   " Show ALE warnings/errors
 
 "" Plugin Settings {{{1
 
@@ -345,4 +333,19 @@ let g:netrw_winsize = 20     " make netrw take up 20% of the window
 let g:netrw_list_hide = '.*\.swp,.git/'
 
 " set colorscheme
-colorscheme default
+try
+  let g:palenight_terminal_italics = 1
+  colorscheme palenight
+  set termguicolors
+catch /^Vim\%((\a\+)\)\=:E185/
+  colorscheme default
+endtry
+
+" miscellaneous settings
+try
+  let g:tmuxline_powerline_separators = 0
+  let g:indentLine_char = '│'
+  let g:indentLine_color_term = 15
+  let g:javascript_plugin_jsdoc = 1
+  let g:fzf_buffers_jump = 1
+endtry

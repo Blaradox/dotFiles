@@ -11,9 +11,9 @@ export PATH=$PATH:/usr/sbin:/sbin
 # Necessities
 export DEFAULT_USER=sloaneat
 if [[ $OSTYPE == darwin* ]]; then
-  export VISUAL=/usr/local/bin/vim
+  export VISUAL=/usr/local/bin/nvim
 elif [[ $OSTYPE == linux* ]]; then
-  export VISUAL=/usr/bin/vim
+  export VISUAL=/usr/bin/nvim
 fi
 export EDITOR=$VISUAL
 
@@ -21,3 +21,6 @@ export EDITOR=$VISUAL
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden --follow'
 export FZF_DEFAULT_OPTS='--color=16'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+# Weechat
+export WEECHAT_HOME="${XDG_CONFIG_HOME:=$HOME/.config}/weechat"
