@@ -5,7 +5,7 @@ function stow-dots {
   if [[ $OSTYPE == darwin* ]]; then
     configs=(fonts git karabiner kitty mpd mpv ncmpcpp nvim scripts shell tmux vim)
   elif [[ $OSTYPE == linux* ]]; then
-    configs=(fonts git kitty mpd mpv ncmpcpp nvim scripts shell tmux vim)
+    configs=(fonts git kitty mpd mpv ncmpcpp nvim rofi scripts shell tmux vim)
   fi
 
   mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"
