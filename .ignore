@@ -1,6 +1,14 @@
 # Mac
 Library
 
+# Linux
+.itch
+.cache
+.steam
+.wine
+.local/share
+.cache
+
 # Folder view configuration files
 .DS_Store
 Desktop.ini
