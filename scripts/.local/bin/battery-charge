@@ -8,7 +8,7 @@ function battery-charge {
   local charge
   local ac
   ac_char="⏚"
-  batt_char="♥"
+  batt_char="❤"
   case "$OSTYPE" in
     (darwin*)
       charge=$(
@@ -42,7 +42,7 @@ function battery-charge {
 
   if [[ $ac -eq 1 ]]; then
     printf "${ac_char} ${charge}"
-  else
+  elif [[ -n $charge ]]; then
     printf "${batt_char} ${charge}"
   fi
 }
