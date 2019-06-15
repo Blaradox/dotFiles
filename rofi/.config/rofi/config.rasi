@@ -7,6 +7,8 @@ configuration {
   sidebar-mode: true;
   terminal: "kitty";
   run-command: "zsh -i -c '{cmd}'";
+  kb-clear-line: "";
+  kb-remove-word-back: "Control+w,Control+Alt+h,Control+BackSpace";
 }
 
 * {
