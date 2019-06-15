@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
 # PATH
-export PATH=/usr/local/bin:/usr/local/sbin
-export PATH=$PATH:/usr/local/opt/ruby/bin
-export PATH=$PATH:/usr/bin:/bin
-export PATH=$PATH:/usr/local/opt/fzf/bin
-export PATH=$PATH:$HOME/.local/bin
-export PATH=$PATH:/usr/sbin:/sbin
+if [[ -s "/usr/local/opt/ruby/bin" ]]; then
+  export PATH=/usr/local/opt/ruby/bin:$PATH
+fi
+if [[ -s "/usr/local/opt/fzf/bin" ]]; then
+  export PATH=/usr/local/opt/fzf/bin:$PATH
+fi
+export PATH=$HOME/.local/bin:$PATH
 
 # Necessities
 export DEFAULT_USER=sloaneat
