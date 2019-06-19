@@ -236,10 +236,6 @@ function! MyHighlights() abort
   let l:wht = '#bfc7d5'
   let l:gry = '#3e4452'
   execute 'highlight ExtraWhitespace guibg=' . l:red
-  execute 'highlight User1           guifg=' . l:blk . ' guibg=' . l:grn
-  execute 'highlight User2           guifg=' . l:wht . ' guibg=' . l:gry
-  execute 'highlight User3           guifg=' . l:wht . ' guibg=' . l:blk
-  execute 'highlight User4           guifg=' . l:blk . ' guibg=' . l:red
 endfunction
 
 " Execute color changes
@@ -252,84 +248,6 @@ augroup FoldMarkers
   autocmd!
   autocmd BufEnter,WinEnter init.vim setlocal foldmethod=marker foldlevel=1
 augroup END
-
-"" Statusline {{{1
-
-set noshowmode
-let g:currentmode={
-      \ 'n'  : 'NORMAL ',
-      \ 'no' : 'N·OPERATOR PENDING ',
-      \ 'v'  : 'VISUAL ',
-      \ 'V'  : 'V·LINE ',
-      \ '' : 'V·BLOCK ',
-      \ 's'  : 'SELECT ',
-      \ 'S'  : 'S·LINE ',
-      \ '' : 'S·BLOCK ',
-      \ 'i'  : 'INSERT ',
-      \ 'R'  : 'REPLACE ',
-      \ 'Rv' : 'V·REPLACE ',
-      \ 'c'  : 'COMMAND ',
-      \ 'cv' : 'VIM EX ',
-      \ 'ce' : 'EX ',
-      \ 'r'  : 'PROMPT ',
-      \ 'rm' : 'MORE ',
-      \ 'r?' : 'CONFIRM ',
-      \ '!'  : 'SHELL ',
-      \ 't'  : 'TERMINAL '}
-
-function! LinterStatus() abort
-  try
-    let l:counts = ale#statusline#Count(bufnr(''))
-    let l:all_errors = l:counts.error + l:counts.style_error
-    let l:all_non_errors = l:counts.total - l:all_errors
-  catch
-    let l:counts = {'total': 0}
-  endtry
-  return l:counts.total == 0 ? '' : printf(
-    \ 'W:%d E:%d',
-    \ l:all_non_errors,
-    \ l:all_errors
-    \)
-endfunction
-
-function! PrintFileType() abort
-  if strlen(&filetype) == 0
-    return "NO FT"
-  else
-    return toupper(&filetype)
-  endif
-endfunction
-
-function! PrintGitBranch() abort
-  try
-    let l:branch = fugitive#head()
-  catch
-    let l:branch = ''
-  endtry
-  if strlen(l:branch) == 0
-    return ''
-  else
-    return 'ᚠ '.l:branch
-  endif
-endfunction
-
-set statusline=                               " Reset status line
-set statusline+=%1*                           " Highlight User 1
-set statusline+=\ %{g:currentmode[mode()]}    " Show mode
-set statusline+=%<                            " Start truncating here
-set statusline+=%2*                           " Highlight User 2
-set statusline+=%(\ %{PrintGitBranch()}\ %)   " Show git branch
-set statusline+=%3*                           " Highlight User 3
-set statusline+=\ %t                          " Show tail of filename
-set statusline+=\ %([%R%H%M%W]%)              " Show flags
-set statusline+=%=                            " Start right align
-set statusline+=%2*                           " Highlight User 2
-set statusline+=\ %2l,                        " Line number
-set statusline+=\ %-2c                        " Column number
-set statusline+=\ %1*                         " Highlight User 1
-set statusline+=\ %{PrintFileType()}\ %*      " File type
-set statusline+=%4*                           " Highlight Errors
-set statusline+=%(\ %{LinterStatus()}\ %)%*   " Show ALE warnings/errors
 
 "" Plugin Settings {{{1
 
