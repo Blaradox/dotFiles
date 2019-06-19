@@ -20,8 +20,13 @@ fi
 # Create mpv fifo file
 [[ -e "/tmp/mpv.fifo" ]] || mkfifo "/tmp/mpv.fifo"
 
-# FZF C-r and C-t
-[[ -s "$HOME/.fzf.zsh" ]] && source "$HOME/.fzf.zsh"
+# FZF keybindings
+if [[ -s "/usr/local/opt/fzf/shell/key-bindings.zsh" ]]; then
+  source "/usr/local/opt/fzf/shell/key-bindings.zsh"
+fi
+if [[ -s "/usr/share/fzf/key-bindings.zsh" ]]; then
+  source "/usr/share/fzf/key-bindings.zsh"
+fi
 
 # Follow Bash Readline
 bindkey \^U backward-kill-line
