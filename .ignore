@@ -1,5 +1,12 @@
 # Mac
 Library
+.DS_Store
+Desktop.ini
+.uuid
+._*
+Thumbs.db
+.Spotlight-V100
+.Trashes
 
 # Linux
 .itch
@@ -8,19 +15,7 @@ Library
 .wine
 .local/share
 .cache
-
-# Folder view configuration files
-.DS_Store
-Desktop.ini
-.uuid
-
-# Thumbnail cache files
-._*
-Thumbs.db
-
-# Files that might appear on external disks
-.Spotlight-V100
-.Trashes
+snap
 
 # Compiled Python files
 *.pyc
