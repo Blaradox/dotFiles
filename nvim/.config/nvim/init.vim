@@ -17,6 +17,8 @@ Plug 'jacoborus/tender.vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'yggdroot/indentline'
 Plug 'ap/vim-css-color'
+Plug 'itchyny/lightline.vim'
+Plug 'maximbaz/lightline-ale'
 " Syntax
 Plug 'pangloss/vim-javascript'
 Plug 'crusoexia/vim-javascript-lib'
@@ -357,4 +359,36 @@ try
   let g:indentLine_color_term = 15
   let g:javascript_plugin_jsdoc = 1
   let g:fzf_buffers_jump = 1
+  let g:lightline = {
+    \  'colorscheme': 'palenight',
+    \  'active': {
+    \    'left': [ [ 'mode', 'paste' ],
+    \              [ 'git_branch' ],
+    \              [ 'readonly', 'filename', 'modified' ] ],
+    \    'right': [ [ 'filetype' ],
+    \               [ 'lineinfo' ],
+    \               [ 'linter_checking', 'linter_errors', 'linter_warnings' ] ]
+    \  },
+    \  'component': {
+    \    'filetype': '%{&filetype!=#""?toupper(&filetype):"NO FT"}',
+    \  },
+    \  'component_function': {
+    \    'git_branch': 'fugitive#head',
+    \  },
+    \ }
+  let g:lightline.component_expand = {
+    \  'linter_checking': 'lightline#ale#checking',
+    \  'linter_warnings': 'lightline#ale#warnings',
+    \  'linter_errors': 'lightline#ale#errors',
+    \  'linter_ok': 'lightline#ale#ok',
+    \ }
+  let g:lightline.component_type = {
+    \  'linter_checking': 'left',
+    \  'linter_warnings': 'warning',
+    \  'linter_errors': 'error',
+    \  'linter_ok': 'left',
+    \ }
+  let g:lightline#ale#indicator_checking = "\uf110 "
+  let g:lightline#ale#indicator_warnings = "\uf071 "
+  let g:lightline#ale#indicator_errors = "\uf05e "
 endtry
