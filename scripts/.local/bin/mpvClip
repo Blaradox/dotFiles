@@ -6,8 +6,9 @@
 # Will look in clipboard if no video file/link provided.
 
 MPVFIFO="/tmp/mpv.fifo"
+COOKIE_FILE="$HOME/Downloads/cookies.txt"
 CLIPBOARD_MANAGER=""
-target_video=""
+TARGET_VIDEO=""
 
 function def_usage() {
   cat << _EOF_
@@ -19,26 +20,26 @@ function get_clipboard_contents() {
   if [[ -z "$CLIPBOARD_MANAGER" ]]; then
     case "$OSTYPE" in
       (darwin*)
-        target_video="$(pbpaste)"
+        TARGET_VIDEO="$(pbpaste)"
         ;;
       (linux*)
-        target_video="$(xclip -selection clipboard -out)"
+        TARGET_VIDEO="$(xclip -selection clipboard -out)"
         ;;
       (*)
         printf '%s: must explicitly state clipboard utility in script\n' "$(basename "$0")" >&2
         ;;
     esac
   else
-    target_video="$(CLIPBOARD_MANAGER)"
+    TARGET_VIDEO="$(CLIPBOARD_MANAGER)"
   fi
 }
 
 function get_video() {
   if [[ -n "$*" ]]; then
     if [[ $* =~ https?://* ]]; then
-      target_video="$*"
+      TARGET_VIDEO="$*"
     else
-      target_video=$(realpath "$*")
+      TARGET_VIDEO=$(realpath "$*")
     fi
   else
     printf '%s: using clipboard to find video\n' "$(basename "$0")"
@@ -50,20 +51,21 @@ function main() {
 
   get_video "$@"
 
-  if [[ -z "$target_video" ]]; then
+  if [[ -z "$TARGET_VIDEO" ]]; then
     printf '%s: could not find any video\n' "$(basename "$0")"
     exit
   fi
 
   if [[ -z "$(pgrep mpv)" ]]; then
     [[ -e $MPVFIFO ]] || mkfifo "$MPVFIFO"
-    printf 'Playing: %s\n' "$target_video"
+    printf 'Playing: %s\n' "$TARGET_VIDEO"
     mpv --geometry=40%-5-5 --ontop --input-file="$MPVFIFO" --no-terminal \
         --ytdl-format="bestvideo[height<=?720]+bestaudio/best" \
-        "$target_video" &
+        --ytdl-raw-options="cookies=$COOKIE_FILE" \
+        "$TARGET_VIDEO" &
   else
-    printf 'Adding to Queue: %s\n' "$target_video"
-    printf 'loadfile "%s" append-play\n' "$target_video" > $MPVFIFO
+    printf 'Adding to Queue: %s\n' "$TARGET_VIDEO"
+    printf 'loadfile "%s" append-play\n' "$TARGET_VIDEO" > $MPVFIFO
   fi
 }
 
