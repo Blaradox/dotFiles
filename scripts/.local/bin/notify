@@ -11,7 +11,7 @@ _EOF_
 }
 
 function mac_notification() {
-  /usr/bin/osascript -e "display notification \"${@:2}\" with title \"$1\" sound name "$MAC_SOUND""
+  /usr/bin/osascript -e "display notification \"${*:2}\" with title \"$1\" sound name \"$MAC_SOUND\""
 }
 
 function send_notification() {
