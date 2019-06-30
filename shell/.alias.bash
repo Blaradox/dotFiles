@@ -11,9 +11,6 @@ fi
 
 # Program defaults
 alias rg="rg --smart-case"
-
-# Program alternatives
-alias ping="prettyping --nolegend"
 alias ncdu="ncdu --color 'dark' -rr -x"
 
 # Vim and git
