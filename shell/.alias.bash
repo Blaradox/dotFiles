@@ -15,9 +15,9 @@ alias ncdu="ncdu --color 'dark' -rr -x"
 
 # Vim and git
 # ACMR = Added || Copied || Modified || Renamed
-alias v="vim"
-alias vid="vim \$(git diff --staged --name-only --diff-filter=ACMR)"
-alias vwd="vim \$(git diff HEAD --name-only --diff-filter=ACMR)"
+alias v="nvim"
+alias vid="nvim \$(git diff --staged --name-only --diff-filter=ACMR)"
+alias vwd="nvim \$(git diff HEAD --name-only --diff-filter=ACMR)"
 
 # Version control (taken from Prezto git module)
 # https://github.com/sorin-ionescu/prezto/blob/master/modules/git/alias.zsh
@@ -25,9 +25,16 @@ alias g="git"
 # Branch (b)
 alias gb="git branch"
 alias gba="git branch --all --verbose"
+alias gbc='git checkout -b'
+alias gbd='git branch --delete'
+alias gbD='git branch --delete --force'
+alias gbx='git branch --delete'
+alias gbX='git branch --delete --force'
 # Commit (c)
 alias gc="git commit --verbose"
 alias gca="git commit --verbose --all"
+alias gco='git checkout'
+alias gcO='git checkout --patch'
 # Data (d)
 alias gd="git ls-files"
 alias gdc="git ls-files --cached"
