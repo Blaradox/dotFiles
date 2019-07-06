@@ -29,6 +29,7 @@ function send_notification() {
 }
 
 function main() {
+  echo -n -e '\a'
   if [[ -z "$*" ]]; then
     send_notification "Shell Output" "$(</dev/stdin)"
   else
