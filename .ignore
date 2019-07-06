@@ -16,6 +16,7 @@ Thumbs.db
 .local/share
 .cache
 snap
+Games
 
 # Compiled Python files
 *.pyc
