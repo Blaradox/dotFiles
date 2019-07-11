@@ -14,8 +14,9 @@ Thumbs.db
 .steam
 .wine
 .local/share
+.config
+.thunderbird
 .cache
-snap
 Games
 
 # Compiled Python files
