@@ -47,6 +47,13 @@ function get_video() {
   fi
 }
 
+# https://www.reddit.com/r/commandline/comments/920p5d/bash_script_for_queueing_youtube_links_in_mpv/
+function link_archive() {
+  local title=$(youtube-dl --ignore-config --get-title --get-duration "$TARGET_VIDEO" 2>/dev/null)
+  printf "▪▪▪►Link► %s\n▪▪▪►Description► %s\n\n" "$TARGET_VIDEO" "${title/$'\n'/ }" \
+    >> "${XDG_CONFIG_HOME:-$HOME/.config}/mpv/link_archive"
+}
+
 function main() {
 
   get_video "$@"
@@ -56,10 +63,13 @@ function main() {
     exit
   fi
 
-  if [[ -z "$(pgrep mpv)" ]]; then
+  link_archive
+
+  if ! pgrep -f mpv-queue > /dev/null; then
     [[ -e $MPVFIFO ]] || mkfifo "$MPVFIFO"
     printf 'Playing: %s\n' "$TARGET_VIDEO"
     mpv --geometry=40%-5-5 --ontop --input-file="$MPVFIFO" --no-terminal \
+        --x11-name=mpv-queue --player-operation-mode=pseudo-gui \
         --ytdl-format="bestvideo[height<=?720]+bestaudio/best" \
         --ytdl-raw-options="cookies=$COOKIE_FILE" \
         "$TARGET_VIDEO" &
