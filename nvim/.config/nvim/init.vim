@@ -145,6 +145,7 @@ nnoremap <leader>l :Lines<CR>
 nnoremap <leader>f :Files<CR>
 nnoremap <leader>r :Rg<CR>
 nnoremap <leader>b :Buffers<CR>
+nnoremap <leader><Tab> :buffer #<CR>
 nnoremap <leader>s :sfind *
 nnoremap <leader>v :vert sfind *
 nnoremap <leader>t :tabfind *
@@ -253,7 +254,6 @@ augroup END
 
 " https://shapeshed.com/vim-netrw/
 " Replace NERDtree with default netrw
-nnoremap <leader><Tab> :Lexplore<CR>
 let g:netrw_banner = 0       " disable banner
 let g:netrw_liststyle = 3    " tree view
 let g:netrw_altv = 1         " open splits to the right
