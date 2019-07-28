@@ -63,7 +63,7 @@ function install_programs() {
     ${file_stuff[@]}
     ${fun_stuff[@]}
     ${git_stuff[@]}
-    ${multiplexer[@]}
+    ${multimedia[@]}
     ${network[@]}
     ${terminal[@]}
     ${utilities[@]}
@@ -133,6 +133,6 @@ function install_config_files() {
   fi
 }
 
-install_programs
-install_prezto
+# install_programs
+# install_prezto
 install_config_files
