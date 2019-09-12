@@ -20,7 +20,7 @@ export EDITOR=$VISUAL
 
 # FZF
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden --follow'
-export FZF_DEFAULT_OPTS='--color=16'
+export FZF_DEFAULT_OPTS='--color=16 --bind ctrl-t:toggle-all'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # Weechat
