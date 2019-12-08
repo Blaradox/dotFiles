@@ -4,6 +4,7 @@ function install_programs() {
   local linux_stuff mac_stuff terminal file_stuff multimedia git_stuff utilities fun_stuff game_stuff what_to_install
   linux_stuff=(
     itch # storefront for indie games
+    libqalculate # command line calculator
     lutris # for managing wine and games
     nitrogen # set your wallpaper
     rofi # launch programs from keyboard
@@ -31,7 +32,7 @@ function install_programs() {
   )
 
   multimedia=(
-    mopidy # music player daemon alternative
+    mpd # music player daemon
     mpc # simple commands to control `mpd`
     mpv # plays any video you throw at it
     ncmpcpp # create playslits for `mpd`, tag music files, etc.
@@ -110,10 +111,8 @@ function stow_dots() {
   cd "${HOME}/dotFiles"
   for file in "${configs[@]}"; do
     # Only run stow on directories
-    if [[ -d "${file}" ]]; then
-      stow -R "$(basename ${file})"
-      printf "$(basename ${file}) stowed.\n"
-    fi
+    stow "${file}"
+    printf "${file} stowed.\n"
   done
 
   # stow by default ignores .gitignore files
@@ -133,6 +132,26 @@ function install_config_files() {
   fi
 }
 
-# install_programs
-# install_prezto
-install_config_files
+function main() {
+  while [ "$1" != "" ]; do
+    case $1 in
+      -a | --all)
+        install_programs
+        install_prezto
+        install_config_files
+        ;;
+      -p | --programs )
+        install_programs
+        ;;
+      -z | --prezto )
+        install_prezto
+        ;;
+      -c | --configs )
+        install_config_files
+        ;;
+    esac
+    shift
+  done
+}
+
+main "$@"
