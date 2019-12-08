@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Exec=/home/sloaneat/.config/autostart/keyboardSetup.sh
+Hidden=false
+X-GNOME-Autostart-enabled=true
+Name=keyboardSetup
+Comment=Rebind keys on Thinkpad T440p
