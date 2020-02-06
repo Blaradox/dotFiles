@@ -1,5 +1,24 @@
 #!/usr/bin/env bash
 
+# Extract file
+extract() {
+  local file
+  (($#)) || return
+  for file; do
+    if [[ ! -r $file ]]; then
+      echo "$0: file is unreadable: \`$i'" >&2
+      continue
+    fi
+    case $file in
+      *.7z)       7z x -o"${file%%.7z}" $file;;
+      *.tar.*)    tar -xf $file --one-top-level;;
+      *.zip)      unzip -d"${file%%.zip}" $file;;
+      *)          echo "$0: unrecognized file extension: \`$i'" >&2
+                  continue;;
+    esac
+  done
+}
+
 ## FZF
 # https://github.com/junegunn/fzf/wiki/Examples
 
