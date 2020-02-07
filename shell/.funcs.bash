@@ -22,12 +22,6 @@ extract() {
 ## FZF
 # https://github.com/junegunn/fzf/wiki/Examples
 
-# Change directory
-fd() {
-  local dir
-  dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
-}
-
 # Open files
 # CTRL-O to open with `open` command,
 # Enter key to open with the $EDITOR
@@ -130,28 +124,3 @@ bcp() {
   fi
 }
 
-## Command line services by "@igor_chubin"
-
-# Display weather(map)
-weather() {
-  local format
-  if ! command -v curl &>/dev/null; then
-    printf "%s\n" "[ERROR] weather: This command requires 'curl', please install it."
-    return 1
-  fi
-  if [[ $1 -gt 0 ]]; then format="?format=$1"; fi
-  curl -m 10 "http://wttr.in/${format:-San+Francisco}" 2>/dev/null || \
-    printf "%s\n" "[ERROR] weather: Could not connect to weather service."
-}
-
-# Look up cheatsheet for different coding topics
-cheat() {
-  local topic
-  if ! command -v curl &>/dev/null; then
-    printf "%s\n" "[ERROR] cheat: This command requires 'curl', please install it."
-    return 1
-  fi
-  topic=$1
-  shift
-  curl -m 10 "http://cheat.sh/${topic}/$*"
-}
