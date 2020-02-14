@@ -1,80 +1,13 @@
 #!/usr/bin/env zsh
 
 function install_programs() {
-  local linux_stuff mac_stuff terminal file_stuff multimedia git_stuff utilities fun_stuff game_stuff what_to_install
-  linux_stuff=(
-    itch # storefront for indie games
-    libqalculate # command line calculator
-    lutris # for managing wine and games
-    nitrogen # set your wallpaper
-    rofi # launch programs from keyboard
-    steam # THE desktop game storefront
-    stow # control file links
-    trash-cli # control FreeDesktop trash, GNOME, KDE, XFCE, etc.
-    xcape # use capslock as ctrl AND escape
-    xclip # linux clipboard manager
-  )
-
-  mac_stuff=(
-  )
-
-  terminal=(
-    alacritty # light cross-platform terminal
-    kitty # great featureful cross-platform terminal
-    zsh # nearly POSIX compliant shell that's very interacitve
-  )
-
-  file_stuff=(
-    fzf # fuzzy finder for files and everything else
-    neovim # community fork of vim
-    nnn # very light and simple file manager
-    pandoc # convert between Markdown, HTML, LaTeX, etc.
-  )
-
-  multimedia=(
-    mpd # music player daemon
-    mpc # simple commands to control `mpd`
-    mpv # plays any video you throw at it
-    ncmpcpp # create playslits for `mpd`, tag music files, etc.
-    weechat # irc and instant messaging
-    youtube-dl # download youtube vids
-  )
-
-  git_stuff=(
-    bat # fancy version of `cat`
-    diff-so-fancy # fancy version of `diff`
-    git # version control
-  )
-
-  utilities=(
-    ddgr # duck duck go in the command line
-    ripgrep # blazing fast replacement for grep
-    tmux # terminal multiplexer
-  )
-
-  fun_stuff=(
-    cowsay # have a cow say something
-    doge # much fun .. wow
-    figlet # big silly fonts
-    fortune-mod # bank of fortunes
-    lolcat # RAINBOWS
-  )
-
-  what_to_install=(
-    ${file_stuff[@]}
-    ${fun_stuff[@]}
-    ${git_stuff[@]}
-    ${multimedia[@]}
-    ${network[@]}
-    ${terminal[@]}
-    ${utilities[@]}
-  )
-
   if [[ $OSTYPE == darwin* ]]; then
-    brew install "${what_to_install[@]} ${mac_stuff[@]}"
+    brew install - < ./applist
   elif [[ $OSTYPE == linux-gnu ]]; then
-    install_yay
-    yay -S "${what_to_install[@]} ${linux_stuff[@]}"
+    if [[ ! -x /usr/bin/yay ]]; then
+      install_yay
+    fi
+    yay -S --needed - < ./applist
   fi
 }
 
