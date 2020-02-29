@@ -1,5 +1,7 @@
 configuration {
     modi: "combi,windowcd,run";
+    combi-modi: "window,run";
+    terminal: "kitty";
     lines: 10;
     columns: 2;
     font: "sans 13";
@@ -9,7 +11,6 @@ configuration {
     fixed-num-lines: true;
     show-icons: false;
     sidebar-mode: true;
-    combi-modi: "window,run";
     separator-style: "none";
     hide-scrollbar: true;
     fullscreen: false;
