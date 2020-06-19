@@ -7,14 +7,14 @@ fi
 # change prompt in `~/.zpreztorc` to giddie
 
 # Load custom bash variables, aliases and functions
-if [[ -s "$HOME/.vars.bash" ]]; then
-  source "$HOME/.vars.bash"
+if [[ -s "$HOME/.config/shell/vars.bash" ]]; then
+  source "$HOME/.config/shell/vars.bash"
 fi
-if [[ -s "$HOME/.alias.bash" ]]; then
-  source "$HOME/.alias.bash"
+if [[ -s "$HOME/.config/shell/alias.bash" ]]; then
+  source "$HOME/.config/shell/alias.bash"
 fi
-if [[ -s "$HOME/.funcs.bash" ]]; then
-  source "$HOME/.funcs.bash"
+if [[ -s "$HOME/.config/shell/funcs.bash" ]]; then
+  source "$HOME/.config/shell/funcs.bash"
 fi
 
 # Create mpv fifo file
