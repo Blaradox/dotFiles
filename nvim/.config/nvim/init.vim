@@ -309,4 +309,8 @@ try
   let g:lightline#ale#indicator_checking = "\uf110 "
   let g:lightline#ale#indicator_warnings = "\uf071 "
   let g:lightline#ale#indicator_errors = "\uf05e "
+  augroup MarkdownFiles
+    autocmd!
+    autocmd FileType markdown let g:indentLine_enabled=0
+  augroup END
 endtry

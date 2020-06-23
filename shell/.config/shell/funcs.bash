@@ -6,14 +6,14 @@ extract() {
   (($#)) || return
   for file; do
     if [[ ! -r $file ]]; then
-      echo "$0: file is unreadable: \`$i'" >&2
+      echo "$0: file is unreadable: \`$file'" >&2
       continue
     fi
     case $file in
       *.7z)       7z x -o"${file%%.7z}" $file;;
-      *.tar.*)    tar -xf $file --one-top-level;;
+      *.tar.*)    tar -xvf $file --one-top-level;;
       *.zip)      unzip -d"${file%%.zip}" $file;;
-      *)          echo "$0: unrecognized file extension: \`$i'" >&2
+      *)          echo "$0: unrecognized file extension: \`$file'" >&2
                   continue;;
     esac
   done
