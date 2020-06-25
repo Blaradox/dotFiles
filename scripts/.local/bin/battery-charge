@@ -7,7 +7,7 @@ function battery-charge {
   local batt_char
   local charge
   local ac
-  ac_char="⏚"
+  ac_char="🗲"
   batt_char="❤"
   case "$OSTYPE" in
     (darwin*)

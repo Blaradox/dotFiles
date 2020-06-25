@@ -1,5 +1,28 @@
 #!/usr/bin/env bash
 
+alert() {
+  echo -n -e '\a'
+  local mac_sound linux_sound icon tile body
+  mac_sound="Glass"
+  linux_sound="/usr/share/sounds/freedesktop/stereo/complete.oga"
+  if [ $? = 0 ]; then
+    icon="terminal"
+    title="Job Completed"
+  else
+    icon="error"
+    title="Job Failed"
+  fi
+  body="$(history|tail -n1|sed -e 's/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//')"
+  case "$OSTYPE" in
+    (darwin*)
+      /usr/bin/osascript -e 'display notification "$body" with title "$title" sound name "$mac_sound"'
+      ;;
+    (linux-gnu)
+      notify-send --urgency=low -i "$icon" "$title" "$body"
+      ;;
+  esac
+}
+
 # Extract file
 extract() {
   local file
