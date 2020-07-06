@@ -12,18 +12,18 @@ alert() {
     icon="error"
     title="Job Failed"
   fi
-  body="$(history|tail -n1|sed -e 's/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//')"
+  body="$(fc -n -l -1|sed -e 's/[;&|]\s*alert$//')"
   case "$OSTYPE" in
     (darwin*)
       /usr/bin/osascript -e 'display notification "$body" with title "$title" sound name "$mac_sound"'
       ;;
     (linux-gnu)
-      notify-send --urgency=low -i "$icon" "$title" "$body"
+      notify-send --urgency=low -i "$icon" "$title" "$body"; paplay "$linux_sound"
       ;;
   esac
 }
 
-# Extract file
+# Extract files
 extract() {
   local file
   (($#)) || return
@@ -42,6 +42,20 @@ extract() {
   done
 }
 
+# Calculator
+calc() {
+  echo "scale=3;$@" | bc -l
+}
+
+# Please, gotta be polite
+pls() {
+  if (($#)); then
+    sudo "$@"
+  else
+    sudo $(fc -ln -1)
+  fi
+}
+
 ## FZF
 # https://github.com/junegunn/fzf/wiki/Examples
 
@@ -51,7 +65,7 @@ extract() {
 fe() {
   local preview out files key
   preview="bat --line-range :100 --color 'always' {}"
-  out=$(fzf --preview="$preview" --query="$1" --multi --exit-0 --expect=ctrl-o)
+  out=$(fzf --preview="$preview" --query="$1" --select-1 --multi --exit-0 --expect=ctrl-o)
   key=$(head -1 <<< "$out")
   IFS=$'\n' files=($(tail -n +2 <<< "$out"))
   if [ -n "$files" ]; then
@@ -84,6 +98,9 @@ tm() {
     tmux $change -t "$1" 2>/dev/null || \
       (tmux new-session -d -s $1 && tmux $change -t "$1"); return
   fi
+  if (( $(tmux list-sessions 2>/dev/null|grep -o '^\w\+:.*windows.*$'|wc -l) == 1 )); then
+    tmux attach; return
+  fi
   session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | \
     fzf --height=10 --reverse --exit-0) \
     &&  tmux $change -t "$session" || tmux new-session
@@ -112,38 +129,5 @@ fmpc() {
     fzf --query="$1" --reverse --select-1 --exit-0 | \
     sed -n "s/^\([0-9]*\)).*/\1/p") || return 1
   [ -n "$song_position" ] && mpc -q play $song_position
-}
-
-# [B]rew [I]nstall [P]lugin
-bip() {
-  local search=($(brew search | fzf --header '[brew:install]' --multi))
-  if [ -n "$search" ];then
-    for item in ${search[@]}; do
-      brew install "$item"
-    done
-    notify "Your installation is done!" "Brew Install"
-  fi
-}
-
-# [B]rew [U]pdate [P]lugin
-bup() {
-  local leaves=($(brew outdated | fzf --header '[brew:update]' --multi))
-  if [ -n "$leaves" ];then
-    for leaf in ${leaves[@]}; do
-      brew upgrade "$leaf"
-    done
-    notify "Your updates are done!" "Brew Update"
-  fi
-}
-
-# [B]rew [C]lean [P]lugin
-bcp() {
-  local leaves=($(brew leaves | fzf --header '[brew:clean]' --multi))
-  if [ -n "$leaves" ];then
-    for leaf in ${leaves[@]}; do
-      brew uninstall "$leaf"
-    done
-    notify "Your package(s) have been removed" "Brew Clean"
-  fi
 }
 

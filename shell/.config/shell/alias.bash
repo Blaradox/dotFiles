@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+alias myip="ip addr|grep 'inet '|grep -v '127.0.0.1'|cut -d' ' -f6"
+alias disks="df -h -T"
+alias space="du -a -h --max-depth=1|sort -h -r|less"
 
 # Use colors always
 alias tree="tree -C --dirsfirst -I '.git'"
