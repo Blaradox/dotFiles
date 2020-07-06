@@ -11,10 +11,8 @@ unlet autoload_plug_path
 
 call plug#begin()
 " Cosmetic
-Plug 'joshdick/onedark.vim'
-Plug 'crusoexia/vim-monokai'
-Plug 'jacoborus/tender.vim'
 Plug 'drewtempelmeyer/palenight.vim'
+Plug 'arcticicestudio/nord-vim'
 Plug 'yggdroot/indentline'
 Plug 'ap/vim-css-color'
 Plug 'itchyny/lightline.vim'
@@ -263,8 +261,10 @@ let g:netrw_list_hide = '.*\.swp,.git/'
 
 " set colorscheme
 try
-  let g:palenight_terminal_italics = 1
-  colorscheme palenight
+  " let g:palenight_terminal_italics = 1
+  let g:nord_italic = 1
+  let g:nord_italic_comments = 1
+  colorscheme nord
   set termguicolors
 catch /^Vim\%((\a\+)\)\=:E185/
   colorscheme default
@@ -278,7 +278,7 @@ try
   let g:javascript_plugin_jsdoc = 1
   let g:fzf_buffers_jump = 1
   let g:lightline = {
-    \  'colorscheme': 'palenight',
+    \  'colorscheme': 'nord',
     \  'active': {
     \    'left': [ [ 'mode', 'paste' ],
     \              [ 'git_branch' ],
