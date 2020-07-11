@@ -52,7 +52,7 @@ pls() {
   if (($#)); then
     sudo "$@"
   else
-    sudo $(fc -ln -1)
+    eval "sudo $(fc -ln -1)"
   fi
 }
 
