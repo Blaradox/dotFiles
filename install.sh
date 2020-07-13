@@ -33,11 +33,12 @@ function stow_dots() {
   if [[ $OSTYPE == darwin* ]]; then
     configs=(fonts git karabiner kitty mpd mpv ncmpcpp nvim scripts shell tmux vim)
   elif [[ $OSTYPE == linux-gnu ]]; then
-    configs=(autostart fonts git kitty mpd mpv ncmpcpp nvim rofi scripts shell tmux vim)
+    configs=(autostart git kitty mpd mpv ncmpcpp nvim rofi scripts shell tmux vim)
+  elif [[ $OSTYPE == linux-android ]]; then
+    configs=(git mpd ncmpcpp nvim scripts shell tmux vim)
   fi
 
-  mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"/{kitty,mpv,nvim}
-  mkdir -p "${XDG_DATA_HOME:=$HOME/.local/share}/fonts"
+  mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"/{autostart,kitty,mpd,mpv,ncmpcpp,nvim,rofi,shell}
   mkdir -p "${HOME}/.local/bin"
 
   printf "Stowing Dotfiles...\n"
@@ -58,7 +59,7 @@ function stow_dots() {
 function install_config_files() {
   if [[ -d "${HOME}/dotFiles" ]]; then
     rm -f "${HOME}/.zshrc"
-    sed --in-place 's/\(zstyle.*\)sorin/\1giddie/' "${HOME}/.zpreztorc"
+    sed --in-place 's/\(zstyle.*\)sorin/\1powerlevel10k/' "${HOME}/.zpreztorc"
     stow_dots
   else
     printf "Check to make sure that you cloned this repository in your home folder\n"
