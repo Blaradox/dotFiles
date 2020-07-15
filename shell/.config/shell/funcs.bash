@@ -123,11 +123,12 @@ bro() {
   fi
 }
 
-fmpc() {
-  local song_position
-  song_position=$(mpc -f "%position%) %artist% - %title%" playlist | \
-    fzf --query="$1" --reverse --select-1 --exit-0 | \
-    sed -n "s/^\([0-9]*\)).*/\1/p") || return 1
-  [ -n "$song_position" ] && mpc -q play $song_position
+play() {
+  local song
+  if song=$(mpc listall | fzf --query="$1" --select-1 --exit-0); then
+    mpc insert "$song"
+    mpc next
+    mpc play
+  fi
 }
 

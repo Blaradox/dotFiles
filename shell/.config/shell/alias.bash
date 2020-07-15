@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-alias myip="ip addr|grep 'inet '|grep -v '127.0.0.1'|cut -d' ' -f6"
+alias intip="ip addr|grep 'inet '|grep -v '127.0.0.1'|cut -d' ' -f6|cut -d'/' -f1"
+alias extip="curl ipinfo.io/ip"
 alias disks="df -h -T"
 alias space="du -a -h --max-depth=1|sort -h -r|less"
 
@@ -15,6 +16,34 @@ fi
 # Program defaults
 alias rg="rg --smart-case"
 alias ncdu="ncdu --color 'dark' -rr -x"
+
+# macOS utilities
+if [[ $OSTYPE == darwin* ]]; then
+  alias o="open"
+elif [[ $OSTYPE == linux-android ]]; then
+  alias o="termux-open"
+  alias pbcopy="termux-clipboard-set"
+  alias pbpaste="termux-clipboard-get"
+else
+  alias o="xdg-open"
+  if [[ -n $DISPLAY ]]; then
+    if (( $+commands[xclip] )); then
+      alias pbcopy="xclip -selection clipboard -in"
+      alias pbpaste="xclip -selection clipboard -out"
+    elif (( $+commands[xsel] )); then
+      alias pbcopy="xsel --clipboard --input"
+      alias pbpaste="xsel --clipboard --output"
+    fi
+  else
+    if (( $+commands[wl-copy] && $+commands[wl-paste] )); then
+      alias pbcopy="wl-copy"
+      alias pbpaste="wl-paste"
+    fi
+  fi
+fi
+
+alias pbc="pbcopy"
+alias pbp="pbpaste"
 
 # Vim and git
 # ACMR = Added || Copied || Modified || Renamed
