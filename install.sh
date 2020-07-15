@@ -19,15 +19,6 @@ function install_yay() {
   rm -rf "${HOME}/yay"
 }
 
-function install_prezto() {
-  git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
-  setopt EXTENDED_GLOB
-  for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
-    ln -sf "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
-  done
-  chsh -s "$(which zsh)"
-}
-
 function stow_dots() {
   local configs=()
   if [[ $OSTYPE == darwin* ]]; then
@@ -59,7 +50,6 @@ function stow_dots() {
 function install_config_files() {
   if [[ -d "${HOME}/dotFiles" ]]; then
     rm -f "${HOME}/.zshrc"
-    sed --in-place 's/\(zstyle.*\)sorin/\1powerlevel10k/' "${HOME}/.zpreztorc"
     stow_dots
   else
     printf "Check to make sure that you cloned this repository in your home folder\n"
@@ -71,14 +61,10 @@ function main() {
     case $1 in
       -a | --all)
         install_programs
-        install_prezto
         install_config_files
         ;;
       -p | --programs )
         install_programs
-        ;;
-      -z | --prezto )
-        install_prezto
         ;;
       -c | --configs )
         install_config_files

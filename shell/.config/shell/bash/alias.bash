@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+alias e="${(z)VISUAL:-${(z)EDITOR}}"
 alias intip="ip addr|grep 'inet '|grep -v '127.0.0.1'|cut -d' ' -f6|cut -d'/' -f1"
 alias extip="curl ipinfo.io/ip"
 alias disks="df -h -T"
@@ -14,6 +15,11 @@ elif [[ $OSTYPE == linux* ]]; then
 fi
 
 # Program defaults
+alias la="ls -A"
+alias ll="ls -lh"
+alias lla="ls -lhA"
+alias rm="rm -i"
+alias mv="mv -i"
 alias rg="rg --smart-case"
 alias ncdu="ncdu --color 'dark' -rr -x"
 
