@@ -6,6 +6,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 [[ ! -d "$HOME/.config/antigen" ]] && git clone https://github.com/zsh-users/antigen.git "$HOME/.config/antigen"
+ADOTDIR="$HOME/.config/antigen"
 source "$HOME/.config/antigen/antigen.zsh"
 
 antigen bundle zsh-users/zsh-completions
@@ -14,16 +15,6 @@ antigen theme romkatv/powerlevel10k
 
 # Load everything
 antigen apply
-
-man() {
-  LESS_TERMCAP_md=$'\e[01;31m' \
-  LESS_TERMCAP_me=$'\e[0m' \
-  LESS_TERMCAP_se=$'\e[0m' \
-  LESS_TERMCAP_so=$'\e[01;44;33m' \
-  LESS_TERMCAP_ue=$'\e[0m' \
-  LESS_TERMCAP_us=$'\e[01;32m' \
-  command man "$@"
-}
 
 # Load custom bash aliases and functions
 if [[ -d "$HOME/.config/shell/bash" ]]; then

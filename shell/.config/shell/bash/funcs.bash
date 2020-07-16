@@ -60,7 +60,7 @@ pls() {
 # https://github.com/junegunn/fzf/wiki/Examples
 
 # Open files
-# CTRL-O to open with `open` command,
+# CTRL-O to open with `o` alias,
 # Enter key to open with the $EDITOR
 fe() {
   local preview out files key
@@ -69,7 +69,7 @@ fe() {
   key=$(head -1 <<< "$out")
   IFS=$'\n' files=($(tail -n +2 <<< "$out"))
   if [ -n "$files" ]; then
-    [ "$key" = ctrl-o ] && open "${files[@]}" || ${EDITOR:-vim} "${files[@]}"
+    [ "$key" = ctrl-o ] && o "${files[@]}" || ${EDITOR:-vim} "${files[@]}"
   fi
 }
 
@@ -113,7 +113,7 @@ bro() {
     remote=$(git remote | fzf --height=10 --reverse --exit-0 --query="$1" --select-1)
     url=$(git remote get-url "$remote")
     if [ $url ]; then
-      open "$url"; return
+      eval "$BROWSER" "$url"; return
     fi
   fi
   remote=$(git remote | fzf +m --height=10 --reverse --exit-0)
