@@ -20,6 +20,8 @@ alias ll="ls -lh"
 alias lla="ls -lhA"
 alias rm="rm -i"
 alias mv="mv -i"
+alias type="type -a"
+alias mkdir="mkdir -p"
 alias rg="rg --smart-case"
 alias ncdu="ncdu --color 'dark' -rr -x"
 
