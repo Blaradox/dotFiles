@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-alias e="${(z)VISUAL:-${(z)EDITOR}}"
+alias e="${VISUAL:-${EDITOR}}"
+alias rcp="rsync -av --info=progress2"
+alias rmv="rsync -av --info=progress2 --remove-source-files"
 alias intip="ip addr|grep 'inet '|grep -v '127.0.0.1'|cut -d' ' -f6|cut -d'/' -f1"
 alias extip="curl ipinfo.io/ip"
 alias disks="df -h -T"
