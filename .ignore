@@ -18,6 +18,7 @@ Thumbs.db
 .thunderbird
 .cache
 Games
+mpd
 
 # Compiled Python files
 *.pyc
