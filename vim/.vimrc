@@ -38,25 +38,25 @@ nnoremap Y y$
 nnoremap c* *Ncgn
 nnoremap c# #NcgN
 " Target contents of fold
-onoremap iz :<c-u>normal! [zV]z<cr>
+onoremap iz :<C-u>normal! [zV]z<cr>
 xnoremap iz [zo]z
 
 " Allow saving if not opened as root
 command! W w !sudo tee "%" > /dev/null
 
 " Deal with swap files
-if !isdirectory($HOME . '/.vim/swap') && has('unix')
-  :silent !mkdir -p ~/.vim/swap >/dev/null 2>&1
+if !isdirectory($HOME . '/.cache/vim/swap') && has('unix')
+  :silent !mkdir -p ~/.cache/vim/swap >/dev/null 2>&1
 endif
-set directory=.swp/,~/.vim/swp//,/tmp//,.
+set directory=.swap/,/tmp//,~/.cache/vim/swap//,.
 
 " Deal with undo files
 if exists('+undofile')
-  if !isdirectory($HOME . '/.vim/undo') && has('unix')
-    :silent !mkdir -p ~/.vim/undo > /dev/null 2>&1
+  if !isdirectory($HOME . '/.cache/vim/undo') && has('unix')
+    :silent !mkdir -p ~/.cache/vim/undo > /dev/null 2>&1
   endif
   set undofile
-  set undodir=.undo/,~/.vim/undo//,/tmp//,.
+  set undodir=.undo/,/tmp//,~/.cache/vim/undo//,.
 endif
 
 " Show tabs and trailing whitespace
@@ -70,7 +70,8 @@ endif
 
 " Use ripgrep as default grep program
 if executable('rg')
-  set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+  set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case\ --hidden
+  set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
 "" Opinionated Defaults {{{1
@@ -85,9 +86,9 @@ set expandtab " use spaces instead of tabs
 let mapleader="\<SPACE>"
 
 " Clear highlight and redraw screen
-nnoremap <leader>hh :nohlsearch<CR>:redraw!<CR>
+nnoremap <leader>h :nohlsearch<CR>:redraw!<CR>
 " Toggle spell checking
-nnoremap <leader>ss :setlocal spell!<CR>
+nnoremap <leader>s :setlocal spell!<CR>
 
 " Deal with the system clipboard
 nnoremap <leader>y "+y
@@ -103,22 +104,17 @@ set wildignorecase
 set wildignore=*.swp,*.bak
 set wildignore+=*.pyc,*.cache,*.min.*
 set wildignore+=*/.git/**/*,*/node_modules/**/*
-set wildcharm=<C-z>
 
-" Juggling with Files and Buffers
+" https://www.vi-improved.org/recommendations/
+" https://vimways.org/2019/vim-and-the-working-directory/
 set path+=**
-nnoremap <leader>f :find *
-nnoremap <leader>b :buffer <C-z><S-Tab>
-nnoremap <leader>s :sfind *
-nnoremap <leader>v :vert sfind *
-nnoremap <leader>t :tabfind *
-
-" Only search under directory of current file
-nnoremap <leader>F :find <C-R>=expand('%:h').'/*'<CR>
-nnoremap <leader>S :sfind <C-R>=expand('%:h').'/*'<CR>
-nnoremap <leader>V :vert sfind <C-R>=expand('%:h').'/*'<CR>
-nnoremap <leader>T :tabfind <C-R>=expand('%:h').'/*'<CR>
-nnoremap <leader>B :sbuffer <C-z><S-Tab>
+nnoremap <leader>a :argadd <C-r>=fnameescape(expand('%:p:h'))<CR>/*<C-d>
+nnoremap <leader>b :buffer <C-d>
+nnoremap <leader>c :lcd <C-r>=expand("%:.:h") . "/"<CR>
+nnoremap <leader>e :edit <C-r>=expand("%:.:h") . "/"<CR>
+nnoremap <leader>g :grep<space>
+nnoremap <leader>q :buffer #<CR>
+nnoremap <leader>v :vsplit<CR>
 
 " Make arrow keys resize viewports
 nnoremap <Left> :vertical resize -2<CR>
@@ -162,14 +158,14 @@ endif
 "" }}}
 
 " Set vim to use bash for compatability
-set shell=bash\ -i
+" set shell=bash\ -i
 if &diff
   set shell=bash
 endif
 
 " Use Mac OS X dictionary
-if g:os == "Darwin"
-  set dictionary=/usr/share/dict/words
+if g:os == "Darwin" || g:os == "Linux"
+  set dictionary+=/usr/share/dict/words
 endif
 
 " Allow mouse scroll in simple terminal
@@ -209,15 +205,16 @@ endif
 
 "" Auto Commands {{{1
 
-" Jump between WebDev files
-augroup WEBDEV
+" Jump between buffers
+augroup Marks
   autocmd!
-  autocmd BufLeave *.css  normal! mC
-  autocmd BufLeave *.html normal! mH
-  autocmd BufLeave *.js   normal! mJ
-  autocmd BufLeave *.php  normal! mP
-  autocmd FileType JavaScript inoremap ;; <END>;
-  autocmd FileType JavaScript inoremap ,, <END>,
+  autocmd BufLeave *.css,*.scss  normal! mC
+  autocmd BufLeave *.html        normal! mH
+  autocmd BufLeave *.js,*.ts     normal! mJ
+  autocmd BufLeave *.vue         normal! mV
+  autocmd BufLeave *.yml,*.yaml  normal! mY
+  autocmd BufLeave .env*         normal! mE
+  autocmd BufLeave *.md          normal! mM
 augroup END
 
 " Activate and deactivate `cursorline`
@@ -239,9 +236,6 @@ augroup END
 " Setup colors
 function! MyHighlights() abort
   highlight ExtraWhitespace cterm=NONE ctermbg=red guibg=red
-  highlight User1           cterm=NONE ctermfg=00 ctermbg=02
-  highlight User2           cterm=NONE ctermfg=07 ctermbg=08
-  highlight User3           cterm=NONE ctermfg=07 ctermbg=NONE
 endfunction
 
 " Execute color changes
@@ -250,99 +244,43 @@ augroup MyColors
   autocmd Colorscheme * call MyHighlights()
 augroup END
 
-augroup FoldMarkers
-  autocmd!
-  autocmd BufEnter,WinEnter .vimrc setlocal foldmethod=marker foldlevel=1
-augroup END
-
 "" Statusline {{{1
 
-set noshowmode
-let g:currentmode={
-      \ 'n'  : 'NORMAL ',
-      \ 'no' : 'N·OPERATOR PENDING ',
-      \ 'v'  : 'VISUAL ',
-      \ 'V'  : 'V·LINE ',
-      \ '' : 'V·BLOCK ',
-      \ 's'  : 'SELECT ',
-      \ 'S'  : 'S·LINE ',
-      \ '' : 'S·BLOCK ',
-      \ 'i'  : 'INSERT ',
-      \ 'R'  : 'REPLACE ',
-      \ 'Rv' : 'V·REPLACE ',
-      \ 'c'  : 'COMMAND ',
-      \ 'cv' : 'VIM EX ',
-      \ 'ce' : 'EX ',
-      \ 'r'  : 'PROMPT ',
-      \ 'rm' : 'MORE ',
-      \ 'r?' : 'CONFIRM ',
-      \ '!'  : 'SHELL ',
-      \ 't'  : 'TERMINAL '}
-
-function! LinterStatus() abort
-  try
-    let l:counts = ale#statusline#Count(bufnr(''))
-    let l:all_errors = l:counts.error + l:counts.style_error
-    let l:all_non_errors = l:counts.total - l:all_errors
-  catch
-    let l:counts = {'total': 0}
-  endtry
-  return l:counts.total == 0 ? '' : printf(
-    \ 'W:%d E:%d',
-    \ l:all_non_errors,
-    \ l:all_errors
-    \)
-endfunction
-
-function! PrintFileType() abort
-  if strlen(&filetype) == 0
-    return "NO FT"
-  else
-    return toupper(&filetype)
-  endif
-endfunction
+" https://shapeshed.com/vim-statuslines/
+set statusline=                            " Reset status line
+set statusline+=%#Pmenu#                   " Set highlight
+set statusline+=\ %{PrintModified()}       " Show modified
+set statusline+=%([%R%H%W]%q%)             " Show modified
+set statusline+=%(\ %{PrintGitBranch()}%)  " Show git branch
+set statusline+=\ %*                       " Restore normal highlight
+set statusline+=\ %f                       " Show tail of filename
+set statusline+=%=                         " Start right align
+set statusline+=%<                         " Start truncating here
+set statusline+=\ %y                       " File type
+set statusline+=\ %3p%%                    " Percent of file
+set statusline+=\ %4l,                     " Line number
+set statusline+=%-2c                       " Column number
 
 function! PrintGitBranch() abort
   try
-    let l:branch = fugitive#head()
+    let l:branchname = system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
   catch
-    let l:branch = ''
+    let l:branchname = ''
   endtry
-  if strlen(l:branch) == 0
-    return ''
-  else
-    return 'ᚠ '.l:branch
-  endif
+  return l:branchname
 endfunction
 
-set statusline=                               " Reset status line
-set statusline+=%1*                           " Highlight User 1
-set statusline+=\ %{g:currentmode[mode()]}    " Show mode
-set statusline+=%<                            " Start truncating here
-set statusline+=%2*                           " Highlight User 2
-" set statusline+=%(\ %{PrintGitBranch()}\ %)   " Show git branch
-set statusline+=%3*                           " Highlight User 3
-set statusline+=\ %t                          " Show tail of filename
-set statusline+=\ %([%R%H%M%W]%)              " Show flags
-set statusline+=%=                            " Start right align
-set statusline+=%2*                           " Highlight User 2
-set statusline+=\ %2l,                        " Line number
-set statusline+=\ %-2c                        " Column number
-set statusline+=\ %1*                         " Highlight User 1
-set statusline+=\ %{PrintFileType()}\ %*      " File type
-" set statusline+=%(\ %{LinterStatus()}\ %)
+function! PrintModified() abort
+  let l:symbol=&modifiable ? '' : '-'
+  let l:symbol.=&modified ? '+' : ''
+  if l:symbol == ''
+    let l:symbol=' '
+  endif
+  let l:modified='[' . l:symbol . ']'
+  return l:modified
+endfunction
 
 "" Plugin Settings {{{1
-
-" https://shapeshed.com/vim-netrw/
-" Replace NERDtree with default netrw
-nnoremap <leader><Tab> :Lexplore<CR>
-let g:netrw_banner = 0       " disable banner
-let g:netrw_liststyle = 3    " tree view
-let g:netrw_altv = 1         " open splits to the right
-let g:netrw_preview = 1      " open previews vertically
-let g:netrw_winsize = 20     " make netrw take up 20% of the window
-let g:netrw_list_hide = '.*\.swp,.git/'
 
 " set colorscheme
 colorscheme default

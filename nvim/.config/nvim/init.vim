@@ -4,40 +4,42 @@
 let autoload_plug_path = stdpath('data') . '/site/autoload/plug.vim'
 if !filereadable(autoload_plug_path)
   silent execute '!curl -fLo ' . autoload_plug_path . '  --create-dirs
-      \ "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"'
+    \ "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"'
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 unlet autoload_plug_path
 
 call plug#begin()
 " Cosmetic
-Plug 'drewtempelmeyer/palenight.vim'
-Plug 'arcticicestudio/nord-vim'
 Plug 'yggdroot/indentline'
+Plug 'arcticicestudio/nord-vim'
 Plug 'ap/vim-css-color'
-Plug 'itchyny/lightline.vim'
-Plug 'maximbaz/lightline-ale'
 " Syntax
 Plug 'pangloss/vim-javascript'
 Plug 'crusoexia/vim-javascript-lib'
 " tpope
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-characterize'
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-characterize'
+Plug 'tpope/vim-unimpaired'
 " Useful
+Plug 'editorconfig/editorconfig-vim'
 Plug 'wellle/targets.vim'
-Plug 'godlygeek/tabular', { 'on': 'Tabularize' }
-Plug 'christoomey/vim-tmux-navigator'
 Plug 'markonm/traces.vim'
-" Linting
-Plug 'w0rp/ale'
+Plug 'justinmk/vim-dirvish'
+Plug 'tommcdo/vim-lion'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'ajh17/VimCompletesMe'
 " Fuzzy
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
+" Linting
+Plug 'dense-analysis/ale'
 call plug#end()
 
 "" Sane Defaults {{{1
@@ -45,22 +47,22 @@ call plug#end()
 " Good start URL: http://vim.wikia.com/wiki/Example_vimrc
 " Or https://github.com/tpope/vim-sensible
 
-set colorcolumn=80                     " Coloured column for long lines
-set confirm                            " Confirm commands instead of failing
-set gdefault                           " Global flag is now implied on regex
 set hidden                             " Can switch between unsaved buffers
 set lazyredraw                         " Redraw screen less often
-set mouse=a                            " Enable mouse everywhere
-set nobackup                           " No backup files
-set notimeout ttimeout ttimeoutlen=200
-set nowrap                             " No word wrapping
-set number                             " Display line numbers
-set pastetoggle=<F11>
 set ignorecase                         " Case insensitive search
 set smartcase                          " Except when using capital letters
+set gdefault                           " Global flag is now implied on regex
+set confirm                            " Confirm commands instead of failing
+set visualbell                         " Visual bell instead of beeping
+set mouse=a                            " Enable mouse everywhere
+set number                             " Display line numbers
+set notimeout ttimeout ttimeoutlen=200
+set pastetoggle=<F11>
+set colorcolumn=80                     " Coloured column for long lines
+set nowrap                             " No word wrapping
 set splitbelow                         " Splits open below
 set splitright                         " Splits open to the right
-set visualbell                         " Visual bell instead of beeping
+set nobackup                           " No backup files
 
 " Have Y act like C and D
 nnoremap Y y$
@@ -68,7 +70,7 @@ nnoremap Y y$
 nnoremap c* *Ncgn
 nnoremap c# #NcgN
 " Target contents of fold
-onoremap iz :<c-u>normal! [zV]z<cr>
+onoremap iz :<C-u>normal! [zV]z<cr>
 xnoremap iz [zo]z
 
 " Allow saving if not opened as root
@@ -79,9 +81,19 @@ catch
 endtry
 
 " Deal with swap files
-set directory=/tmp//,.
-set undofile
-set undodir=/tmp//,.
+if !isdirectory($HOME . '/.cache/nvim/swap') && has('unix')
+  :silent !mkdir -p ~/.cache/nvim/swap >/dev/null 2>&1
+endif
+set directory=.swap/,/tmp//,~/.cache/nvim/swap//,.
+
+" Deal with undo files
+if exists('+undofile')
+  if !isdirectory($HOME . '/.cache/nvim/undo') && has('unix')
+    :silent !mkdir -p ~/.cache/nvim/undo > /dev/null 2>&1
+  endif
+  set undofile
+  set undodir=.undo/,/tmp//,~/.cache/nvim/undo//,.
+endif
 
 " Show tabs and trailing whitespace
 set list listchars=tab:>>,trail:~
@@ -94,7 +106,8 @@ endif
 
 " Use ripgrep as default grep program
 if executable('rg')
-  set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+  set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case\ --hidden
+  set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
 " Grep through directory with fzf and rg
@@ -117,9 +130,9 @@ set expandtab " use spaces instead of tabs
 let mapleader="\<SPACE>"
 
 " Clear highlight and redraw screen
-nnoremap <leader>hh :nohlsearch<CR>:redraw!<CR>
+nnoremap <leader>h :nohlsearch<CR>:redraw!<CR>
 " Toggle spell checking
-nnoremap <leader>ss :setlocal spell!<CR>
+nnoremap <leader>s :setlocal spell!<CR>
 
 " Deal with the system clipboard
 nnoremap <leader>y "+y
@@ -135,25 +148,20 @@ set wildignorecase
 set wildignore=*.swp,*.bak
 set wildignore+=*.pyc,*.cache,*.min.*
 set wildignore+=*/.git/**/*,*/node_modules/**/*
-set wildcharm=<C-z>
 
-" Juggling with Files and Buffers
+" https://www.vi-improved.org/recommendations/
+" https://vimways.org/2019/vim-and-the-working-directory/
 set path+=**
-nnoremap <leader>l :Lines<CR>
-nnoremap <leader>f :Files<CR>
-nnoremap <leader>r :Rg<CR>
+nnoremap <leader>a :argadd <C-r>=fnameescape(expand('%:p:h'))<CR>/*<C-d>
 nnoremap <leader>b :Buffers<CR>
-nnoremap <leader><Tab> :buffer #<CR>
-nnoremap <leader>s :sfind *
-nnoremap <leader>v :vert sfind *
-nnoremap <leader>t :tabfind *
-
-" Only search under directory of current file
-nnoremap <leader>F :find <C-R>=expand('%:h').'/*'<CR>
-nnoremap <leader>S :sfind <C-R>=expand('%:h').'/*'<CR>
-nnoremap <leader>V :vert sfind <C-R>=expand('%:h').'/*'<CR>
-nnoremap <leader>T :tabfind <C-R>=expand('%:h').'/*'<CR>
-nnoremap <leader>B :sbuffer <C-z><S-Tab>
+nnoremap <leader>c :lcd <C-r>=expand("%:.:h") . "/"<CR>
+nnoremap <leader>e :edit <C-r>=expand("%:.:h") . "/"<CR>
+nnoremap <leader>f :Files<CR>
+nnoremap <leader>g :grep<space>
+nnoremap <leader>l :Lines<CR>
+nnoremap <leader>q :buffer #<CR>
+nnoremap <leader>r :Rg<space>
+nnoremap <leader>v :vsplit<CR>
 
 " Make arrow keys resize viewports
 nnoremap <Left> :vertical resize -2<CR>
@@ -169,8 +177,6 @@ function! StripTrailingWhitespace() abort
     call winrestview(l:winview)
   endif
 endfunction
-
-nnoremap <leader>ww :call StripTrailingWhitespace()<CR>
 
 "" Compatibility {{{2
 
@@ -188,27 +194,28 @@ endif
 "" }}}
 
 " Set vim to use bash for compatability
-set shell=bash\ -i
+" set shell=bash\ -i
 if &diff
   set shell=bash
 endif
 
 " Use Mac OS X dictionary
-if g:os == "Darwin"
-  set dictionary=/usr/share/dict/words
+if g:os == "Darwin" || g:os == "Linux"
+  set dictionary+=/usr/share/dict/words
 endif
 
 "" Auto Commands {{{1
 
-" Jump between WebDev files
-augroup WEBDEV
+" Jump between buffers
+augroup Marks
   autocmd!
-  autocmd BufLeave *.css  normal! mC
-  autocmd BufLeave *.html normal! mH
-  autocmd BufLeave *.js   normal! mJ
-  autocmd BufLeave *.php  normal! mP
-  autocmd FileType JavaScript inoremap ;; <END>;
-  autocmd FileType JavaScript inoremap ,, <END>,
+  autocmd BufLeave *.css,*.scss  normal! mC
+  autocmd BufLeave *.html        normal! mH
+  autocmd BufLeave *.js,*.ts     normal! mJ
+  autocmd BufLeave *.vue         normal! mV
+  autocmd BufLeave *.yml,*.yaml  normal! mY
+  autocmd BufLeave .env*         normal! mE
+  autocmd BufLeave *.md          normal! mM
 augroup END
 
 " Activate and deactivate `cursorline`
@@ -218,46 +225,43 @@ augroup Cursorline
   autocmd WinLeave,BufLeave * set nocursorline
 augroup END
 
-" Match trailing whitespace
-augroup MatchWhitespace
-  autocmd!
-  autocmd BufWinEnter * match ExtraWhitespace /\s\+$\| \+\ze\t/
-  autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-  autocmd InsertLeave * match ExtraWhitespace /\s\+$/
-  autocmd BufWinLeave * call clearmatches()
-augroup END
+"" Statusline {{{1
 
-" Setup colors
-function! MyHighlights() abort
-  let l:blk = '#292d3e'
-  let l:red = '#ff5370'
-  let l:grn = '#c3e88d'
-  let l:wht = '#bfc7d5'
-  let l:gry = '#3e4452'
-  execute 'highlight ExtraWhitespace guibg=' . l:red
+" https://shapeshed.com/vim-statuslines/
+set statusline=                            " Reset status line
+set statusline+=%#Pmenu#                   " Set highlight
+set statusline+=\ %{PrintModified()}       " Show modified
+set statusline+=%([%R%H%W]%q%)             " Show modified
+set statusline+=%(\ %{PrintGitBranch()}%)  " Show git branch
+set statusline+=\ %*                       " Restore normal highlight
+set statusline+=\ %f                       " Show tail of filename
+set statusline+=%=                         " Start right align
+set statusline+=%<                         " Start truncating here
+set statusline+=\ %y                       " File type
+set statusline+=\ %3p%%                    " Percent of file
+set statusline+=\ %4l,                     " Line number
+set statusline+=%-2c                       " Column number
+
+function! PrintGitBranch() abort
+  try
+    let l:branchname = fugitive#head()
+  catch
+    let l:branchname = ''
+  endtry
+  return l:branchname
 endfunction
 
-" Execute color changes
-augroup MyColors
-  autocmd!
-  autocmd Colorscheme * call MyHighlights()
-augroup END
-
-augroup FoldMarkers
-  autocmd!
-  autocmd BufEnter,WinEnter init.vim setlocal foldmethod=marker foldlevel=1
-augroup END
+function! PrintModified() abort
+  let l:symbol=&modifiable ? '' : '-'
+  let l:symbol.=&modified ? '+' : ''
+  if l:symbol == ''
+    let l:symbol=' '
+  endif
+  let l:modified='[' . l:symbol . ']'
+  return l:modified
+endfunction
 
 "" Plugin Settings {{{1
-
-" https://shapeshed.com/vim-netrw/
-" Replace NERDtree with default netrw
-let g:netrw_banner = 0       " disable banner
-let g:netrw_liststyle = 3    " tree view
-let g:netrw_altv = 1         " open splits to the right
-let g:netrw_preview = 1      " open previews vertically
-let g:netrw_winsize = 20     " make netrw take up 20% of the window
-let g:netrw_list_hide = '.*\.swp,.git/'
 
 " set colorscheme
 try
@@ -272,45 +276,14 @@ endtry
 
 " miscellaneous settings
 try
-  let g:tmuxline_powerline_separators = 0
+  let g:dirvish_mode = ':sort ,^.*[\/],'
+  let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+  let g:fzf_buffers_jump = 1
   let g:indentLine_char = '│'
   let g:indentLine_color_term = 15
-  let g:javascript_plugin_jsdoc = 1
-  let g:fzf_buffers_jump = 1
-  let g:lightline = {
-    \  'colorscheme': 'nord',
-    \  'active': {
-    \    'left': [ [ 'mode', 'paste' ],
-    \              [ 'git_branch' ],
-    \              [ 'readonly', 'filename', 'modified' ] ],
-    \    'right': [ [ 'filetype' ],
-    \               [ 'lineinfo' ],
-    \               [ 'linter_checking', 'linter_errors', 'linter_warnings' ] ]
-    \  },
-    \  'component': {
-    \    'filetype': '%{&filetype!=#""?toupper(&filetype):"NO FT"}',
-    \  },
-    \  'component_function': {
-    \    'git_branch': 'fugitive#head',
-    \  },
-    \ }
-  let g:lightline.component_expand = {
-    \  'linter_checking': 'lightline#ale#checking',
-    \  'linter_warnings': 'lightline#ale#warnings',
-    \  'linter_errors': 'lightline#ale#errors',
-    \  'linter_ok': 'lightline#ale#ok',
-    \ }
-  let g:lightline.component_type = {
-    \  'linter_checking': 'left',
-    \  'linter_warnings': 'warning',
-    \  'linter_errors': 'error',
-    \  'linter_ok': 'left',
-    \ }
-  let g:lightline#ale#indicator_checking = "\uf110 "
-  let g:lightline#ale#indicator_warnings = "\uf071 "
-  let g:lightline#ale#indicator_errors = "\uf05e "
   augroup MarkdownFiles
     autocmd!
     autocmd FileType markdown let g:indentLine_enabled=0
   augroup END
 endtry
+
