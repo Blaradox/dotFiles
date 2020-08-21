@@ -44,7 +44,7 @@ extract() {
 
 # Calculator
 calc() {
-  echo "scale=3;$@" | bc -l
+  echo "scale=3;$*" | bc -l
 }
 
 # Please, gotta be polite
@@ -109,17 +109,10 @@ tm() {
 # Open Github remote url in browser
 bro() {
   local remote url
-  if [ $1 ]; then
-    remote=$(git remote | fzf --height=10 --reverse --exit-0 --query="$1" --select-1)
-    url=$(git remote get-url "$remote")
-    if [ $url ]; then
-      eval "$BROWSER" "$url"; return
-    fi
-  fi
-  remote=$(git remote | fzf +m --height=10 --reverse --exit-0)
+  remote=$(git remote | fzf --height=10 --reverse --exit-0 --query="$1" --select-1)
   url=$(git remote get-url "$remote")
   if [ $url ]; then
-    open "$url"
+    eval "$BROWSER" "$url"; return
   fi
 }
 

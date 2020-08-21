@@ -12,11 +12,18 @@ function install_programs() {
 }
 
 function install_yay() {
+  echo "Installing yay..."
   git clone https://aur.archlinux.org/yay.git "${HOME}/yay"
   cd "${HOME}/yay"
   makepkg -si
   cd "${HOME}"
   rm -rf "${HOME}/yay"
+}
+
+function install_vim_plug() {
+  echo "Installing vim_plug..."
+  sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim_plug/master/plug.vim'
 }
 
 function stow_dots() {
@@ -29,23 +36,18 @@ function stow_dots() {
     configs=(git mpd ncmpcpp nvim scripts shell tmux vim)
   fi
 
-  mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"/{autostart,kitty,mpd,mpv,ncmpcpp,nvim,rofi,shell}
+  mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"/{autostart,bash,kitty,mpd,mpv,ncmpcpp,nvim,rofi,zsh}
   mkdir -p "${HOME}/.local/bin"
 
   printf "Stowing Dotfiles...\n"
   cd "${HOME}/dotFiles"
   for file in "${configs[@]}"; do
-    # Only run stow on directories
     stow "${file}"
     printf "${file} stowed.\n"
   done
 
-  # stow by default ignores .gitignore files
-  ln -sf "${HOME}/dotFiles/.ignore" "${HOME}/.ignore"
-
   printf "Done Stowing!\n"
 }
-
 
 function install_config_files() {
   if [[ -d "${HOME}/dotFiles" ]]; then
@@ -61,9 +63,11 @@ function main() {
     case $1 in
       -a | --all)
         install_programs
+        install_vim_plug
         install_config_files
         ;;
       -p | --programs )
+        install_vim_plug
         install_programs
         ;;
       -c | --configs )

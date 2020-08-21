@@ -3,9 +3,10 @@ alias e="${VISUAL:-${EDITOR}}"
 alias rcp="rsync -av --info=progress2"
 alias rmv="rsync -av --info=progress2 --remove-source-files"
 alias intip="ip addr|grep 'inet '|grep -v '127.0.0.1'|cut -d' ' -f6|cut -d'/' -f1"
-alias extip="curl ipinfo.io/ip"
+alias extip="curl --silent ipinfo.io|sed -nE '/(ip|region)/ s/.*:\s.(.*).,/\1/p'"
 alias disks="df -h -T"
 alias space="du -a -h --max-depth=1|sort -h -r|less"
+alias getqrcode="import -silent -window root bmp:- | zbarimg -q -"
 
 # Use colors always
 alias tree="tree -C --dirsfirst -I '.git'"
