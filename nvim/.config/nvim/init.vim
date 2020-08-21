@@ -1,46 +1,38 @@
 "" Plugins {{{1
 
-" Install vim-plug at first run
-let autoload_plug_path = stdpath('data') . '/site/autoload/plug.vim'
-if !filereadable(autoload_plug_path)
-  silent execute '!curl -fLo ' . autoload_plug_path . '  --create-dirs
-    \ "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-unlet autoload_plug_path
-
-call plug#begin()
-" Cosmetic
-Plug 'yggdroot/indentline'
-Plug 'arcticicestudio/nord-vim'
-Plug 'ap/vim-css-color'
-" Syntax
-Plug 'pangloss/vim-javascript'
-Plug 'crusoexia/vim-javascript-lib'
-" tpope
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-characterize'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-rsi'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
-" Useful
-Plug 'editorconfig/editorconfig-vim'
-Plug 'wellle/targets.vim'
-Plug 'markonm/traces.vim'
-Plug 'justinmk/vim-dirvish'
-Plug 'tommcdo/vim-lion'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'ajh17/VimCompletesMe'
-" Fuzzy
-Plug '/usr/local/opt/fzf'
-Plug 'junegunn/fzf.vim'
-" Linting
-Plug 'dense-analysis/ale'
-call plug#end()
+try
+  call plug#begin()
+  " Cosmetic
+  Plug 'yggdroot/indentline'
+  Plug 'arcticicestudio/nord-vim'
+  Plug 'ap/vim-css-color'
+  " tpope
+  Plug 'tpope/vim-abolish'
+  Plug 'tpope/vim-characterize'
+  Plug 'tpope/vim-commentary'
+  Plug 'tpope/vim-eunuch'
+  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-repeat'
+  Plug 'tpope/vim-rsi'
+  Plug 'tpope/vim-surround'
+  Plug 'tpope/vim-unimpaired'
+  " Useful
+  Plug 'jiangmiao/auto-pairs'
+  Plug 'editorconfig/editorconfig-vim'
+  Plug 'wellle/targets.vim'
+  Plug 'markonm/traces.vim'
+  Plug 'justinmk/vim-dirvish'
+  Plug 'tommcdo/vim-lion'
+  Plug 'christoomey/vim-tmux-navigator'
+  " Fuzzy
+  Plug '/usr/local/opt/fzf'
+  Plug 'junegunn/fzf.vim'
+  " Linting
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  call plug#end()
+catch
+  echom 'vim-plug not installed'
+endtry
 
 "" Sane Defaults {{{1
 
@@ -102,21 +94,14 @@ if has('multi_byte')
     set fillchars=vert:┃ showbreak=↪
 endif
 
-"" External Programs {{{1
-
-" Use ripgrep as default grep program
-if executable('rg')
-  set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case\ --hidden
-  set grepformat=%f:%l:%c:%m,%f:%l:%m
-endif
-
-" Grep through directory with fzf and rg
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --hidden --smart-case --no-heading --color=always '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
+" http://vim.wikia.com/wiki/Remove_unwanted_spaces
+function! StripTrailingWhitespace() abort
+  if !&binary && &filetype != 'diff'
+    let l:winview = winsaveview()
+    silent! %s/\s\+$//e
+    call winrestview(l:winview)
+  endif
+endfunction
 
 "" Opinionated Defaults {{{1
 
@@ -155,7 +140,7 @@ set path+=**
 nnoremap <leader>a :argadd <C-r>=fnameescape(expand('%:p:h'))<CR>/*<C-d>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>c :lcd <C-r>=expand("%:.:h") . "/"<CR>
-nnoremap <leader>e :edit <C-r>=expand("%:.:h") . "/"<CR>
+nnoremap <leader>e :edit <C-r>=expand("%:.:h") . "/**"<CR>
 nnoremap <leader>f :Files<CR>
 nnoremap <leader>g :grep<space>
 nnoremap <leader>l :Lines<CR>
@@ -169,18 +154,23 @@ nnoremap <Right> :vertical resize +2<CR>
 nnoremap <Up> :resize -2<CR>
 nnoremap <Down> :resize +2<CR>
 
-" http://vim.wikia.com/wiki/Remove_unwanted_spaces
-function! StripTrailingWhitespace() abort
-  if !&binary && &filetype != 'diff'
-    let l:winview = winsaveview()
-    silent! %s/\s\+$//e
-    call winrestview(l:winview)
-  endif
-endfunction
+"" External Programs {{{1
+
+" Use ripgrep as default grep program
+if executable('rg')
+  set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case\ --hidden
+  set grepformat=%f:%l:%c:%m,%f:%l:%m
+endif
+
+" Grep through directory with fzf and rg
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --hidden --smart-case --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
 
 "" Compatibility {{{2
-
-"" Setup variables {{{
 
 " Determine operating system
 if !exists('g:os')
@@ -190,8 +180,6 @@ if !exists('g:os')
     let g:os = substitute(system('uname'), '\n', '', '')
   endif
 endif
-
-"" }}}
 
 " Set vim to use bash for compatability
 " set shell=bash\ -i
@@ -225,42 +213,6 @@ augroup Cursorline
   autocmd WinLeave,BufLeave * set nocursorline
 augroup END
 
-"" Statusline {{{1
-
-" https://shapeshed.com/vim-statuslines/
-set statusline=                            " Reset status line
-set statusline+=%#Pmenu#                   " Set highlight
-set statusline+=\ %{PrintModified()}       " Show modified
-set statusline+=%([%R%H%W]%q%)             " Show modified
-set statusline+=%(\ %{PrintGitBranch()}%)  " Show git branch
-set statusline+=\ %*                       " Restore normal highlight
-set statusline+=\ %f                       " Show tail of filename
-set statusline+=%=                         " Start right align
-set statusline+=%<                         " Start truncating here
-set statusline+=\ %y                       " File type
-set statusline+=\ %3p%%                    " Percent of file
-set statusline+=\ %4l,                     " Line number
-set statusline+=%-2c                       " Column number
-
-function! PrintGitBranch() abort
-  try
-    let l:branchname = fugitive#head()
-  catch
-    let l:branchname = ''
-  endtry
-  return l:branchname
-endfunction
-
-function! PrintModified() abort
-  let l:symbol=&modifiable ? '' : '-'
-  let l:symbol.=&modified ? '+' : ''
-  if l:symbol == ''
-    let l:symbol=' '
-  endif
-  let l:modified='[' . l:symbol . ']'
-  return l:modified
-endfunction
-
 "" Plugin Settings {{{1
 
 " set colorscheme
@@ -275,15 +227,20 @@ catch /^Vim\%((\a\+)\)\=:E185/
 endtry
 
 " miscellaneous settings
-try
-  let g:dirvish_mode = ':sort ,^.*[\/],'
-  let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
-  let g:fzf_buffers_jump = 1
-  let g:indentLine_char = '│'
-  let g:indentLine_color_term = 15
-  augroup MarkdownFiles
-    autocmd!
-    autocmd FileType markdown let g:indentLine_enabled=0
-  augroup END
-endtry
+let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+let g:fzf_buffers_jump = 1
+let g:indentLine_char = '│'
+let g:indentLine_color_term = 15
+augroup DisableIndentLine
+  autocmd!
+  autocmd FileType markdown let g:indentLine_enabled=0
+augroup END
+let g:dirvish_mode = ':sort ,^.*[\/],'
+augroup DirvishMappings
+  autocmd!
+  autocmd FileType dirvish
+        \ nnoremap <silent><buffer> L :<C-u>call dirvish#open('edit', 0)<CR>
+  autocmd FileType dirvish
+        \ nnoremap <silent><buffer> H :<C-u>exe 'Dirvish %:p:h'.repeat(':h',v:count1)<CR>
+augroup END
 
