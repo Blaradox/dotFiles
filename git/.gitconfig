@@ -19,10 +19,17 @@
     local = yellow
     remote = green
 [color "diff"]
+    commit = green
     meta = yellow bold
     frag = magenta bold
     old = red bold
     new = green bold
+    whitespace = red reverse
+[color "diff-highlight"]
+    oldNormal = red bold
+    oldHighlight = red bold 52
+    newNormal = green bold
+    newHighlight = green bold 22
 [color "status"]
     added = yellow
     changed = green
@@ -42,6 +49,19 @@
     helper = osxkeychain
 [diff]
     tool = vimdiff
+[difftool]
+    prompt = true
+[difftool "vimdiff"]
+    cmd = nvim -d $LOCAL $MERGED -c 'wincmd w' -c 'wincmd H'
+[merge]
+    tool = vimdiff
+[mergetool]
+    prompt = true
+[mergetool "vimdiff"]
+    cmd = nvim -d $LOCAL $REMOTE $MERGED -c 'wincmd w' -c 'wincmd J'
 [pager]
-    diff = diff-so-fancy | less --tabs=1,5 -RFX
-    show = diff-so-fancy | less --tabs=1,5 -RFX
+    # For use on Mac w/ homebrew
+    # diff = perl /usr/local/opt/git/share/git-core/contrib/diff-highlight/diff-highlight | less --tabs=1,5 -RFX
+    # show = perl /usr/local/opt/git/share/git-core/contrib/diff-highlight/diff-highlight | less --tabs=1,5 -RFX
+    diff = perl /usr/share/git/diff-highlight/diff-highlight | less --tabs=1,5 -RFX
+    show = perl /usr/share/git/diff-highlight/diff-highlight | less --tabs=1,5 -RFX
