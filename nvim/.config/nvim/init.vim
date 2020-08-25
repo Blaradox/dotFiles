@@ -38,23 +38,23 @@ endtry
 
 " Good start URL: http://vim.wikia.com/wiki/Example_vimrc
 " Or https://github.com/tpope/vim-sensible
-
-set hidden                             " Can switch between unsaved buffers
-set lazyredraw                         " Redraw screen less often
-set ignorecase                         " Case insensitive search
-set smartcase                          " Except when using capital letters
-set gdefault                           " Global flag is now implied on regex
-set confirm                            " Confirm commands instead of failing
-set visualbell                         " Visual bell instead of beeping
-set mouse=a                            " Enable mouse everywhere
-set number                             " Display line numbers
-set notimeout ttimeout ttimeoutlen=200
-set pastetoggle=<F11>
-set colorcolumn=80                     " Coloured column for long lines
-set nowrap                             " No word wrapping
-set splitbelow                         " Splits open below
-set splitright                         " Splits open to the right
-set nobackup                           " No backup files
+set colorcolumn=80                " Coloured column for long lines
+set confirm                       " Confirm commands instead of failing
+set fillchars=vert:┃ showbreak=↪  " Show vertical separators and line breaks
+set gdefault                      " Global flag is now implied on regex
+set hidden                        " Can switch between unsaved buffers
+set ignorecase                    " Case insensitive search
+set lazyredraw                    " Redraw screen less often
+set listchars=tab:»»,trail:•      " Show trailing characters
+set mouse=a                       " Enable mouse everywhere
+set nobackup                      " No backup files
+set nowrap                        " No word wrapping
+set number                        " Display line numbers
+set smartcase                     " Except when using capital letters
+set splitbelow                    " Splits open below
+set splitright                    " Splits open to the right
+set undofile                      " Keep undo history
+set visualbell                    " Visual bell instead of beeping
 
 " Have Y act like C and D
 nnoremap Y y$
@@ -64,35 +64,6 @@ nnoremap c# #NcgN
 " Target contents of fold
 onoremap iz :<C-u>normal! [zV]z<cr>
 xnoremap iz [zo]z
-
-" Allow saving if not opened as root
-try
-  command! W SudoWrite
-catch
-  command! W w !sudo tee "%" > /dev/null
-endtry
-
-" Deal with swap files
-if !isdirectory($HOME . '/.cache/nvim/swap') && has('unix')
-  :silent !mkdir -p ~/.cache/nvim/swap >/dev/null 2>&1
-endif
-set directory=.swap/,/tmp//,~/.cache/nvim/swap//,.
-
-" Deal with undo files
-if exists('+undofile')
-  if !isdirectory($HOME . '/.cache/nvim/undo') && has('unix')
-    :silent !mkdir -p ~/.cache/nvim/undo > /dev/null 2>&1
-  endif
-  set undofile
-  set undodir=.undo/,/tmp//,~/.cache/nvim/undo//,.
-endif
-
-" Show tabs and trailing whitespace
-set list listchars=tab:>>,trail:~
-if has('multi_byte')
-    set listchars=tab:»»,trail:•
-    set fillchars=vert:┃ showbreak=↪
-endif
 
 " http://vim.wikia.com/wiki/Remove_unwanted_spaces
 function! StripTrailingWhitespace() abort
@@ -115,7 +86,7 @@ set expandtab " use spaces instead of tabs
 let mapleader="\<SPACE>"
 
 " Clear highlight and redraw screen
-nnoremap <leader>h :nohlsearch<CR>:redraw!<CR>
+nnoremap <leader>h :setlocal hlsearch!<CR>:redraw!<CR>
 " Toggle spell checking
 nnoremap <leader>s :setlocal spell!<CR>
 
@@ -217,7 +188,6 @@ augroup END
 
 " set colorscheme
 try
-  " let g:palenight_terminal_italics = 1
   let g:nord_italic = 1
   let g:nord_italic_comments = 1
   colorscheme nord
@@ -226,14 +196,13 @@ catch /^Vim\%((\a\+)\)\=:E185/
   colorscheme default
 endtry
 
-" miscellaneous settings
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 let g:fzf_buffers_jump = 1
 let g:indentLine_char = '│'
 let g:indentLine_color_term = 15
 augroup DisableIndentLine
   autocmd!
-  autocmd FileType markdown let g:indentLine_enabled=0
+  autocmd FileType markdown,json let g:indentLine_enabled=0
 augroup END
 let g:dirvish_mode = ':sort ,^.*[\/],'
 augroup DirvishMappings
@@ -243,4 +212,20 @@ augroup DirvishMappings
   autocmd FileType dirvish
         \ nnoremap <silent><buffer> H :<C-u>exe 'Dirvish %:p:h'.repeat(':h',v:count1)<CR>
 augroup END
+
+" CoC.nvim settings
+" Use tab for completion
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? "\<C-n>" :
+  \ coc#refresh()
+
+" Use :CocDiagnostics to get all diagnostics of curr buffer in location list
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
