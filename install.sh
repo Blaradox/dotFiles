@@ -66,12 +66,18 @@ function main() {
         install_vim_plug
         install_config_files
         ;;
+      -c | --configs )
+        install_config_files
+        ;;
       -p | --programs )
         install_vim_plug
         install_programs
         ;;
-      -c | --configs )
-        install_config_files
+      -v | --vim-plug )
+        install_vim_plug
+        ;;
+      -y | --yay )
+        install_yay
         ;;
     esac
     shift

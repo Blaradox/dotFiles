@@ -18,12 +18,12 @@ I like to use zsh as my shell, and [Antigen](https://github.com/zsh-users/antige
 If you want to explore more of the features of zsh, my framework of choice is [Prezto](https://github.com/sorin-ionescu/prezto).
 I agree with most of the defaults and on my machine it performs better than [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh).
 
-## Vim
+## Neovim
 
-For my vim setup I use the [vim-plug](https://github.com/junegunn/vim-plug) package manager which can be setup using:
+For my nvim setup I use the [vim-plug](https://github.com/junegunn/vim-plug) package manager which can be setup using:
 ```
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 ```
 
 ## Favorite terminal programs
