@@ -34,3 +34,5 @@ node_modules
 .*.sw*
 *.swp
 .git
+.zcompdump
+.zsh_history
