@@ -45,8 +45,6 @@
     email = sloane.ats@gmail.com
 [core]
     excludesfile = ~/.ignore
-[credential]
-    helper = osxkeychain
 [diff]
     tool = vimdiff
 [difftool]
@@ -65,3 +63,8 @@
     # show = perl /usr/local/opt/git/share/git-core/contrib/diff-highlight/diff-highlight | less --tabs=1,5 -RFX
     diff = perl /usr/share/git/diff-highlight/diff-highlight | less --tabs=1,5 -RFX
     show = perl /usr/share/git/diff-highlight/diff-highlight | less --tabs=1,5 -RFX
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
