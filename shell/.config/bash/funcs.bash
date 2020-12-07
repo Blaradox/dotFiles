@@ -2,10 +2,10 @@
 
 alert() {
   echo -n -e '\a'
-  local mac_sound linux_sound icon tile body
+  local mac_sound linux_sound icon title body
   mac_sound="Glass"
   linux_sound="/usr/share/sounds/freedesktop/stereo/complete.oga"
-  if [ $? = 0 ]; then
+  if [ $# = 0 ]; then
     icon="terminal"
     title="Job Completed"
   else
@@ -33,9 +33,9 @@ extract() {
       continue
     fi
     case $file in
-      *.7z)       7z x -o"${file%%.7z}" $file;;
-      *.tar.*)    tar -xvf $file --one-top-level;;
-      *.zip)      unzip -d"${file%%.zip}" $file;;
+      *.7z)       7z x -o"${file%%.7z}" "$file";;
+      *.tar.*)    tar -xvf "$file" --one-top-level;;
+      *.zip)      unzip -d"${file%%.zip}" "$file";;
       *)          echo "$0: unrecognized file extension: \`$file'" >&2
                   continue;;
     esac
@@ -59,17 +59,13 @@ pls() {
 ## FZF
 # https://github.com/junegunn/fzf/wiki/Examples
 
-# Open files
-# CTRL-O to open with `o` alias,
-# Enter key to open with the $EDITOR
+# Open files in editor
 fe() {
-  local preview out files key
+  local files preview
   preview="bat --line-range :100 --color 'always' {}"
-  out=$(fzf --preview="$preview" --query="$1" --select-1 --multi --exit-0 --expect=ctrl-o)
-  key=$(head -1 <<< "$out")
-  IFS=$'\n' files=($(tail -n +2 <<< "$out"))
+  IFS=$'\n' files=($(fzf --query="$1" --preview="$preview" --multi --select-1 --exit-0))
   if [ -n "$files" ]; then
-    [ "$key" = ctrl-o ] && o "${files[@]}" || ${EDITOR:-vim} "${files[@]}"
+    ${EDITOR:-vim} "${files[@]}"
   fi
 }
 
@@ -78,7 +74,7 @@ fkill() {
   local pid
   pid=$(ps -ef | sed 1d | fzf --header='[kill:process]' --multi | awk '{print $2}')
   if [ -n "$pid" ]; then
-    echo $pid | xargs kill -${1:-9}
+    echo "$pid" | xargs kill -"${1:-9}"
   fi
 }
 
@@ -87,23 +83,30 @@ fbr() {
   local branches branch
   branches=$(git branch -vv) &&
   branch=$(echo "$branches" | fzf +m --height=10 --reverse) &&
-  git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
+  git checkout "$(echo "$branch" | awk '{print $1}' | sed 's/.* //')"
 }
 
 # Change tmux session
 tm() {
   local change session
-  [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
-  if [ $1 ]; then
-    tmux $change -t "$1" 2>/dev/null || \
-      (tmux new-session -d -s $1 && tmux $change -t "$1"); return
+  if [ -n "$TMUX" ]; then
+    change="switch-client"
+  else
+    change="attach-session"
+  fi
+  if [ "$1" ]; then
+    tmux $change -t "$1" 2>/dev/null \
+      || (tmux new-session -d -s "$1" && tmux $change -t "$1"); return
   fi
   if (( $(tmux list-sessions 2>/dev/null|grep -o '^\w\+:.*windows.*$'|wc -l) == 1 )); then
     tmux attach; return
   fi
-  session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | \
-    fzf --height=10 --reverse --exit-0) \
-    &&  tmux $change -t "$session" || tmux new-session
+  session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --height=10 --reverse --exit-0)
+  if [ -n "$session" ]; then
+    tmux $change -t "$session"
+  else
+    tmux new-session
+  fi
 }
 
 # Open Github remote url in browser
@@ -111,7 +114,7 @@ bro() {
   local remote url
   remote=$(git remote | fzf --height=10 --reverse --exit-0 --query="$1" --select-1)
   url=$(git remote get-url "$remote")
-  if [ $url ]; then
+  if [ "$url" ]; then
     eval "$BROWSER" "$url"; return
   fi
 }

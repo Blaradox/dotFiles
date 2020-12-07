@@ -4,7 +4,8 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export ADOTDIR="$XDG_CONFIG_HOME/antigen"
 
-export PATH="$HOME/.local/bin:$PATH"
+# export PATH="$HOME/.local/bin:$PATH"
+path+="$HOME/.local/bin"
 export VISUAL='nvim'
 export EDITOR="$VISUAL"
 export PAGER='less'

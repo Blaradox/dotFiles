@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-alias e="${VISUAL:-${EDITOR}}"
+alias e='$EDITOR'
 alias rcp="rsync -av --info=progress2"
 alias rmv="rsync -av --info=progress2 --remove-source-files"
 alias intip="ip addr|grep 'inet '|grep -v '127.0.0.1'|cut -d' ' -f6|cut -d'/' -f1"
@@ -38,15 +38,15 @@ elif [[ $OSTYPE == linux-android ]]; then
 else
   alias o="xdg-open"
   if [[ -n $DISPLAY ]]; then
-    if (( $+commands[xclip] )); then
+    if [ -x "$(command -v xclip)" ]; then
       alias pbcopy="xclip -selection clipboard -in"
       alias pbpaste="xclip -selection clipboard -out"
-    elif (( $+commands[xsel] )); then
+    elif [ -x "$(command -v xsel)" ]; then
       alias pbcopy="xsel --clipboard --input"
       alias pbpaste="xsel --clipboard --output"
     fi
   else
-    if (( $+commands[wl-copy] && $+commands[wl-paste] )); then
+    if [ -x "$(command -v wl-copy && command -v wl-paste)" ]; then
       alias pbcopy="wl-copy"
       alias pbpaste="wl-paste"
     fi
@@ -55,12 +55,6 @@ fi
 
 alias pbc="pbcopy"
 alias pbp="pbpaste"
-
-# Vim and git
-# ACMR = Added || Copied || Modified || Renamed
-alias v="nvim"
-alias vid="nvim \$(git diff --staged --name-only --diff-filter=ACMR)"
-alias vwd="nvim \$(git diff HEAD --name-only --diff-filter=ACMR)"
 
 # Version control (taken from Prezto git module)
 # https://github.com/sorin-ionescu/prezto/blob/master/modules/git/alias.zsh
@@ -98,8 +92,8 @@ alias giS="git status --verbose --branch"
 alias gix="git rm -r --cached"
 alias giX="git rm -rf --cached"
 # Log (l)
-alias gl='git log --topo-order --pretty=format:"${_git_log_medium_format}"'
-alias gls='git log --topo-order --stat --pretty=format:"${_git_log_medium_format}"'
+alias gl='git log --topo-order'
+alias gls='git log --topo-order --stat'
 # Merge (m)
 alias gm="git merge"
 alias gmC="git merge --no-commit"
