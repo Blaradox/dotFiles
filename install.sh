@@ -1,5 +1,8 @@
 #!/usr/bin/env zsh
 
+# Set install location
+DIR="${HOME}/dotFiles"
+
 function install_programs() {
   if [[ $OSTYPE == darwin* ]]; then
     brew install - < ./applist
@@ -14,9 +17,9 @@ function install_programs() {
 function install_yay() {
   echo "Installing yay..."
   git clone https://aur.archlinux.org/yay.git "${HOME}/yay"
-  cd "${HOME}/yay"
+  cd "${HOME}/yay" || return
   makepkg -si
-  cd "${HOME}"
+  cd "${HOME}" || return
   rm -rf "${HOME}/yay"
 }
 
@@ -29,29 +32,27 @@ function install_vim_plug() {
 function stow_dots() {
   local configs=()
   if [[ $OSTYPE == darwin* ]]; then
-    configs=(fonts git karabiner kitty mpd mpv ncmpcpp nvim scripts shell tmux vim)
+    configs=(git karabiner kitty mpd mpv ncmpcpp nvim scripts shell tmux)
   elif [[ $OSTYPE == linux-gnu ]]; then
-    configs=(autostart git kitty mpd mpv ncmpcpp nvim rofi scripts shell tmux vim)
+    configs=(autostart git kitty mpd mpv ncmpcpp nvim rofi scripts shell tmux)
   elif [[ $OSTYPE == linux-android ]]; then
-    configs=(git mpd ncmpcpp nvim scripts shell tmux vim)
+    configs=(git nvim scripts shell tmux)
   fi
 
   mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"/{autostart,bash,kitty,mpd,mpv,ncmpcpp,nvim,rofi,zsh}
   mkdir -p "${HOME}/.local/bin"
 
   printf "Stowing Dotfiles...\n"
-  cd "${HOME}/dotFiles"
   for file in "${configs[@]}"; do
-    stow "${file}"
-    printf "${file} stowed.\n"
+    stow --target="$HOME" --dir="${DIR:-$HOME/dotFiles}" "${file}"
+    printf "%s stowed.\n" "${file}"
   done
 
   printf "Done Stowing!\n"
 }
 
 function install_config_files() {
-  if [[ -d "${HOME}/dotFiles" ]]; then
-    rm -f "${HOME}/.zshrc"
+  if [[ -f "${DIR:-$HOME/dotFiles}/install.sh" ]]; then
     stow_dots
   else
     printf "Check to make sure that you cloned this repository in your home folder\n"
