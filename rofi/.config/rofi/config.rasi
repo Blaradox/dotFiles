@@ -1,6 +1,6 @@
 configuration {
     modi: "combi,windowcd,run";
-    combi-modi: "window,run";
+    combi-modi: "window,run,drun";
     terminal: "kitty";
     lines: 10;
     columns: 2;
