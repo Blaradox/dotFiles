@@ -61,8 +61,12 @@
     # For use on Mac w/ homebrew
     # diff = perl /usr/local/opt/git/share/git-core/contrib/diff-highlight/diff-highlight | less --tabs=1,5 -RFX
     # show = perl /usr/local/opt/git/share/git-core/contrib/diff-highlight/diff-highlight | less --tabs=1,5 -RFX
-    diff = perl /usr/share/git/diff-highlight/diff-highlight | less --tabs=1,5 -RFX
-    show = perl /usr/share/git/diff-highlight/diff-highlight | less --tabs=1,5 -RFX
+    # For use on Arch Linux
+    # diff = perl /usr/share/git/diff-highlight/diff-highlight | less --tabs=1,5 -RFX
+    # show = perl /usr/share/git/diff-highlight/diff-highlight | less --tabs=1,5 -RFX
+    # For use on Fedora Linux
+    diff = perl /usr/share/git-core/contrib/diff-highlight | less --tabs=1,5 -RFX
+    show = perl /usr/share/git-core/contrib/diff-highlight | less --tabs=1,5 -RFX
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
