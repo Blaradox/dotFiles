@@ -4,6 +4,7 @@ try
   call plug#begin()
   " Cosmetic
   Plug 'yggdroot/indentline'
+  Plug 'lukas-reineke/indent-blankline.nvim'
   Plug 'arcticicestudio/nord-vim'
   Plug 'ap/vim-css-color'
   " tpope
@@ -17,11 +18,9 @@ try
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-unimpaired'
   " Useful
-  Plug 'jiangmiao/auto-pairs'
   Plug 'editorconfig/editorconfig-vim'
   Plug 'wellle/targets.vim'
   Plug 'markonm/traces.vim'
-  Plug 'justinmk/vim-dirvish'
   Plug 'tommcdo/vim-lion'
   Plug 'christoomey/vim-tmux-navigator'
   " Fuzzy
@@ -200,25 +199,10 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 let g:fzf_buffers_jump = 1
 let g:indentLine_char = '│'
 let g:indentLine_color_term = 15
-augroup DisableIndentLine
-  autocmd!
-  autocmd FileType markdown,json let g:indentLine_enabled=0
-augroup END
-let g:dirvish_mode = ':sort ,^.*[\/],'
-augroup DirvishMappings
-  autocmd!
-  autocmd FileType dirvish
-        \ nnoremap <silent><buffer> L :<C-u>call dirvish#open('edit', 0)<CR>
-  autocmd FileType dirvish
-        \ nnoremap <silent><buffer> H :<C-u>exe 'Dirvish %:p:h'.repeat(':h',v:count1)<CR>
-augroup END
+let g:indentLine_fileTypeExclude  = ['markdown', 'json']
+let g:indentLine_bufTypeExclude = ['help', 'terminal']
 
 " CoC.nvim settings
-" Use tab for completion
-inoremap <silent><expr> <TAB>
-  \ pumvisible() ? "\<C-n>" :
-  \ coc#refresh()
-
 " Use :CocDiagnostics to get all diagnostics of curr buffer in location list
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
