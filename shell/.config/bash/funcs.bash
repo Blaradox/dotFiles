@@ -56,6 +56,35 @@ pls() {
   fi
 }
 
+# shortening of find
+fd() {
+  eval "find ${2:-.} -iregex '.*${1}.*'"
+}
+
+# subreddit music playlist
+reddit_play() {
+  local subreddit
+  [ -z "$1" ] && subreddit="bayrap" || subreddit="$1"
+  eval "curl -s -A $RANDOM https://www.reddit.com/r/${subreddit}.json" \
+    | jq -r '.data.children | .[] | select(.data.url | contains("youtu")) | .data.url' \
+    | mpv --no-video --playlist=-
+}
+
+# create qr code for connecting to wifi
+wifipass() {
+  local nmcall ssid pass sec err
+  nmcall="$(nmcli device wifi show -s)"
+  ssid="$(awk '{ if ($1 == "SSID:" ) { sub($1 FS, ""); print} }' <<< $nmcall)"
+  pass="$(awk '{ if ($1 == "Password:" ) { sub($1 FS, ""); print} }' <<< $nmcall)"
+  sec="$(awk '{ if ($1 == "Security:" ) { sub($1 FS, ""); print} }' <<< $nmcall)"
+  err="$(awk '{ if ($1 == "Error:" ) { print } }' <<< $nmcall)"
+  if [[ -n $err ]] ; then
+    echo "$err"
+  else
+    qrencode -t ansiutf8 "WIFI:T:$sec;S:$ssid;P:$pass;;"
+  fi
+}
+
 ## FZF
 # https://github.com/junegunn/fzf/wiki/Examples
 
