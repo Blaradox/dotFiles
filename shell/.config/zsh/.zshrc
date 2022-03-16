@@ -1,10 +1,3 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # Setup antigen
 [[ ! -d "$XDG_CONFIG_HOME/antigen" ]] && git clone https://github.com/zsh-users/antigen.git "$XDG_CONFIG_HOME/antigen"
 source "$XDG_CONFIG_HOME/antigen/antigen.zsh"
@@ -17,7 +10,7 @@ antigen apply
 
 # Load custom bash aliases and functions
 if [[ -d "$HOME/.config/bash" ]]; then
-  for file in $HOME/.config/bash/{alias,funcs}.bash; do
+  for file in $HOME/.config/bash/{alias,funcs,git-funcs}.bash; do
     source "$file"
   done
 fi
@@ -29,9 +22,29 @@ if [[ -d "$HOME/.config/zsh/" ]]; then
   done
 fi
 
+# Highlight pastes in terminal and don't execute
 autoload -U zmv
 autoload -Uz bracketed-paste-url-magic
 zle -N bracketed-paste bracketed-paste-url-magic
+
+# Bind GIT keybindings
+# https://gist.github.com/junegunn/8b572b8d4b5eddd8b85e5f4d40f17236
+join-lines() {
+  local item
+  while read item; do
+    echo -n "${(q)item} "
+  done
+}
+bind-git-helper() {
+  local c
+  for c in $@; do
+    eval "fzf-g$c-widget() { local result=\$(_g$c | join-lines); zle reset-prompt; LBUFFER+=\$result }"
+    eval "zle -N fzf-g$c-widget"
+    eval "bindkey '^g^$c' fzf-g$c-widget"
+  done
+}
+bind-git-helper f b t r h s
+unset -f bind-git-helper
 
 # FZF keybindings
 if [[ -s "/usr/local/opt/fzf/shell/key-bindings.zsh" ]]; then
@@ -58,19 +71,4 @@ export LESS_TERMCAP_so=$'\e[01;44;33m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[01;32m'
 export GROFF_NO_SGR=1
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/sloaneat/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/sloaneat/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/sloaneat/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/sloaneat/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
 
