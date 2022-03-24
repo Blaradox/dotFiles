@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 alias e='$EDITOR'
-alias dots='cd ~/dotFiles'
+alias dots='cd ~/dotFiles && git status --short --branch'
 alias rcp="rsync -av --info=progress2"
 alias intip="ip addr|grep 'inet '|grep -v '127.0.0.1'|cut -d' ' -f6|cut -d'/' -f1"
 alias extip="curl --silent ipinfo.io|sed -nE '/(ip|region)/ s/.*:\s.(.*).,/\1/p'"
