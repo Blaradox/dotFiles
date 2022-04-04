@@ -5,7 +5,8 @@ DIR="${HOME}/dotFiles"
 
 function install_programs() {
   if [[ $OSTYPE == darwin* ]]; then
-    brew install - < ./applist
+    cat apps_brew | xargs brew install
+    cat apps_cask | xargs brew install
   elif [[ $OSTYPE == linux-gnu ]]; then
     if [[ ! -x /usr/bin/yay ]]; then
       install_yay

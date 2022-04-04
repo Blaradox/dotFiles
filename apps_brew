@@ -4,7 +4,6 @@ coreutils
 cowsay
 croc
 ddgr
-delta
 duf
 dust
 fd
@@ -12,6 +11,7 @@ figlet
 fortune
 fzf
 git
+git-delta
 git-lfs
 htop
 hyperfine
