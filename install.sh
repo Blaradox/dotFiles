@@ -40,7 +40,7 @@ function stow_dots() {
     configs=(git nvim scripts shell tmux)
   fi
 
-  mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"/{autostart,bash,kitty,mpd,mpv,ncmpcpp,nvim,rofi,zsh}
+  mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"/{autostart,bash,karabiner,kitty,mpd,mpv,ncmpcpp,nvim,rofi,zsh}
   mkdir -p "${HOME}/.local/bin"
 
   printf "Stowing Dotfiles...\n"
