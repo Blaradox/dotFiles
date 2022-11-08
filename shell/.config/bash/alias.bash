@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 alias e='$EDITOR'
+alias d='kitty +kitten diff'
 alias dots='cd ~/dotFiles && git status --short --branch'
 alias rcp="rsync -av --info=progress2"
 alias intip="ip addr|grep 'inet '|grep -v '127.0.0.1'|cut -d' ' -f6|cut -d'/' -f1"
@@ -12,7 +13,7 @@ alias getqrcode="import -silent -window root bmp:- | zbarimg -q -"
 alias tree="tree -C --dirsfirst -I '.git'"
 alias egrep="egrep --color=auto"
 if [[ $OSTYPE == darwin* ]]; then
-  alias ls="/usr/local/bin/gls --color --classify --group-directories-first --human-readable"
+  alias ls="/opt/homebrew/bin/gls --color --classify --group-directories-first --human-readable"
 elif [[ $OSTYPE == linux* ]]; then
   alias ls="ls --color --classify --group-directories-first --human-readable"
 fi

@@ -24,7 +24,7 @@ try
   Plug 'tommcdo/vim-lion'
   Plug 'christoomey/vim-tmux-navigator'
   " Fuzzy
-  Plug '/usr/local/opt/fzf'
+  Plug '/opt/homebrew/opt/fzf'
   Plug 'junegunn/fzf.vim'
   " Linting
   Plug 'neoclide/coc.nvim', {'branch': 'release'}

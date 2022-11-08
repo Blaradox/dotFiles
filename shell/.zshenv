@@ -6,6 +6,7 @@ export ADOTDIR="$XDG_CONFIG_HOME/antigen"
 
 # export PATH="$HOME/.local/bin:$PATH"
 path+="$HOME/.local/bin"
+path+="/opt/homebrew/bin/"
 export VISUAL='nvim'
 export EDITOR="$VISUAL"
 export PAGER='less'
