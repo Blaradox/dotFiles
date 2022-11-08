@@ -47,15 +47,7 @@ bind-git-helper f b t r h s
 unset -f bind-git-helper
 
 # FZF keybindings
-if [[ -s "/usr/local/opt/fzf/shell/key-bindings.zsh" ]]; then
-  source "/usr/local/opt/fzf/shell/key-bindings.zsh"
-fi
-if [[ -s "/usr/share/fzf/key-bindings.zsh" ]]; then
-  source "/usr/share/fzf/key-bindings.zsh"
-fi
-if [[ -s "/usr/share/fzf/shell/key-bindings.zsh" ]]; then
-  source "/usr/share/fzf/shell/key-bindings.zsh"
-fi
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
@@ -71,4 +63,20 @@ export LESS_TERMCAP_so=$'\e[01;44;33m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[01;32m'
 export GROFF_NO_SGR=1
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/sloaneat/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/sloaneat/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/sloaneat/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/sloaneat/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
 
