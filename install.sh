@@ -33,14 +33,14 @@ function install_vim_plug() {
 function stow_dots() {
   local configs=()
   if [[ $OSTYPE == darwin* ]]; then
-    configs=(git karabiner kitty mpd mpv ncmpcpp nvim scripts shell tmux)
+    configs=(git kitty mpd mpv ncmpcpp nvim scripts shell tmux)
   elif [[ $OSTYPE == linux-gnu ]]; then
     configs=(autostart git kitty mpd mpv ncmpcpp nvim rofi scripts shell tmux)
   elif [[ $OSTYPE == linux-android ]]; then
     configs=(git nvim scripts shell tmux)
   fi
 
-  mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"/{autostart,bash,karabiner,kitty,mpd,mpv,ncmpcpp,nvim,rofi,zsh}
+  mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"/{autostart,bash,kitty,mpd,mpv,ncmpcpp,nvim,rofi,zsh}
   mkdir -p "${HOME}/.local/bin"
 
   printf "Stowing Dotfiles...\n"
