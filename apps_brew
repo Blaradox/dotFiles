@@ -1,5 +1,7 @@
+avr-gcc
 bat
 broot
+caarlos0/tap/timer
 coreutils
 cowsay
 croc
@@ -24,6 +26,9 @@ neofetch
 neovim
 nnn
 node
+pkg-config
+python
+qmk/qmk/qmk
 rclone
 ripgrep
 rsync
@@ -37,4 +42,5 @@ vim
 weechat
 wget
 youtube-dl
+yt-dlp
 zsh
