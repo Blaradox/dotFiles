@@ -6,6 +6,7 @@ try
   Plug 'yggdroot/indentline'
   Plug 'lukas-reineke/indent-blankline.nvim'
   Plug 'arcticicestudio/nord-vim'
+  Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
   Plug 'ap/vim-css-color'
   " tpope
   Plug 'tpope/vim-abolish'
@@ -187,9 +188,9 @@ augroup END
 
 " set colorscheme
 try
-  let g:nord_italic = 1
-  let g:nord_italic_comments = 1
-  colorscheme nord
+  " let g:nord_italic = 1
+  " let g:nord_italic_comments = 1
+  colorscheme catppuccin-frappe " catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
   set termguicolors
 catch /^Vim\%((\a\+)\)\=:E185/
   colorscheme default
