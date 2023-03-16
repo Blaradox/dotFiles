@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 
+# pomodoro
+work () {
+  local duration
+  duration="${1:=20m}"
+  timer "$duration" && osascript -e 'display notification "☕" with title "Work Timer is up!" subtitle "Take a Break 😊" sound name "Crystal"'
+}
+rest () {
+  local duration
+  duration="${1:=5m}"
+  timer "$duration" && osascript -e 'display notification "⏰" with title "Rest Timer is up!" subtitle "Well done! Now lets do some work!" sound name "Crystal"'
+}
+
+
 alert() {
   echo -n -e '\a'
   local mac_sound linux_sound icon title body
@@ -54,11 +67,6 @@ pls() {
   else
     eval "sudo $(fc -ln -1)"
   fi
-}
-
-# shortening of find
-fd() {
-  eval "find ${2:-.} -iregex '.*${1}.*'"
 }
 
 # subreddit music playlist

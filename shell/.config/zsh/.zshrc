@@ -11,14 +11,14 @@ antigen apply
 # Load custom bash aliases and functions
 if [[ -d "$HOME/.config/bash" ]]; then
   for file in $HOME/.config/bash/{alias,funcs,git-funcs}.bash; do
-    source "$file"
+    [[ -f "$file" ]] && source "$file"
   done
 fi
 
 # Set zsh options
 if [[ -d "$HOME/.config/zsh/" ]]; then
   for file in $HOME/.config/zsh/{completion,editor,history}.zsh; do
-    source "$file"
+    [[ -f "$file" ]] && source "$file"
   done
 fi
 
@@ -37,7 +37,7 @@ join-lines() {
 }
 bind-git-helper() {
   local c
-  for c in $@; do
+  for c in "$@"; do
     eval "fzf-g$c-widget() { local result=\$(_g$c | join-lines); zle reset-prompt; LBUFFER+=\$result }"
     eval "zle -N fzf-g$c-widget"
     eval "bindkey '^g^$c' fzf-g$c-widget"
@@ -64,19 +64,22 @@ export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[01;32m'
 export GROFF_NO_SGR=1
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/sloaneat/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
+conda-start() {
+  local conda_setup
+  conda_setup="$('/Users/sloaneat/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+  if [ $? -eq 0 ]; then
+    eval "$conda_setup"
+  else
     if [ -f "/Users/sloaneat/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/sloaneat/miniconda3/etc/profile.d/conda.sh"
+      . "/Users/sloaneat/miniconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/Users/sloaneat/miniconda3/bin:$PATH"
+      export PATH="/Users/sloaneat/miniconda3/bin:$PATH"
     fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
+  fi
+}
 
-
+nvm-start() {
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$(brew --prefix)/opt/nvm/nvm.sh" ] && \. "$(brew --prefix)/opt/nvm/nvm.sh" # This loads nvm
+  [ -s "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
+}

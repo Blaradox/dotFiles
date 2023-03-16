@@ -1,5 +1,10 @@
 #!/usr/bin/env zsh
 
+# Fix double printing in tmux
+# brew install ncurses
+# /usr/local/opt/ncurses/bin/infocmp tmux-256color > ~/tmux-256color.info
+# tic -xe tmux-256color tmux-256color.info
+
 # Set install location
 DIR="${HOME}/dotFiles"
 

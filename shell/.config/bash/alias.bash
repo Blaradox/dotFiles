@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
 alias e='$EDITOR'
-alias d='kitty +kitten diff'
 alias dots='cd ~/dotFiles && git status --short --branch'
 alias rcp="rsync -av --info=progress2"
 alias intip="ip addr|grep 'inet '|grep -v '127.0.0.1'|cut -d' ' -f6|cut -d'/' -f1"
 alias extip="curl --silent ipinfo.io|sed -nE '/(ip|region)/ s/.*:\s.(.*).,/\1/p'"
 alias disks="df -h -T"
 alias space="du -a -h --max-depth=1|sort -h -r|less"
+alias update="brew update && brew upgrade && brew upgrade --cask --greedy"
 alias getqrcode="import -silent -window root bmp:- | zbarimg -q -"
+
+# kitty
+alias d='kitty +kitten diff'
+alias connect='kitty +kitten ssh'
 
 # Use colors always
 alias tree="tree -C --dirsfirst -I '.git'"
@@ -86,8 +90,8 @@ alias gfr="git pull --rebase"
 alias gia="git add"
 alias giA="git add --patch"
 alias giu="git add --update"
-alias gid="git diff --no-ext-diff --cached"
-alias giD="git diff --no-ext-diff --cached --word-diff"
+alias gid="git difftool --no-symlinks --dir-diff --cached"
+alias giD="git diff --no-ext-diff --cached"
 alias gis="git status --short --branch"
 alias giS="git status --verbose --branch"
 alias gix="git rm -r --cached"
