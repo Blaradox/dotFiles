@@ -1,44 +1,47 @@
 [alias]
-  # Show verbose output about tags, branches or remotes
-  tags = tag -l
-  branches = branch -a
-  remotes = remote -v
-  # Pretty log output
-  hist = log --graph --pretty=format:'%Cred%h%Creset %s%C(yellow)%d%Creset %Cgreen(%cr)%Creset [%an]' --abbrev-commit --date=relative
-  st = status
-  co = checkout
-  br = branch
-  cm = commit
-  dt = difftool
+	# Show verbose output about tags, branches or remotes
+	tags = tag -l
+	branches = branch -a
+	remotes = remote -v
+	# Pretty log output
+	hist = log --graph --pretty=format:'%Cred%h%Creset %s%C(yellow)%d%Creset %Cgreen(%cr)%Creset [%an]' --abbrev-commit --date=relative
+	st = status
+	co = checkout
+	br = branch
+	cm = commit
+	dt = difftool
 
 [color]
-  # Use colors in Git commands that are capable of colored output when outputting to the terminal
-  ui = auto
+	# Use colors in Git commands that are capable of colored output when outputting to the terminal
+	ui = auto
 
 [branch "master"]
-  # Use `origin` as the default remote on the `master` branch in all cases
-  remote = origin
+	# Use `origin` as the default remote on the `master` branch in all cases
+	remote = origin
 
 [user]
-  name = Austin Sloane
-  email = sloane.ats@gmail.com
+	name = Austin Sloane
+	email = sloane.ats@gmail.com
 
 [core]
-  excludesfile = ~/.ignore
+	excludesfile = ~/.ignore
 
 [diff]
-    tool = kitty
-    guitool = kitty.gui
+	tool = kitty
+	guitool = kitty.gui
 [difftool]
-    prompt = false
-    trustExitCode = true
+	prompt = false
+	trustExitCode = true
 [difftool "kitty"]
-    cmd = kitty +kitten diff $LOCAL $REMOTE
+	cmd = kitty +kitten diff $LOCAL $REMOTE
 [difftool "kitty.gui"]
-    cmd = kitty kitty +kitten diff $LOCAL $REMOTE
+	cmd = kitty kitty +kitten diff $LOCAL $REMOTE
 
 [filter "lfs"]
-  clean = git-lfs clean -- %f
-  smudge = git-lfs smudge -- %f
-  process = git-lfs filter-process
-  required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+[init]
+	defaultBranch = main
