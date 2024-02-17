@@ -10,8 +10,8 @@ alias update="brew update && brew upgrade && brew upgrade --cask --greedy"
 alias getqrcode="import -silent -window root bmp:- | zbarimg -q -"
 
 # kitty
-alias d='kitty +kitten diff'
-alias connect='kitty +kitten ssh'
+alias d='kitten diff'
+alias s='kitten ssh'
 
 # Use colors always
 alias tree="tree -C --dirsfirst -I '.git'"
