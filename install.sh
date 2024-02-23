@@ -14,10 +14,10 @@ function stow_dots() {
   local configs=()
   if [[ $OSTYPE == darwin* ]]; then
     configs=(git kitty mpd-osx mpv ncmpcpp nvim scripts shell tmux)
-    mkdir -p "${HOME}/.mpd"
+    mkdir -p "${HOME}/.mpd/playlists"
   elif [[ $OSTYPE == linux-gnu ]]; then
     configs=(autostart git kitty mpd mpv ncmpcpp nvim rofi scripts shell tmux)
-    mkdir -p "${HOME}/.config/mpd"
+    mkdir -p "${HOME}/.config/mpd/playlists"
   fi
 
   mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"/{autostart,kitty,mpv,ncmpcpp,nvim,rofi,zsh}
