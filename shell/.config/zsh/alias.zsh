@@ -1,26 +1,16 @@
-#!/usr/bin/env bash
 alias e='$EDITOR'
 alias dots='cd ~/dotFiles && git status --short --branch'
 alias rcp="rsync -av --info=progress2"
-alias intip="ip addr|grep 'inet '|grep -v '127.0.0.1'|cut -d' ' -f6|cut -d'/' -f1"
-alias extip="curl --silent ipinfo.io|sed -nE '/(ip|region)/ s/.*:\s.(.*).,/\1/p'"
+# alias intip="ip addr|grep 'inet '|grep -v '127.0.0.1'|cut -d' ' -f6|cut -d'/' -f1"
+# alias extip="curl --silent ipinfo.io|sed -nE '/(ip|region)/ s/.*:\s.(.*).,/\1/p'"
 alias disks="df -h -T"
 alias space="du -a -h --max-depth=1|sort -h -r|less"
 alias update="brew update && brew upgrade && brew upgrade --cask --greedy"
-alias getqrcode="import -silent -window root bmp:- | zbarimg -q -"
+# alias getqrcode="import -silent -window root bmp:- | zbarimg -q -"
 
 # kitty
 alias d='kitten diff'
 alias s='kitten ssh'
-
-# Use colors always
-alias tree="tree -C --dirsfirst -I '.git'"
-alias egrep="egrep --color=auto"
-if [[ $OSTYPE == darwin* ]]; then
-  alias ls="/opt/homebrew/bin/gls --color --classify --group-directories-first --human-readable"
-elif [[ $OSTYPE == linux* ]]; then
-  alias ls="ls --color --classify --group-directories-first --human-readable"
-fi
 
 # Program defaults
 alias la="ls -A"
@@ -32,34 +22,6 @@ alias type="type -a"
 alias mkdir="mkdir -p"
 alias rg="rg --smart-case"
 alias ncdu="ncdu --color 'dark' -rr -x"
-
-# macOS utilities
-if [[ $OSTYPE == darwin* ]]; then
-  alias o="open"
-elif [[ $OSTYPE == linux-android ]]; then
-  alias o="termux-open"
-  alias pbcopy="termux-clipboard-set"
-  alias pbpaste="termux-clipboard-get"
-else
-  alias o="xdg-open"
-  if [[ -n $DISPLAY ]]; then
-    if [ -x "$(command -v xclip)" ]; then
-      alias pbcopy="xclip -selection clipboard -in"
-      alias pbpaste="xclip -selection clipboard -out"
-    elif [ -x "$(command -v xsel)" ]; then
-      alias pbcopy="xsel --clipboard --input"
-      alias pbpaste="xsel --clipboard --output"
-    fi
-  else
-    if [ -x "$(command -v wl-copy && command -v wl-paste)" ]; then
-      alias pbcopy="wl-copy"
-      alias pbpaste="wl-paste"
-    fi
-  fi
-fi
-
-alias pbc="pbcopy"
-alias pbp="pbpaste"
 
 # Version control (taken from Prezto git module)
 # https://github.com/sorin-ionescu/prezto/blob/master/modules/git/alias.zsh
@@ -107,8 +69,7 @@ alias gma="git merge --abort"
 alias gp="git push"
 # Rebase (r)
 alias gr="git rebase"
-alias gra="git rebase --abort"
-alias grc="git rebase --continue"
+alias gra="git rebase --abort" alias grc="git rebase --continue"
 alias gri="git rebase --interactive"
 alias grs="git rebase --skip"
 # Remote (R)

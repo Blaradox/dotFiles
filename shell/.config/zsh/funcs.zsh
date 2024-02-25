@@ -1,38 +1,47 @@
-#!/usr/bin/env bash
+# Please, gotta be polite
+pls() {
+  if (($#)); then
+    sudo "$@"
+  else
+    eval "sudo $(fc -ln -1)"
+  fi
+}
 
 # pomodoro
 work () {
-  local duration
-  duration="${1:=20m}"
+  local duration="${1:=20m}"
   timer "$duration" && osascript -e 'display notification "☕" with title "Work Timer is up!" subtitle "Take a Break 😊" sound name "Crystal"'
 }
 rest () {
-  local duration
-  duration="${1:=5m}"
+  local duration="${1:=5m}"
   timer "$duration" && osascript -e 'display notification "⏰" with title "Rest Timer is up!" subtitle "Well done! Now lets do some work!" sound name "Crystal"'
 }
 
-
+# Use after another terminal command to send a system notification upon completion
 alert() {
-  echo -n -e '\a'
-  local mac_sound linux_sound icon title body
-  mac_sound="Glass"
-  linux_sound="/usr/share/sounds/freedesktop/stereo/complete.oga"
-  if [ $# = 0 ]; then
-    icon="terminal"
-    title="Job Completed"
+  if [ $? = 0 ]; then
+    local icon="terminal"
+    local title="Job Completed 🟢"
   else
-    icon="error"
-    title="Job Failed"
+    local icon="error"
+    local title="Job Failed 🔴"
   fi
-  body="$(fc -n -l -1|sed -e 's/[;&|]\s*alert$//')"
+  local body sound
+  echo -n -e '\a'
+  body="${1:-Terminal has finished the command}"
   case "$OSTYPE" in
     (darwin*)
-      /usr/bin/osascript -e 'display notification "$body" with title "$title" sound name "$mac_sound"'
+      sound="Glass"
+      osascript \
+        -e "on run(argv)" \
+        -e "return display notification item 1 of argv with title item 2 of argv sound name item 3 of argv" \
+        -e "end" \
+        -- "$body" "$title" "$sound"
       ;;
     (linux-gnu)
-      notify-send --urgency=low -i "$icon" "$title" "$body"; paplay "$linux_sound"
-      ;;
+      sound="/usr/share/sounds/freedesktop/stereo/complete.oga"
+      notify-send --urgency=low -i "$icon" "$title" "$body"; paplay "$sound"
+    ;;
   esac
 }
 
@@ -55,20 +64,6 @@ extract() {
   done
 }
 
-# Calculator
-calc() {
-  echo "scale=3;$*" | bc -l
-}
-
-# Please, gotta be polite
-pls() {
-  if (($#)); then
-    sudo "$@"
-  else
-    eval "sudo $(fc -ln -1)"
-  fi
-}
-
 # subreddit music playlist
 reddit_play() {
   local subreddit
@@ -80,15 +75,35 @@ reddit_play() {
 
 # create qr code for connecting to wifi
 wifipass() {
-  local nmcall ssid pass sec err
-  nmcall="$(nmcli device wifi show -s)"
-  ssid="$(awk '{ if ($1 == "SSID:" ) { sub($1 FS, ""); print} }' <<< $nmcall)"
-  pass="$(awk '{ if ($1 == "Password:" ) { sub($1 FS, ""); print} }' <<< $nmcall)"
-  sec="$(awk '{ if ($1 == "Security:" ) { sub($1 FS, ""); print} }' <<< $nmcall)"
-  err="$(awk '{ if ($1 == "Error:" ) { print } }' <<< $nmcall)"
-  if [[ -n $err ]] ; then
-    echo "$err"
+  local apcall nmcall ssid pass sec err
+  case $OSTYPE in
+    (darwin*)
+      apcall="$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport --getinfo)"
+      ssid="$(awk '/^ *SSID:/ { print $2 }' <<< $apcall)"
+      pass="$(security find-generic-password -wga ${ssid})"
+      sec="$(awk '/^ *link auth:/ { print $3 }' <<< $apcall)"
+      err="$(awk '/AirPort: Off/ { print }' <<< $apcall)"
+      ;;
+    (linux-gnu)
+      nmcall="$(nmcli device wifi show -s)"
+      ssid="$(awk '{ if ($1 == "SSID:" ) { sub($1 FS, ""); print} }' <<< $nmcall)"
+      pass="$(awk '{ if ($1 == "Password:" ) { sub($1 FS, ""); print} }' <<< $nmcall)"
+      sec="$(awk '{ if ($1 == "Security:" ) { sub($1 FS, ""); print} }' <<< $nmcall)"
+      err="$(awk '{ if ($1 == "Error:" ) { print } }' <<< $nmcall)"
+      ;;
+  esac
+  case $sec in
+    (wpa2-psk) sec="WPA";;
+    (wep) sec="WEP";;
+    (none) sec="nopass";;
+    (*) sec="WPA";;
+  esac
+  if [[ -n $err || -z $ssid ]] ; then
+    echo "Error finding WiFi $err"
   else
+    echo "SSID: $ssid"
+    echo "Password: $pass"
+    echo "Security: $sec"
     qrencode -t ansiutf8 "WIFI:T:$sec;S:$ssid;P:$pass;;"
   fi
 }
@@ -143,16 +158,6 @@ tm() {
     tmux $change -t "$session"
   else
     tmux new-session
-  fi
-}
-
-# Open Github remote url in browser
-bro() {
-  local remote url
-  remote=$(git remote | fzf --height=10 --reverse --exit-0 --query="$1" --select-1)
-  url=$(git remote get-url "$remote")
-  if [ "$url" ]; then
-    eval "$BROWSER" "$url"; return
   fi
 }
 

@@ -30,6 +30,9 @@ compstyle prezto
 # Use emacs key bindings
 bindkey -e
 
+# Change directories without cd
+setopt autocd
+
 # Highlight pastes in terminal and don't execute
 autoload -U zmv
 autoload -Uz bracketed-paste-url-magic
@@ -37,14 +40,15 @@ zle -N bracketed-paste bracketed-paste-url-magic
 
 
 # Load custom bash aliases and functions
-if [[ -d "$HOME/.config/bash" ]]; then
-  for file in $HOME/.config/bash/{alias,funcs}.bash; do
+if [[ -d "$HOME/.config/zsh" ]]; then
+  for file in $HOME/.config/zsh/{alias,funcs}.zsh; do
     [[ -f "$file" ]] && source "$file"
   done
 fi
 
 # FZF keybindings
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.fzf-git.sh ] && source ~/.fzf-git.sh
 
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh

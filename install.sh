@@ -20,7 +20,8 @@ function stow_dots() {
     mkdir -p "${HOME}/.config/mpd/playlists"
   fi
 
-  mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"/{autostart,kitty,mpv,ncmpcpp,nvim,rofi,zsh}
+  mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"/{autostart,kitty,mpv,ncmpcpp,rofi,zsh}
+  mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"/{tmux,nvim}/plugins
   mkdir -p "${HOME}/.local/bin"
 
   printf "Stowing Dotfiles...\n"
