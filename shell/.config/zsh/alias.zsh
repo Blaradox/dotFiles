@@ -12,6 +12,15 @@ alias update="brew update && brew upgrade && brew upgrade --cask --greedy"
 alias d='kitten diff'
 alias s='kitten ssh'
 
+# mpc
+alias mt='mpc toggle'
+alias mn='mpc next'
+alias mp='mpc prev'
+alias mr='mpc shuffle'
+alias ms='mpc stop'
+alias ma='mpc load all'
+alias mc='mpc clear'
+
 # Program defaults
 alias la="ls -A"
 alias ll="ls -lh"
