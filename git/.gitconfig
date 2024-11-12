@@ -15,7 +15,7 @@
 	# Use colors in Git commands that are capable of colored output when outputting to the terminal
 	ui = auto
 
-[branch "master"]
+[branch "main"]
 	# Use `origin` as the default remote on the `master` branch in all cases
 	remote = origin
 
@@ -25,17 +25,6 @@
 
 [core]
 	excludesfile = ~/.ignore
-
-[diff]
-	tool = kitty
-	guitool = kitty.gui
-[difftool]
-	prompt = false
-	trustExitCode = true
-[difftool "kitty"]
-	cmd = kitten diff $LOCAL $REMOTE
-[difftool "kitty.gui"]
-	cmd = kitten diff $LOCAL $REMOTE
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f

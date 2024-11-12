@@ -1,16 +1,30 @@
 alias e='$EDITOR'
-alias dots='cd ~/dotFiles && git status --short --branch'
+alias py='python3'
+alias t='trash'
 alias rcp="rsync -av --info=progress2"
 # alias intip="ip addr|grep 'inet '|grep -v '127.0.0.1'|cut -d' ' -f6|cut -d'/' -f1"
 # alias extip="curl --silent ipinfo.io|sed -nE '/(ip|region)/ s/.*:\s.(.*).,/\1/p'"
-alias disks="df -h -T"
-alias space="du -a -h --max-depth=1|sort -h -r|less"
-alias update="brew update && brew upgrade && brew upgrade --cask --greedy"
+alias disks='df -h -T'
+alias space='du -a -h --max-depth=1|sort -h -r|less'
+alias update='brew update && brew upgrade && brew upgrade --cask --greedy && brew autoremove && brew cleanup'
 # alias getqrcode="import -silent -window root bmp:- | zbarimg -q -"
 
-# kitty
-alias d='kitten diff'
-alias s='kitten ssh'
+# locations
+alias dots='cd ~/dotFiles && git status --short --branch'
+alias dev='cd ~/Developer && ls'
+
+# suffix aliases
+alias -s git='git clone'
+alias -s {js,json,env,md,html,css,toml,yaml}="$EDITOR"
+alias -s {sh,bash,zsh,zshrc,zshenv,zprofile}="$EDITOR"
+alias -s {vim,lua}="$EDITOR"
+alias -s py="$EDITOR"
+alias -s conf="$EDITOR"
+alias -s {mp4,mkv}='mpv'
+alias -s {epub,mobi}='epr'
+
+# wezterm
+alias s='wezterm ssh'
 
 # mpc
 alias mt='mpc toggle'
@@ -22,14 +36,14 @@ alias ma='mpc load all'
 alias mc='mpc clear'
 
 # Program defaults
-alias la="ls -A"
-alias ll="ls -lh"
-alias lla="ls -lhA"
-alias rm="rm -i"
-alias mv="mv -i"
-alias type="type -a"
-alias mkdir="mkdir -p"
-alias rg="rg --smart-case"
+alias la='ls -A'
+alias ll='ls -lh'
+alias lla='ls -lhA'
+alias rm='rm -i'
+alias mv='mv -i'
+alias type='type -a'
+alias mkdir='mkdir -p'
+alias rg='rg --smart-case'
 alias ncdu="ncdu --color 'dark' -rr -x"
 
 # Version control (taken from Prezto git module)
@@ -61,8 +75,8 @@ alias gfr="git pull --rebase"
 alias gia="git add"
 alias giA="git add --patch"
 alias giu="git add --update"
-alias gid="git difftool --no-symlinks --dir-diff --cached"
-alias giD="git diff --no-ext-diff --cached"
+alias gid="git diff --no-ext-diff --cached"
+alias giD="git diff --no-ext-diff --cached --word-diff"
 alias gis="git status --short --branch"
 alias giS="git status --verbose --branch"
 alias gix="git rm -r --cached"
@@ -100,8 +114,8 @@ alias gsL="git-stash-dropped"
 # Working Copy (w)
 alias gws="git status --ignore-submodules=none --branch --short --ignored"
 alias gwS="git status --ignore-submodules=none --branch --ignored"
-alias gwd="git difftool --no-symlinks --dir-diff"
-alias gwD="git diff --no-ext-diff"
+alias gwd="git diff --no-ext-diff"
+alias gwD="git diff --no-ext-diff --word-diff"
 alias gwr="git reset --soft"
 alias gwR="git reset --hard"
 alias gwc="git clean -n"
