@@ -24,7 +24,21 @@
 	email = sloane.ats@gmail.com
 
 [core]
+	pager = delta
 	excludesfile = ~/.ignore
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true  # use n and N to move between diff sections
+	syntax-theme = TwoDark
+	side-by-side = true
+	line-numbers = true
+	; dark = true      # or light = true, or omit for auto-detection
+
+[merge]
+	conflictstyle = zdiff3
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f
