@@ -47,8 +47,9 @@ if [[ -d "$HOME/.config/zsh" ]]; then
 fi
 
 # FZF keybindings
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f ~/.fzf-git.sh ] && source ~/.fzf-git.sh
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# [ -f ~/.fzf-git.sh ] && source ~/.fzf-git.sh
+source <(fzf --zsh)
 
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
