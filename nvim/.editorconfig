@@ -3,9 +3,9 @@ root = true
 ;; Sane defaults go here
 [*]
 end_of_line = lf
-indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
+charset = utf-8
 
 ;; Because gofmt requires tabs, we make sure our editor will respect that
 [*.go]
@@ -14,24 +14,29 @@ indent_size = 4
 tab_width = 4
 
 [{*.yaml,*.yml}]
+indent_style = space
 indent_size = 2
 tab_width = 2
 
 [Makefile]
 indent_style = tab
 
-[{*.json,*.js,*.jsx}]
+[*.py]
+indent_style = space
+indent_size = 4
+tab_width = 4
+
+[{*.js,*.json,*.ts,*.tsx}]
+indent_style = space
 indent_size = 2
 tab_width = 2
 
 [{*.html,*.xml}]
-indent_size = 2
-tab_width = 2
-
-[*.vue]
+indent_style = space
 indent_size = 2
 tab_width = 2
 
 [{*.sh,*.bash,*.zsh}]
-indent_size = 2
-tab_width = 2
+indent_style = space
+indent_size = 4
+tab_width = 4
