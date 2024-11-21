@@ -109,8 +109,19 @@ wifipass() {
 }
 
 ## FZF
-# https://github.com/junegunn/fzf/wiki/Examples
 
+fzf-alias-widget() {
+    local cmd
+    cmd=$(alias | fzf --query="$1" --no-multi --exit-0 | cut -d'=' -f 2-)
+    if [ -n "$cmd" ]; then
+        temp="${cmd%'}"
+        eval "${temp#'}"
+   else
+       echo 'No alias chosen.'
+    fi
+}
+
+# https://github.com/junegunn/fzf/wiki/Examples
 # Open files in editor
 fe() {
   local files preview

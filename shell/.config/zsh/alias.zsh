@@ -1,13 +1,22 @@
 alias e='$EDITOR'
 alias py='python3'
 alias t='trash'
+alias r='rg --smart-case --color=always'
+alias b='bat --theme TwoDark'
 alias rcp="rsync -av --info=progress2"
 # alias intip="ip addr|grep 'inet '|grep -v '127.0.0.1'|cut -d' ' -f6|cut -d'/' -f1"
 # alias extip="curl --silent ipinfo.io|sed -nE '/(ip|region)/ s/.*:\s.(.*).,/\1/p'"
-alias disks='df -h -T'
-alias space='du -a -h --max-depth=1|sort -h -r|less'
 alias update='brew update && brew upgrade && brew upgrade --cask --greedy && brew autoremove && brew cleanup'
 # alias getqrcode="import -silent -window root bmp:- | zbarimg -q -"
+
+# use gnu utils on OSX
+if [[ "$OSTYPE" == darwin* ]]; then
+    alias disks='gdf --human-readable --print-type'
+    alias space='gdu --all --human-readable --max-depth=1|sort -h -r|less'
+else
+    alias disks='df --human-readable --print-type'
+    alias space='du --all --human-readable --max-depth=1|sort -h -r|less'
+fi
 
 # locations
 alias dots='cd ~/dotFiles && git status --short --branch'
@@ -43,8 +52,6 @@ alias rm='rm -i'
 alias mv='mv -i'
 alias type='type -a'
 alias mkdir='mkdir -p'
-alias rg='rg --smart-case'
-alias ncdu="ncdu --color 'dark' -rr -x"
 
 # Version control (taken from Prezto git module)
 # https://github.com/sorin-ionescu/prezto/blob/master/modules/git/alias.zsh
